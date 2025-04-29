@@ -7,7 +7,7 @@ const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 // API Setup
 const API_KEY = "";
-const API_URL = `https://backend-phi-eight-86.vercel.app/api/ask`;
+const API_URL = `https://backend-git-main-philip-austbos-projects.vercel.app/api/ask`;
 let controller, typingInterval;
 const chatHistory = [];
 const userData = { message: "", file: {} };
