@@ -1,0 +1,609 @@
+.games-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 150px); /* 4 equal columns */
+    grid-auto-rows: 150px; /* Default row height */
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+    min-height: 100vh;
+    background: var(--bg-light);
+  }
+
+  .game-box a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  
+  
+  /* Box styles */
+  .game-box {
+    background: linear-gradient(135deg, #cce7ff, #8ac6ff);
+    border-radius: 20px;
+    border: none; /* Remove border */
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, background 4s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  
+  .game-box:hover {
+    transform: scale(1.05);
+    background: rgba(151, 151, 151, 0.2);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  }
+  
+  /* Dark mode */
+  .dark-mode .games-overview {
+    background: var(--bg-dark);
+  }
+  
+  .dark-mode .game-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+.game-box:nth-child(1) { grid-column: 1 / span 2; grid-row: 1 / span 2; } /* Large square */
+.game-box:nth-child(2) { grid-column: 3 / span 1; grid-row: 1 / span 1; } /* Small square */
+.game-box:nth-child(3) { grid-column: 4 / span 1; grid-row: 1 / span 2; } /* Tall rectangle */
+.game-box:nth-child(4) { grid-column: 3 / span 1; grid-row: 2 / span 2; } /* Small square */
+.game-box:nth-child(5) { grid-column: 1 / span 1; grid-row: 3 / span 1; } /* Small square */
+.game-box:nth-child(6) { grid-column: 2 / span 1; grid-row: 3 / span 2; } /* Small square */
+.game-box:nth-child(7) { grid-column: 4 / span 1; grid-row: 3 / span 1; } /* Wide rectangle */
+.game-box:nth-child(8) { grid-column: 1 / span 1; grid-row: 4 / span 1; } /* Small square */
+.game-box:nth-child(9) { grid-column: 3 / span 2; grid-row: 4 / span 1; } /* Wide rectangle */
+
+
+@media (max-width: 768px) {
+    .games-overview {
+        display: grid;
+        grid-template-columns: repeat(4, 20vw); /* 4 equal columns */
+        grid-auto-rows: 17vh; /* Default row height */
+        gap: 20px;
+        justify-content: center;
+        align-content: center;
+        min-height: 100vh;
+        background: var(--bg-light);
+      }
+}
+
+/* Different colors for each box + smooth transitions */
+.game-box:nth-child(1) { background: linear-gradient(135deg, #0a3d62, #8ac6ff); }
+.game-box:nth-child(2) { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+.game-box:nth-child(3) { background: linear-gradient(135deg, #ff512f, #dd2476); }
+.game-box:nth-child(4) { background: linear-gradient(135deg, #1d976c, #93f9b9); }
+.game-box:nth-child(5) { background: linear-gradient(135deg, #f7971e, #ffd200); }
+.game-box:nth-child(6) { background: linear-gradient(135deg, #654ea3, #eaafc8); }
+.game-box:nth-child(7) { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+.game-box:nth-child(8) { background: linear-gradient(135deg, #3a1c71, #d76d77); }
+.game-box:nth-child(9) { background: linear-gradient(135deg, #00c3ff, #ffff1c); }
+
+
+@keyframes gradientShift {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(180deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  
+  .game-box {
+    animation: gradientShift 7s infinite linear; /* Smooth hue rotation */
+  }
+
+  @keyframes tetrisScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 2000%; } /* Scroll through two full tile heights */
+  }
+  
+  .game-box:nth-child(6) {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .game-box:nth-child(6)::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('tetris.png') repeat-y;
+    background-size: 100% auto;  /* Control block width here */
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .game-box:nth-child(6):hover::before {
+    opacity: 0.3;
+    animation: tetrisScroll 60s linear infinite;
+  }
+  
+  /* Base styling */
+.game-box:nth-child(7) { /* Assuming Pong is box 7 */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Create the paddles */
+  .game-box:nth-child(7)::before,
+  .game-box:nth-child(7)::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 40px;
+    background: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+/* Left paddle */
+.game-box:nth-child(7)::before {
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: leftPaddleMove 4s ease-in-out infinite;
+  }
+  
+  /* Right paddle */
+  .game-box:nth-child(7)::after {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: rightPaddleMove 4s ease-in-out infinite;
+  }
+  
+  
+  /* The ball */
+  .game-box:nth-child(7) .pong-ball {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: ballMove 4s linear infinite alternate;
+  }
+  
+  /* On hover: show paddles and ball */
+  .game-box:nth-child(7):hover::before,
+  .game-box:nth-child(7):hover::after,
+  .game-box:nth-child(7):hover .pong-ball {
+    opacity: 0.4;
+  }
+  
+  /* Paddle animation */
+  @keyframes leftPaddleMove {
+    0%   { top: 70%; }
+    25%  { top: 40%; }
+    50%  { top: 35%; }
+    75%  { top: 85%; }
+    100% { top: 70%; }
+  }
+
+  @keyframes rightPaddleMove {
+    0%   { top: 40%; }
+    25%  { top: 85%; }
+    50%  { top: 40%; }
+    75%  { top: 85%; }
+    100% { top: 40%; }
+  }
+  
+  /* Ball animation */
+  @keyframes ballMove {
+    0%   { top: 70%; left: 15%; }
+    25%  { top: 80%; left: 85%; }
+    50%  { top: 30%; left: 15%; }
+    75%  { top: 80%; left: 85%; }
+    100% { top: 70%; left: 15%; }
+  }
+
+  /* Chess box styling */
+.game-box:nth-child(5) { 
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .game-box:nth-child(5)::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      repeating-linear-gradient(90deg, #fff 0 12.5%, #333 12.5% 25%),
+      repeating-linear-gradient(0deg, #fff 0 12.5%, #333 12.5% 25%);
+    background-size: 100% 100%;
+    background-blend-mode: difference;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  
+  /* Pieces */
+  .chess-board {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  .chess-piece {
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    background: url('chess-piece.png') no-repeat center;
+    background-size: contain;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  /* On hover: show board and animate pieces */
+  .game-box:nth-child(5):hover::before {
+    opacity: 0.2;
+  }
+  
+  .game-box:nth-child(5):hover .chess-piece {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .chess-piece.rook { background-image: url('images/rook.svg'); }
+  .chess-piece.knight { background-image: url('images/knight.svg'); }
+  .chess-piece.bishop { background-image: url('images/bishop.svg'); }
+  .chess-piece.queen { background-image: url('images/queen.svg'); }
+  .chess-piece.king { background-image: url('images/king.svg'); }
+  .chess-piece.pawn { background-image: url('images/pawn.svg'); }
+  
+  .chess-piece.rook.black { background-image: url('images/rook2.svg'); }
+  .chess-piece.knight.black { background-image: url('images/knight2.svg'); }
+  .chess-piece.bishop.black { background-image: url('images/bishop2.svg'); }
+  .chess-piece.queen.black { background-image: url('images/queen2.svg'); }
+  .chess-piece.king.black { background-image: url('images/king2.svg'); }
+  .chess-piece.pawn.black { background-image: url('images/pawn2.svg'); }
+
+  .chess-piece:nth-child(1) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(2) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(3) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(4) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(5) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(6) { transition-delay: 0.4s; }
+  .chess-piece:nth-child(7) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(8) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(9) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(10) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(11) { transition-delay: 0.6s; }
+  .chess-piece:nth-child(12) { transition-delay: 0.5s; }
+  .chess-piece:nth-child(13) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(14) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(15) { transition-delay: 0.7s; }
+  .chess-piece:nth-child(16) { transition-delay: 0.6s; }
+  .chess-piece:nth-child(17) { transition-delay: 0.4s; }
+  .chess-piece:nth-child(18) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(19) { transition-delay: 0.5s; }
+  .chess-piece:nth-child(20) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(21) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(22) { transition-delay: 0.6s; }
+  .chess-piece:nth-child(23) { transition-delay: 0.7s; }
+  .chess-piece:nth-child(24) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(25) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(26) { transition-delay: 0.6s; }
+  .chess-piece:nth-child(27) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(28) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(29) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(30) { transition-delay: 0.6s; }
+  .chess-piece:nth-child(31) { transition-delay: 0.3s; }
+  .chess-piece:nth-child(32) { transition-delay: 0.7s; }
+  .chess-piece:nth-child(33) { transition-delay: 0.4s; }
+  .chess-piece:nth-child(34) { transition-delay: 0.2s; }
+  .chess-piece:nth-child(35) { transition-delay: 0.1s; }
+  .chess-piece:nth-child(36) { transition-delay: 0.8s; }
+  /* Continue increasing delay for each piece */
+
+/* === SUDOKU BOX === */
+.sudoku-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.sudoku-board {
+    gap: 0; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    aspect-ratio: 1 / 1;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: transparent;
+    z-index: 1;
+}
+
+
+/* Thin gridlines */
+.sudoku-board::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(to right, rgba(255,255,255,0.3) 1px, transparent 1px) 0 0 / calc(100% / 9) 100%,
+      linear-gradient(to bottom, rgba(255,255,255,0.3) 1px, transparent 1px) 0 0 / 100% calc(100% / 9);
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Thick 3x3 gridlines */
+.sudoku-board::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(to right, rgba(255,255,255,0.6) 2px, transparent 2px) 0 0 / calc(100% / 3) 100%,
+      linear-gradient(to bottom, rgba(255,255,255,0.6) 2px, transparent 2px) 0 0 / 100% calc(100% / 3);
+    background-repeat: repeat;
+    box-shadow:
+      inset -2px 0 0 rgba(255,255,255,0.6),   /* Right border */
+      inset 0 -2px 0 rgba(255,255,255,0.6);  /* Bottom border */
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sudoku-cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7vw; /* Keep your scaling */
+    font-weight: bold;
+    color: rgba(255,255,255,0.8);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.4; /* Ensures no vertical offset */
+    text-align: center;            /* Ensures horizontal centering */
+    letter-spacing: 0;
+    transform: scale(0.8) translateY(500%); /* Adjust % as needed */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.sudoku-box:hover .sudoku-cell {
+    opacity: 1;
+    transform: scale(1) translateY(50%); /* Keep the vertical nudge on hover too */
+}
+
+
+/* Hover reveal */
+.sudoku-box:hover .sudoku-board {
+    opacity: 1;
+}
+
+.sudoku-box:hover .sudoku-cell {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.sudoku-cell > * {
+    pointer-events: none;          /* Prevent any interaction glitches */
+}
+
+
+/* math trainer*/ 
+  .math-trainer .math-problem {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(-100%);
+    opacity: 0;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8vw;
+    pointer-events: none;
+    color: rgba(240, 240, 240, 0.9);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .math-trainer .math-problem.show {
+    transform: translate(-50%, -50%) translateX(0);
+    opacity: 1;
+  }
+  
+
+  /* stock ticker game*/
+
+/* === STOCK TICKER GAME === */
+.stock-ticker {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .stock-ticker .ticker-strip {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 0.8rem;
+    z-index: 2;
+    padding: 2px 0;
+    background: transparent;
+  
+    /* Prevent hue-rotate affecting the ticker */
+    isolation: isolate;
+    filter: none;
+  }
+  
+  .stock-ticker:hover .ticker-strip {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  
+  .stock-ticker .ticker-content {
+    display: inline-block;
+    padding-left: 100%;
+    transform: translateX(0);
+    color: white;
+    filter: none;
+  }
+  
+  .stock-ticker:hover .ticker-content {
+    animation: scrollTicker 10s linear infinite;
+  }
+  
+  @keyframes scrollTicker {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .stock-ticker .ticker-content span {
+    margin-right: 2rem;
+    display: inline-block;
+    font-weight: 600;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  }
+
+
+ /* === PORTFOLIO BUILDER === */
+.portfolio-builder {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .portfolio-builder a {
+    position: relative;
+    z-index: 2; /* Text above bars */
+  }
+  
+  .portfolio-chart {
+    position: absolute;
+    bottom: 10px;
+    left: 10%;
+    width: 80%;
+    height: 70%; /* Total bar area height */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    z-index: 1; /* Bars behind */
+  }
+  
+  .portfolio-builder:hover .portfolio-chart {
+    opacity: 1;
+  }
+  
+  .portfolio-chart .bar {
+    width: 12%;
+    height: 100%; /* Needed for scaleY to work */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px 4px 0 0;
+    transform: scaleY(0); /* Start flat */
+    transform-origin: bottom;
+    transition: transform 0.8s ease;
+  }
+  
+  .portfolio-builder:hover .portfolio-chart .bar {
+    transform: scaleY(var(--h));
+  }
+  
+
+  /* === OPTION PRICING GUESSER === */
+.option-pricing {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .option-pricing a {
+    position: relative;
+    z-index: 2; /* Text stays above curves */
+  }
+  
+  .payoff-curves {
+    position: absolute;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 80%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1; /* Behind the text */
+  }
+  
+  .option-pricing:hover .payoff-curves {
+    opacity: 0.7; /* Fade in curves */
+  }
+  
+  .payoff-curves .curve {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 4 4;
+  }
+  
+  /* Call curve styling */
+  .payoff-curves .curve.call {
+    stroke: #00ff6a; /* Green for calls */
+    animation: wave 4s ease-in-out infinite;
+  }
+  
+  /* Put curve styling */
+  .payoff-curves .curve.put {
+    stroke: #ff4d4d; /* Red for puts */
+    animation: wave 7s ease-in-out infinite;
+  }
+  
+  /* Oscillating wave animation */
+  @keyframes wave {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(15%);
+    }
+  }
+
+  .payoff-curves .curve {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 4 4;
+  }
+  
+  /* Call curve styling */
+  .payoff-curves .curve.call {
+    stroke: #086b31; /* Green for calls */
+    animation: wave 4s ease-in-out infinite;
+  }
+  
+  /* Put curve styling */
+  .payoff-curves .curve.put {
+    stroke: #3d1111; /* Red for puts */
+    animation: wave 6s ease-in-out infinite;
+  }

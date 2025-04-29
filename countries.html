@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countries I've Visited</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="countries.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    #map {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dark Mode Toggle -->
+  <button id="darkModeToggle" class="dark-toggle">🌙</button>
+
+  <!-- Burger Icon -->
+  <button class="burger" id="burger" aria-label="Toggle navigation">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="nav-container">
+      <h1>Philip Austbø</h1>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="hours.html">Hours</a></li>
+          <li><a href="football.html">Fotball</a></li>
+          <li><a href="gemini.html">Chatbot</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div id="infoBanner" class="info-banner">
+    <p>This map shows every country I've visited. Click a highlighted country to view memories and photos from that trip.</p>
+    <span id="closeBanner">&times;</span>
+  </div>
+  
+
+  <!-- Map Container -->
+  <div id="map">
+    <div id="travelModal" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" id="modalClose">&times;</span>
+          <h2 id="modalTitle"></h2>
+          <div id="tripSelector" class="trip-selector"></div>
+          <p id="modalDescription"></p>
+          <div id="modalImages" class="image-gallery"></div>
+        </div>
+      </div>
+  </div>
+
+  
+  
+
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script> <!-- Your global site script -->
+  <script src="countries.js"></script> <!-- Country map logic -->
+
+  
+    </div>
+  </div>
+</body>
+</html>

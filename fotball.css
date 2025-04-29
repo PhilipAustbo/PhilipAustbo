@@ -1,0 +1,103 @@
+.football-page {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .content-column {
+    max-width: 700px;
+    padding: 100px 40px 60px;
+    z-index: 1;
+  }
+  
+  .timeline-fixed {
+    position: fixed;
+    right: 60px;
+    top: 35%;
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .timeline-fixed ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    border-left: 3px solid var(--primary);
+    padding-left: 20px;
+    height: 315px;
+  }
+  
+  .timeline-fixed li {
+    position: relative;
+    margin: 12px 0px 12px 0px;
+  }
+  
+  .timeline-fixed li.left button {
+    position: absolute;
+    left: -160px;
+  }
+  
+  .timeline-fixed li.right button {
+    position: absolute;
+    left: 0px;
+  }
+  
+  .timeline-fixed button {
+    background: var(--bg-light);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 120px;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .timeline-fixed button:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .dark-mode .timeline-fixed button {
+    background-color: #111;
+    color: var(--accent-dark);
+    border-color: var(--accent-dark);
+  }
+  
+  .dark-mode .timeline-fixed button:hover {
+    background-color: var(--accent-dark);
+    color: #111;
+  }
+  
+  .team-section {
+    margin-bottom: 60px;
+  }
+  
+  .team-section h2 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: var(--primary);
+  }
+  
+  .post-content {
+    margin-top: 80px;
+  }
+
+  @media (max-width: 1250px) {
+    .timeline-fixed {
+      display: none; /* hides the fixed timeline on small screens */
+    }
+  
+    .content-column {
+      padding: 100px 20px 60px;
+    }
+  }
+  

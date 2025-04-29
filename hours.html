@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hours of My Life</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="hours.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</head>
+
+
+<button id="darkModeToggle" class="dark-toggle">🌙</button>
+
+  <!-- Burger Icon -->
+  <button class="burger" id="burger" aria-label="Toggle navigation">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+  <!-- Header Navigation -->
+  
+  <header>
+    <div class="nav-container">
+      <h1>Philip Austbø</h1>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="countries.html">Countries</a></li>
+          <li><a href="football.html">Football</a></li>
+          <li><a href="gemini.html">Chatbot</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro center">
+      <h1>Hours of My Life</h1>
+      <p>
+        It is said you need <strong>10,000 hours</strong> to be great at something.<br>
+        Therefore, I have created a tracker showcasing what I have spent my life doing.
+      </p>
+    </section>
+
+    <section class="chart-buttons center">
+      <button class="chart-toggle" data-chart="pie">Pie Chart</button>
+      <button class="chart-toggle" data-chart="time">Time Chart</button>
+      <button class="chart-toggle" data-chart="bars">Progress Bars</button>
+    </section>
+
+
+    <section class="chart-area">
+      <canvas id="pieChart" class="chart-display"></canvas>
+      <canvas id="timeChart" class="chart-display" style="display:none;"></canvas>
+      <div id="barChart" class="chart-display" style="display:none;">
+        <div class="bar" data-label="School (1-10)" data-hours="7914"></div>
+        <div class="bar" data-label="Studying" data-hours="3000"></div>
+        <div class="bar" data-label="Football" data-hours="4500"></div>
+        <div class="bar" data-label="Gaming" data-hours="2000"></div>
+        <div class="bar" data-label="Chess" data-hours="500"></div>
+        <div class="bar" data-label="Traveling" data-hours="1200"></div>
+        <div class="bar" data-label="Sleeping" data-hours="75000"></div>
+        <div class="bar" data-label="Working" data-hours="1800"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="hours.js"></script>
+</body>
+</html>

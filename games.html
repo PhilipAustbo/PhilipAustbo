@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Games | Philip Austbø</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="games.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Dark Mode Toggle -->
+  <button id="darkModeToggle" class="dark-toggle">🌙</button>
+
+  <!-- Burger Icon -->
+  <button class="burger" id="burger" aria-label="Toggle navigation">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+  <!-- Header Menu -->
+  <header>
+    <div class="nav-container">
+      <h1>Philip Austbø</h1>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="countries.html">Countries</a></li>
+          <li><a href="hours.html">HoursOfMyLife</a></li>
+          <li><a href="football.html">Football</a></li>
+          <li><a href="gemini.html">Chatbot</a></li>
+
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Games Overview Section -->
+  <section class="games-overview">
+    <div class="game-box stock-ticker">
+        <a href="#">Stock Ticker Prediction</a>
+        <div class="ticker-strip">
+          <div class="ticker-content">
+            <span class="up">AAPL 189.42 ▲</span>
+            <span class="down">GOOG 142.55 ▼</span>
+            <span class="up">MSFT 318.29 ▲</span>
+            <span class="down">TSLA 278.66 ▼</span>
+            <span class="up">AMZN 122.19 ▲</span>
+            <span class="up">NVDA 695.03 ▲</span>
+            <span class="down">INTC 35.88 ▼</span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="game-box portfolio-builder">
+        <a href="#">Portfolio Builder</a>
+        <div class="portfolio-chart">
+          <div class="bar" style="--h: 0.7"></div>
+          <div class="bar" style="--h: 1"></div>
+          <div class="bar" style="--h: 0.85"></div>
+          <div class="bar" style="--h: 0.95"></div>
+          <div class="bar" style="--h: 0.8"></div>
+        </div>
+      </div>
+      
+      
+      <div class="game-box option-pricing">
+        <a href="#">Option Pricing Quesser</a>
+        <svg class="payoff-curves" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <!-- Jagged call curve -->
+            <polyline class="curve call" points="
+              0,80 10,75 20,70 30,50 40,55 50,40 60,35 70,30 80,25 90,22 100,20
+            " />
+            
+            <!-- Jagged put curve -->
+            <polyline class="curve put" points="
+              0,20 10,25 20,30 30,50 40,45 50,60 60,65 70,70 80,75 90,78 100,80
+            " />
+          </svg>
+      </div>
+      
+    <div class="game-box sudoku-box">
+        <a href="#">Sudoku</a>
+        <div class="sudoku-board">
+            <div class="sudoku-cell" style="grid-column: 9; grid-row: 1;">5</div>
+            <div class="sudoku-cell" style="grid-column: 3; grid-row: 3;">6</div>
+            <div class="sudoku-cell" style="grid-column: 7; grid-row: 3;">7</div>
+            <div class="sudoku-cell" style="grid-column: 4; grid-row: 2;">3</div>
+            <div class="sudoku-cell" style="grid-column: 7; grid-row: 6;">6</div>
+            <div class="sudoku-cell" style="grid-column: 2; grid-row: 6;">1</div>
+            <div class="sudoku-cell" style="grid-column: 8; grid-row: 8;">4</div>
+            <div class="sudoku-cell" style="grid-column: 2; grid-row: 9;">4</div>
+            <div class="sudoku-cell" style="grid-column: 1; grid-row: 1;">1</div>
+        </div>
+        </div>
+    </div>
+      
+    <div class="game-box">
+        <a href="#">Chess</a>
+        <div class="chess-board">
+          <!-- White pieces (top) -->
+          <div class="chess-piece rook" style="top: 1%; left: 1%;"></div>
+          <div class="chess-piece knight" style="top: 1%; left: 13.5%;"></div>
+          <div class="chess-piece bishop" style="top: 1%; left: 26.5%;"></div>
+          <div class="chess-piece queen" style="top: 1%; left: 38.5%;"></div>
+          <div class="chess-piece king" style="top: 1%; left: 51.5%;"></div>
+          <div class="chess-piece bishop" style="top: 1%; left: 63.5%;"></div>
+          <div class="chess-piece knight" style="top: 1%; left: 76.5%;"></div>
+          <div class="chess-piece rook" style="top: 1%; left: 88.5%;"></div>
+      
+          <!-- Pawns (second row) -->
+          <div class="chess-piece pawn" style="top: 13.5%; left: 1%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 13.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 26.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 38.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 51.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 63.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 76.5%;"></div>
+          <div class="chess-piece pawn" style="top: 13.5%; left: 88.5%;"></div>
+      
+          <!-- Black pawns (seventh row) -->
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 1%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 13.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 26.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 38.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 51.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 63.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 76.5%;"></div>
+          <div class="chess-piece pawn black" style="top: 76.5%; left: 88.5%;"></div>
+      
+          <!-- Black major pieces (eighth row) -->
+          <div class="chess-piece rook black" style="top: 88.5%; left: 1%;"></div>
+          <div class="chess-piece knight black" style="top: 88.5%; left: 13.5%;"></div>
+          <div class="chess-piece bishop black" style="top: 88.5%; left: 26.5%;"></div>
+          <div class="chess-piece queen black" style="top: 88.5%; left: 38.5%;"></div>
+          <div class="chess-piece king black" style="top: 88.5%; left: 51.5%;"></div>
+          <div class="chess-piece bishop black" style="top: 88.5%; left: 63.5%;"></div>
+          <div class="chess-piece knight black" style="top: 88.5%; left: 76.5%;"></div>
+          <div class="chess-piece rook black" style="top: 88.5%; left: 88.5%;"></div>
+        </div>
+      </div>
+      
+    <div class="game-box"><a href="#">Tetris</a></div>
+    <div class="game-box">
+            <a href="#">Pong</a>
+            <div class="pong-ball"></div>
+    </div>
+    <div class="game-box math-trainer">
+        <div class="math-problem">
+          <span class="num1"></span> 
+          <span class="operator"></span> 
+          <span class="num2"></span> 
+          <span class="equals">=</span> 
+          <span class="answer"></span>
+        </div>
+        <div class="game-title">Math Trainer</div>
+      </div>
+      
+      
+    <div class="game-box"><a href="#">TBA</a></div>
+  </section>
+
+ 
+  
+
+  <footer>
+    <div class="container center">
+      <p>&copy; 2025 Philip Austbø. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="games.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.math-trainer .math-problem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.5rem;
+    pointer-events: none;
+    opacity: 0;
+  }
+  
+  /* Sequential fade-in for each span */
+  .math-problem.show span {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  .math-problem span {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  /* Fly out effect */
+  .math-problem.fly-out span {
+    transform: translateX(100px);
+    opacity: 0;
+    transition: transform 1s ease, opacity 1s ease;
+  }
+  

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Football Journey</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="fotball.css" />
+  <script defer src="script.js"></script>
+  <script defer src="fotball.js"></script>
+</head>
+<body>
+  <button id="darkModeToggle" class="dark-toggle">🌙</button>
+  <button class="burger" id="burger" aria-label="Toggle navigation">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+  <header>
+    <div class="nav-container">
+      <h1>Philip Austbø</h1>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="countries.html">Countries</a></li>
+          <li><a href="hours.html">Hours</a></li>
+          <li><a href="gemini.html">Chatbot</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="football-page">
+    <div class="content-column">
+      <section class="post-header center">
+        <h1>My Football Journey</h1>
+        <p class="subtitle">From muddy fields to third-division matches — and everything in between.</p>
+      </section>
+
+      <section id="bjarg" class="team-section">
+        <h2>Bjarg</h2>
+        <p>Where it all started. I was just a kid learning how to kick a ball without falling over.</p>
+      </section>
+
+      <section id="brann" class="team-section">
+        <h2>Brann</h2>
+        <p>Joining Brann’s youth academy was my first exposure to elite football. The bar was high—and I loved it.</p>
+      </section>
+
+      <section id="fana" class="team-section">
+        <h2>Fana</h2>
+        <p>At Fana, I focused on development, learned patience, and pushed through injury setbacks.</p>
+      </section>
+
+      <section id="fyllingsdalen" class="team-section">
+        <h2>Fyllingsdalen</h2>
+        <p>A club with ambition. This is where I started to think like a team player—not just an individual.</p>
+      </section>
+
+      <section id="lyngbo" class="team-section">
+        <h2>Lyngbø</h2>
+        <p>Here, I became captain. I learned to lead from the front, both in wins and in tough seasons.</p>
+      </section>
+
+      <section class="post-content">
+        <p>
+          My football story began like many others — with a ball, a dream, and two shoes way too big for me.
+          I was five years old when I joined my first team. Back then, I had no idea that football would shape my mindset,
+          my friendships, and my leadership skills for the years to come.
+        </p>
+
+        <p>
+          From the youth system at <strong>SK Brann</strong> to taking the captain’s armband at <strong>Lyngbø IL</strong>,
+          every chapter had its own lessons. Brann gave me a taste of elite youth football, while Lyngbø taught me how to lead a team through
+          both wins and losses.
+        </p>
+
+        <blockquote>
+          “Football taught me to fight for others, not just for myself.”
+        </blockquote>
+
+        <p>
+          I still carry that team-first mentality with me, whether I'm working on a group project or helping lead a student organization.
+          Football was never just about goals — it was about grit, community, and growth.
+        </p>
+
+        <p>
+          These days, I don’t train five times a week anymore. But I do bring the same discipline and energy into everything I do —
+          from auditing oil companies at EY to chasing impact in student-led events.
+        </p>
+      </section>
+    </div>
+
+    <div class="timeline-fixed">
+        <ul>
+          <li class="left"><button onclick="scrollToSection('bjarg')">Bjarg</button></li>
+          <li class="right"><button onclick="scrollToSection('brann')">Brann</button></li>
+          <li class="left"><button onclick="scrollToSection('fana')">Fana</button></li>
+          <li class="right"><button onclick="scrollToSection('fyllingsdalen')">Fyllingsdalen</button></li>
+          <li class="left"><button onclick="scrollToSection('lyngbo')">Lyngbø</button></li>
+        </ul>
+      </div>
+  </main>
+
+  <footer>
+    <div class="container center">
+      <p>&copy; 2025 Philip Austbø. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
