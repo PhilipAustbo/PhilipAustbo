@@ -123,6 +123,15 @@ document.querySelector("#delete-chats-btn").addEventListener("click", () => {
   document.body.classList.remove("chats-active", "bot-responding");
 });
 
+document.querySelectorAll('.suggestion').forEach(button => {
+  button.addEventListener('click', () => {
+    const promptInput = document.querySelector('.prompt-input');
+    promptInput.value = button.textContent;
+    promptInput.focus();
+  });
+});
+
+
 // ✅ Preload CV
 const preloadCV = async () => {
   const response = await fetch("Philip_Austbo_CV.pdf"); // Ensure PDF is in /public folder
