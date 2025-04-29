@@ -1,176 +1,194 @@
-const container = document.querySelector(".container");
-const chatsContainer = document.querySelector(".chats-container");
-const promptForm = document.querySelector(".prompt-form");
-const promptInput = promptForm.querySelector(".prompt-input");
-const themeToggleBtn = document.querySelector("#theme-toggle-btn");
+// Constants
+const API_URL = 'https://backend-git-main-philip-austbos-projects.vercel.app/api/ask';
 
-const API_URL = "https://backend-git-main-philip-austbos-projects.vercel.app/api/ask";
+// Elements
+const container = document.querySelector('.container');
+const chatsContainer = document.querySelector('.chats-container');
+const promptForm = document.querySelector('.prompt-form');
+const promptInput = promptForm.querySelector('.prompt-input');
+const fileInput = promptForm.querySelector('#file-input');
+const fileUploadWrapper = promptForm.querySelector('.file-upload-wrapper');
+const themeToggleBtn = document.querySelector('#theme-toggle-btn');
 
 let controller, typingInterval;
-let contextParts = []; // This will include the CV preload
+const chatHistory = [];
+const userData = { message: '', file: {} };
 
-// Theme setup
-const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
-document.body.classList.toggle("light-theme", isLightTheme);
-themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
+// Initial Theme
+const isLightTheme = localStorage.getItem('themeColor') === 'light_mode';
+document.body.classList.toggle('light-theme', isLightTheme);
+themeToggleBtn.textContent = isLightTheme ? 'dark_mode' : 'light_mode';
 
-// Create a message element
+// Helper Functions
 const createMessageElement = (content, ...classes) => {
-  const div = document.createElement("div");
-  div.classList.add("message", ...classes);
+  const div = document.createElement('div');
+  div.classList.add('message', ...classes);
   div.innerHTML = content;
   return div;
 };
 
-const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
 
 const typingEffect = (text, textElement, botMsgDiv) => {
-  textElement.textContent = "";
-  const words = text.split(" ");
+  textElement.textContent = '';
+  const words = text.split(' ');
   let wordIndex = 0;
   typingInterval = setInterval(() => {
     if (wordIndex < words.length) {
-      textElement.textContent += (wordIndex === 0 ? "" : " ") + words[wordIndex++];
+      textElement.textContent += (wordIndex === 0 ? '' : ' ') + words[wordIndex++];
       scrollToBottom();
     } else {
       clearInterval(typingInterval);
-      botMsgDiv.classList.remove("loading");
-      document.body.classList.remove("bot-responding");
+      botMsgDiv.classList.remove('loading');
+      document.body.classList.remove('bot-responding');
     }
   }, 30);
 };
 
-const generateResponse = async (botMsgDiv, userMessage) => {
-  const textElement = botMsgDiv.querySelector(".message-text");
+const generateResponse = async (botMsgDiv) => {
+  const textElement = botMsgDiv.querySelector('.message-text');
   controller = new AbortController();
 
   try {
     const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [
-          { role: "user", parts: [...contextParts] },
-          { role: "user", parts: [{ text: userMessage }] }
-        ]
-      }),
-      signal: controller.signal,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: userData.message }),
+      signal: controller.signal
     });
 
     const data = await response.json();
-
-    if (!response.ok || !data?.candidates?.[0]) {
-      throw new Error(data.error?.message || "Unexpected error");
-    }
+    if (!response.ok) throw new Error(data.error?.message || 'Error');
 
     const responseText = data.candidates[0].content.parts[0].text.trim();
     typingEffect(responseText, textElement, botMsgDiv);
 
+    chatHistory.push({ role: 'model', parts: [{ text: responseText }] });
   } catch (error) {
-    textElement.textContent = error.name === "AbortError"
-      ? "Response generation stopped."
-      : error.message;
-    textElement.style.color = "#d62939";
-    botMsgDiv.classList.remove("loading");
-    document.body.classList.remove("bot-responding");
-    scrollToBottom();
+    textElement.textContent = error.name === 'AbortError' ? 'Response stopped.' : error.message;
+    textElement.style.color = '#d62939';
+    botMsgDiv.classList.remove('loading');
+    document.body.classList.remove('bot-responding');
+  } finally {
+    userData.file = {};
   }
 };
 
-// Submit handler
+// Form Submission
 const handleFormSubmit = (e) => {
   e.preventDefault();
   const userMessage = promptInput.value.trim();
-  if (!userMessage || document.body.classList.contains("bot-responding")) return;
+  if (!userMessage || document.body.classList.contains('bot-responding')) return;
 
-  promptInput.value = "";
-  document.body.classList.add("chats-active", "bot-responding");
+  userData.message = userMessage;
+  promptInput.value = '';
+  document.body.classList.add('chats-active', 'bot-responding');
 
-  const userMsgDiv = createMessageElement(`<p class="message-text">${userMessage}</p>`, "user-message");
+  const userMsgHTML = `<p class="message-text">${userData.message}</p>`;
+  const userMsgDiv = createMessageElement(userMsgHTML, 'user-message');
   chatsContainer.appendChild(userMsgDiv);
   scrollToBottom();
 
   setTimeout(() => {
-    const botMsgDiv = createMessageElement(
-      `<img class="avatar" src="gemini.svg" /> <p class="message-text">Just a sec...</p>`,
-      "bot-message", "loading"
-    );
+    const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <p class="message-text">Just a sec...</p>`;
+    const botMsgDiv = createMessageElement(botMsgHTML, 'bot-message', 'loading');
     chatsContainer.appendChild(botMsgDiv);
     scrollToBottom();
-
-    generateResponse(botMsgDiv, userMessage);
+    generateResponse(botMsgDiv);
   }, 400);
 };
 
-promptForm.addEventListener("submit", handleFormSubmit);
+// File Upload
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
 
-document.querySelector("#stop-response-btn").addEventListener("click", () => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = (e) => {
+    fileInput.value = '';
+    fileUploadWrapper.querySelector('.file-preview').src = e.target.result;
+    fileUploadWrapper.classList.add('active');
+    userData.file = { fileName: file.name, data: e.target.result.split(',')[1], mime_type: file.type };
+  };
+});
+
+document.querySelector('#cancel-file-btn').addEventListener('click', () => {
+  userData.file = {};
+  fileUploadWrapper.classList.remove('active');
+});
+
+// Theme Toggle
+themeToggleBtn.addEventListener('click', () => {
+  const isLightTheme = document.body.classList.toggle('light-theme');
+  localStorage.setItem('themeColor', isLightTheme ? 'light_mode' : 'dark_mode');
+  themeToggleBtn.textContent = isLightTheme ? 'dark_mode' : 'light_mode';
+});
+
+// Stop Bot Response
+const stopBtn = document.getElementById('stop-response-btn');
+stopBtn.addEventListener('click', () => {
   controller?.abort();
   clearInterval(typingInterval);
-  const botMsg = chatsContainer.querySelector(".bot-message.loading");
-  if (botMsg) botMsg.classList.remove("loading");
-  document.body.classList.remove("bot-responding");
+  const botMsg = document.querySelector('.bot-message.loading');
+  if (botMsg) botMsg.classList.remove('loading');
+  document.body.classList.remove('bot-responding');
 });
 
-themeToggleBtn.addEventListener("click", () => {
-  const isLight = document.body.classList.toggle("light-theme");
-  localStorage.setItem("themeColor", isLight ? "light_mode" : "dark_mode");
-  themeToggleBtn.textContent = isLight ? "dark_mode" : "light_mode";
+// Delete All Chats
+const deleteBtn = document.getElementById('delete-chats-btn');
+deleteBtn.addEventListener('click', () => {
+  chatHistory.length = 0;
+  chatsContainer.innerHTML = '';
+  document.body.classList.remove('chats-active', 'bot-responding');
 });
 
-document.querySelector("#delete-chats-btn").addEventListener("click", () => {
-  chatsContainer.innerHTML = "";
-  document.body.classList.remove("chats-active", "bot-responding");
-});
-
-document.querySelectorAll('.suggestion').forEach(button => {
-  button.addEventListener('click', () => {
-    const promptInput = document.querySelector('.prompt-input');
-    promptInput.value = button.textContent;
-    promptInput.focus();
+// Suggestions Click
+const suggestions = document.querySelectorAll('.suggestions-item');
+suggestions.forEach((item) => {
+  item.addEventListener('click', () => {
+    promptInput.value = item.querySelector('.text').textContent;
+    promptForm.dispatchEvent(new Event('submit'));
   });
 });
 
+// Mobile controls hide/show
+const wrapper = document.querySelector('.prompt-wrapper');
+document.addEventListener('click', ({ target }) => {
+  const shouldHide = target.classList.contains('prompt-input') || (wrapper.classList.contains('hide-controls') && (target.id === 'add-file-btn' || target.id === 'stop-response-btn'));
+  wrapper.classList.toggle('hide-controls', shouldHide);
+});
 
-// ✅ Preload CV
+// Form submit event
+promptForm.addEventListener('submit', handleFormSubmit);
+promptForm.querySelector('#add-file-btn').addEventListener('click', () => fileInput.click());
+
+// Preload CV and add personalization
 const preloadCV = async () => {
-  const response = await fetch("Philip_Austbo_CV.pdf"); // Ensure PDF is in /public folder
+  const response = await fetch('Philip_Austbo_CV.pdf');
   const blob = await response.blob();
   const reader = new FileReader();
+
   reader.readAsDataURL(blob);
   reader.onloadend = () => {
-    const base64 = reader.result.split(",")[1];
-    contextParts = [
-      {
-        text: `
-You are an assistant for Philip Austbø.
-Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects. 
-He is passionate about finance, strategy, and data analysis, and plays football competitively.
-
-**Behavior Instructions:**
-1. When greeted (e.g., "hello", "hi", "hey"), respond warmly with:
-   - “Hello! How can I help you today? Are you interested in learning more about Philip, or would you like to ask something else?” However, only when greeted with these words.
-   - If the greeting is not a typical thing to say, e.g., not "hello", then respond how you normally would.
-2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
-3. If someone asks **general finance, strategy, or technology questions**:
-   - Answer knowledgeably.
-   - If relevant, relate it back to Philip’s interests or experience.
-   - If not related to Philip, answer normally. Do not mention Philip if not relevant.
-4. If unsure whether the question is about Philip or a general topic, ask for clarification:
-   - “Would you like me to relate this to Philip’s background or provide a general answer?”
-5. When asked "Tell me about Philip Austbø", give a short overview of his personal and professional life, then ask if the user wants to learn more.
-6. Be friendly, professional, and speak warmly of Philip.
-7. Use enough paragraphs when talking about Philip, especially before asking a follow-up question.
-        `.trim()
-      },
-      {
-        inline_data: {
-          mime_type: "application/pdf",
-          data: base64
-        }
+    const base64data = reader.result.split(',')[1];
+    const pdfPart = {
+      inline_data: {
+        mime_type: 'application/pdf',
+        data: base64data
       }
-    ];
+    };
+
+    chatHistory.unshift({
+      role: 'user',
+      parts: [
+        {
+          text: `You are an assistant for Philip Austbø. Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects. He is passionate about finance, strategy, and data analysis, and plays football competitively.\n**Behavior Instructions:** 1. When greeted ("hello", "hi", "hey"), respond warmly with a set phrase. 2. If asked about Philip's background, hobbies, career goals, answer personally using context. 3. If asked about general finance or strategy, answer knowledgeably and link to Philip if relevant. 4. If unsure, ask if they want it related to Philip. 5. When asked "Tell me about Philip Austbø", give a short overview and ask if they want more.`
+        },
+        pdfPart
+      ]
+    });
   };
 };
 
-preloadCV(); // 🔁 Start preloading when site loads
+preloadCV();
