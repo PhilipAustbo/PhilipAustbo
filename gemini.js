@@ -46,33 +46,54 @@ const typingEffect = (text, textElement, botMsgDiv) => {
 };
 
 const generateResponse = async (botMsgDiv) => {
-  const textElement = botMsgDiv.querySelector('.message-text');
+  const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
+  console.log("[INFO] Sending request to backend...");
+
+  // Add user message to chat history
+  chatHistory.push({
+    role: "user",
+    parts: [{ text: userData.message }]
+  });
 
   try {
     const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: userData.message }),
-      signal: controller.signal
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: userData.message }), // Notice this structure
+      signal: controller.signal,
     });
 
+    console.log("[INFO] Response received from backend.");
+
+    if (!response.ok) {
+      console.error("[ERROR] Backend returned an error:", response.status);
+      const errorText = await response.text();
+      throw new Error(`Backend Error ${response.status}: ${errorText}`);
+    }
+
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error?.message || 'Error');
+    console.log("[INFO] Response JSON parsed:", data);
+
+    if (!data.candidates || !data.candidates.length) {
+      throw new Error("No candidates returned from backend.");
+    }
 
     const responseText = data.candidates[0].content.parts[0].text.trim();
     typingEffect(responseText, textElement, botMsgDiv);
 
-    chatHistory.push({ role: 'model', parts: [{ text: responseText }] });
+    chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
-    textElement.textContent = error.name === 'AbortError' ? 'Response stopped.' : error.message;
-    textElement.style.color = '#d62939';
-    botMsgDiv.classList.remove('loading');
-    document.body.classList.remove('bot-responding');
+    console.error("[CATCH] Error during fetch or parsing:", error);
+    textElement.innerHTML = `<span style="color: red;">❗Error: ${error.message}</span>`;
+    botMsgDiv.classList.remove("loading");
+    document.body.classList.remove("bot-responding");
+    scrollToBottom();
   } finally {
     userData.file = {};
   }
 };
+
 
 // Form Submission
 const handleFormSubmit = (e) => {
