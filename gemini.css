@@ -378,3 +378,34 @@ body.bot-responding .prompt-form #stop-response-btn {
     --gradient-color-start: #1d7efd; 
     --gradient-color-end: #8f6fff;
   }
+
+  /* --- Updated Button Hover Effects --- */
+.prompt-wrapper button:hover {
+  transform: scale(1.08);
+  transition: transform 0.2s ease;
+}
+
+/* --- Better Animations for Chat Loading --- */
+.chats-container .message.loading .avatar {
+  animation: rotate 1.5s linear infinite;
+}
+
+/* --- Smooth Transition When Toggling Themes --- */
+body {
+  transition: background 0.3s, color 0.3s;
+}
+
+/* --- File Upload Preview Sizing --- */
+.file-upload-wrapper .file-preview {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* --- Make Disclaimer Text Smaller and Nicer on Mobile --- */
+@media (max-width: 500px) {
+  .prompt-container .disclaimer-text {
+    font-size: 0.75rem;
+  }
+}
