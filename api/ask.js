@@ -1,6 +1,7 @@
 // api/ask.js
 
 export default async function handler(req, res) {
+  // Tillat kun POST-forespørsler
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
@@ -8,20 +9,20 @@ export default async function handler(req, res) {
   try {
     const { contents } = req.body;
 
+    // Valider forespørselen
     if (!Array.isArray(contents) || contents.length === 0) {
-      return res.status(400).json({ error: 'Invalid or missing "contents" in request body' });
+      return res.status(400).json({ error: 'Missing or invalid "contents" in request body' });
     }
 
     const apiKey = process.env.GOOGLE_API_KEY;
 
-    // Debug-logg (kan fjernes etter testing)
+    // Sjekk at API-nøkkelen er satt
     if (!apiKey) {
       console.error("❌ Missing GOOGLE_API_KEY in environment");
-      return res.status(500).json({ error: 'Server configuration error: Missing GOOGLE_API_KEY' });
-    } else {
-      console.log("✅ API key loaded, sending request to Gemini...");
+      return res.status(500).json({ error: 'Server configuration error: Missing API key' });
     }
 
+    // Send forespørsel til Gemini API
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
       {
@@ -33,14 +34,17 @@ export default async function handler(req, res) {
 
     const data = await geminiRes.json();
 
+    // Håndter feil fra Gemini API
     if (!geminiRes.ok) {
       console.error('[Gemini API Error]', data);
       return res.status(502).json({ error: 'Gemini API error', details: data });
     }
 
-    res.status(200).json(data);
-  } catch (err) {
-    console.error('[Server Error]', err);
-    res.status(500).json({ error: 'Internal Server Error', message: err.message });
+    // Returner Gemini sitt svar
+    return res.status(200).json(data);
+  } catch (error) {
+    // Intern feil
+    console.error('[Server Error]', error);
+    return res.status(500).json({ error: 'Internal server error', message: error.message });
   }
 }
