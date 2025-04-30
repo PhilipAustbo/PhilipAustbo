@@ -1,5 +1,3 @@
-// Updated Gemini Chatbot frontend JavaScript
-
 const container = document.querySelector(".container");
 const chatsContainer = document.querySelector(".chats-container");
 const promptForm = document.querySelector(".prompt-form");
@@ -55,11 +53,9 @@ const generateResponse = async (botMsgDiv) => {
       parts: [
         { text: userData.message },
         ...(userData.file.data
-          ? [
-              {
-                inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
-              },
-            ]
+          ? [{
+              inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
+            }]
           : []),
       ],
     },
@@ -72,12 +68,12 @@ const generateResponse = async (botMsgDiv) => {
       body: JSON.stringify({ contents: fullHistory }),
       signal: controller.signal,
     });
+
     const data = await response.json();
     if (!response.ok || !data.candidates) throw new Error("No response from Gemini API");
 
     const responseText = data.candidates[0].content.parts[0].text?.trim() || "No response text.";
     typingEffect(responseText, textElement, botMsgDiv);
-
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
     textElement.textContent = `Error: ${error.message}`;
@@ -101,7 +97,11 @@ const handleFormSubmit = (e) => {
 
   const userMsgHTML = `
     <p class="message-text"></p>
-    ${userData.file.data ? (userData.file.isImage ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="img-attachment" />` : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`) : ""}
+    ${userData.file.data
+      ? (userData.file.isImage
+          ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="img-attachment" />`
+          : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`)
+      : ""}
   `;
   const userMsgDiv = createMessageElement(userMsgHTML, "user-message");
   userMsgDiv.querySelector(".message-text").textContent = userData.message;
