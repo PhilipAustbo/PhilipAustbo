@@ -1,4 +1,4 @@
-// /api/ask.js – bruker Google Gemini API via fetch
+// /api/ask.js – Bruker Gemini API via fetch (Vercel API route)
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -12,18 +12,21 @@ export default async function handler(req, res) {
     }
   
     try {
-      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + process.env.GOOGLE_API_KEY, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ contents }),
-      });
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ contents }),
+        }
+      );
   
       if (!response.ok) {
-        const errText = await response.text();
-        console.error('[Gemini API Error]', errText);
-        return res.status(500).json({ error: 'Gemini API error', details: errText });
+        const errorText = await response.text();
+        console.error('[Gemini API Error]', errorText);
+        return res.status(500).json({ error: 'Gemini API error', details: errorText });
       }
   
       const data = await response.json();
