@@ -88,7 +88,7 @@ const generateResponse = async (botMsgDiv) => {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: chatHistory.slice(-10) }),
+      body: JSON.stringify({ contents: [chatHistory[0], ...chatHistory.slice(-5)] }),
       signal: controller.signal
     });
 
