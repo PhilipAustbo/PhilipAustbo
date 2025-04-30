@@ -9,6 +9,9 @@ const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
 const API_URL = "/api/ask";
 
+console.log("GOOGLE_API_KEY exists:", !!process.env.GOOGLE_API_KEY);
+
+
 let controller, typingInterval;
 const chatHistory = [];
 const userData = { message: "", file: {} };
