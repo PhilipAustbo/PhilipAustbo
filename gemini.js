@@ -89,8 +89,11 @@ const generateResponse = async (botMsgDiv) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ contents: [chatHistory[0], ...chatHistory.slice(-5)] }),
-      signal: controller.signal
+      signal: controller.signal,
     });
+
+    console.log("[Request Body]", JSON.stringify({ contents: [chatHistory[0], ...chatHistory.slice(-5)] }));
+    console.log("[Response Status]", response.status);
 
     const data = await response.json();
     if (!response.ok || !data.candidates) throw new Error("No response from Gemini API");
