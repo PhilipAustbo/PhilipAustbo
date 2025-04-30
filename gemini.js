@@ -10,15 +10,6 @@ const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
 const API_URL = "https://backend-phi-eight-86.vercel.app/api/ask";
-const backendURL = 'https://backend-phi-eight-86.vercel.app'; // DELETE THIS
-const response = await fetch(backendURL, {   // DELETE THIS BLOCK
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ prompt: userMessage })
-});
-
 
 let controller, typingInterval;
 const chatHistory = [];
