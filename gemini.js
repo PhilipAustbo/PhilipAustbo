@@ -1,4 +1,4 @@
-// gemini.js (updated)
+// gemini.js (finalized with personality and full functionality)
 
 const container = document.querySelector(".container");
 const chatsContainer = document.querySelector(".chats-container");
@@ -7,8 +7,9 @@ const promptInput = promptForm.querySelector(".prompt-input");
 const fileInput = promptForm.querySelector("#file-input");
 const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggleBtn = document.querySelector("#theme-toggle-btn");
+const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
-const API_URL = "/api/ask"; // from vercel serverless function
+const API_URL = "/api/ask";
 
 let controller, typingInterval;
 const chatHistory = [
@@ -80,19 +81,19 @@ const generateResponse = async (botMsgDiv) => {
     parts: [
       { text: userData.message },
       ...(userData.file.data ? [{ inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file) }] : [])
-    ],
+    ]
   });
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: chatHistory.slice(-9) }),
-      signal: controller.signal,
+      body: JSON.stringify({ contents: chatHistory.slice(-10) }),
+      signal: controller.signal
     });
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error?.message || "No response from Gemini API");
+    if (!response.ok || !data.candidates) throw new Error("No response from Gemini API");
 
     const responseText = data.candidates[0].content.parts[0].text.trim();
     typingEffect(responseText, textElement, botMsgDiv);
@@ -139,4 +140,45 @@ const handleFormSubmit = (e) => {
   }, 600);
 };
 
-// Event handlers for file, theme, cancel, etc. (same as your previous code, can be appended after this)
+promptForm.addEventListener("submit", handleFormSubmit);
+promptForm.querySelector("#add-file-btn")?.addEventListener("click", () => fileInput.click());
+
+document.querySelector("#cancel-file-btn")?.addEventListener("click", () => {
+  userData.file = {};
+  fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");
+});
+
+document.querySelector("#stop-response-btn")?.addEventListener("click", () => {
+  controller?.abort();
+  userData.file = {};
+  clearInterval(typingInterval);
+  const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
+  if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
+  document.body.classList.remove("bot-responding");
+});
+
+themeToggleBtn.addEventListener("click", () => {
+  const isLightTheme = document.body.classList.toggle("light-theme");
+  localStorage.setItem("themeColor", isLightTheme ? "light_mode" : "dark_mode");
+  themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
+});
+
+document.querySelector("#delete-chats-btn")?.addEventListener("click", () => {
+  chatHistory.length = 1; // retain system prompt
+  chatsContainer.innerHTML = "";
+  document.body.classList.remove("chats-active", "bot-responding");
+});
+
+document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
+  suggestion.addEventListener("click", () => {
+    promptInput.value = suggestion.querySelector(".text").textContent;
+    promptForm.dispatchEvent(new Event("submit"));
+  });
+});
+
+document.addEventListener("click", ({ target }) => {
+  const wrapper = document.querySelector(".prompt-wrapper");
+  const shouldHide = target.classList.contains("prompt-input") ||
+    (wrapper.classList.contains("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
+  wrapper.classList.toggle("hide-controls", shouldHide);
+});
