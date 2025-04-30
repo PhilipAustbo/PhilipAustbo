@@ -45,21 +45,19 @@ const typingEffect = (text, textElement, botMsgDiv) => {
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
-
-  const fullHistory = [
-    ...chatHistory,
-    {
-      role: "user",
-      parts: [
-        { text: userData.message },
-        ...(userData.file.data
-          ? [{
-              inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
-            }]
-          : []),
-      ],
-    },
-  ];
+    const fullHistory = [
+      {
+        role: "user",
+        parts: [
+          { text: userData.message },
+          ...(userData.file.data
+            ? [{
+                inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
+              }]
+            : []),
+        ],
+      },
+    ];    
 
   try {
     const response = await fetch(API_URL, {
