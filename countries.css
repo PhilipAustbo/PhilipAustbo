@@ -100,3 +100,29 @@
     padding: 5vh 2vw;
     
   }
+
+  #map {
+    height: 100vh;
+    top: 0vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
+overflow: hidden;
+}
+
+  header {
+    z-index: 999;
+  }
+
+  @media (max-width: 768px) {
+    #map {
+      height: 110vh;
+      top: -10vh;
+  }
+  }
