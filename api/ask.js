@@ -9,9 +9,6 @@ export default async function handler(req, res) {
   try {
     const { contents } = req.body;
 
-    // Logg innholdet som mottas for feilsøking
-    console.log("[Received contents]", JSON.stringify(contents, null, 2));
-
     // Valider forespørselen
     if (!Array.isArray(contents) || contents.length === 0) {
       return res.status(400).json({ error: 'Missing or invalid "contents" in request body' });
@@ -28,7 +25,7 @@ export default async function handler(req, res) {
     // Send forespørsel til Gemini API
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-      {
+      {    
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contents }),
