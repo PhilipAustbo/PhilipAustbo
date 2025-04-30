@@ -1,40 +1,39 @@
 // api/ask.js
+
 export default async function handler(req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*"); // Du kan evt. være strengere her
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  
-    if (req.method === "OPTIONS") {
-      return res.status(200).end(); // Preflight check
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'Method Not Allowed' });
     }
   
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method not allowed" });
-    }
+    const { contents, prompt } = req.body;
   
-    const { prompt } = req.body;
-  
-    if (!prompt) {
-      return res.status(400).json({ error: "Missing prompt in request body." });
+    if (!contents && !prompt) {
+      return res.status(400).json({ error: 'Missing prompt or contents in request body.' });
     }
   
     try {
-      console.log("Received prompt:", prompt);
+      // Hvis du bare bruker en dummy-respons (ingen Google API ennå):
+      const promptText = contents
+        ? contents.find(part => part.role === 'user')?.parts?.[0]?.text || 'No input'
+        : prompt;
   
-      const reply = `Echo: ${prompt}`;
+      console.log('[INFO] Received prompt:', promptText);
+  
+      // Dummy test-respons
+      const reply = `Echo: ${promptText}`;
   
       return res.status(200).json({
         candidates: [
           {
             content: {
-              parts: [{ text: reply }],
-            },
-          },
-        ],
+              parts: [{ text: reply }]
+            }
+          }
+        ]
       });
     } catch (error) {
-      console.error("Server error:", error);
-      return res.status(500).json({ error: "Internal server error." });
+      console.error('[ERROR] Failed to process request:', error);
+      return res.status(500).json({ error: 'Internal server error.' });
     }
   }
   
