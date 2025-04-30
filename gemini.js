@@ -15,7 +15,6 @@ let controller, typingInterval;
 const chatHistory = [];
 const userData = { message: "", file: {} };
 
-// Set initial theme
 const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
 document.body.classList.toggle("light-theme", isLightTheme);
 themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
@@ -48,31 +47,37 @@ const typingEffect = (text, textElement, botMsgDiv) => {
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
-  chatHistory.push({
-    role: "user",
-    parts: [
-      { text: userData.message },
-      ...(userData.file.data
-        ? [
-            {
-              inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
-            },
-          ]
-        : []),
-    ],
-  });
+
+  const fullHistory = [
+    ...chatHistory,
+    {
+      role: "user",
+      parts: [
+        { text: userData.message },
+        ...(userData.file.data
+          ? [
+              {
+                inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
+              },
+            ]
+          : []),
+      ],
+    },
+  ];
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents: chatHistory }),
+      body: JSON.stringify({ contents: fullHistory }),
       signal: controller.signal,
     });
     const data = await response.json();
     if (!response.ok || !data.candidates) throw new Error("No response from Gemini API");
+
     const responseText = data.candidates[0].content.parts[0].text?.trim() || "No response text.";
     typingEffect(responseText, textElement, botMsgDiv);
+
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
     textElement.textContent = `Error: ${error.message}`;
@@ -185,7 +190,7 @@ const preloadCV = async () => {
         },
       };
 
-      chatHistory.unshift({
+      chatHistory.push({
         role: "user",
         parts: [
           {
@@ -200,14 +205,13 @@ const preloadCV = async () => {
             2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
             3. If someone asks **general finance, strategy, or technology questions**:
             - Answer knowledgeably.
-            - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic…”).
+            - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic...”).
             - If not related to Philip, answer normally, do not talk about Philip when not relevant.
             4. If unsure whether the question is about Philip or a general topic, ask for clarification:
             - “Would you like me to relate this to Philip’s background or provide a general answer?”
             5. When asked "Tell me about Philip Austbø" you should give a short overview of his personal and professional life. Then and ask if the user wants to learn more.
             6. Be friendly, professional, and speak warmly of Philip.
-            7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.
-            `,
+            7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.`
           },
           pdfPart,
         ],
