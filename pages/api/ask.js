@@ -39,3 +39,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
+console.log('Inngående forespørsel til /api/ask:', contents);
+
