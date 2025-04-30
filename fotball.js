@@ -39,3 +39,10 @@ mathBox.addEventListener('mouseleave', () => {
   clearInterval(intervalId);
   problemEl.classList.remove('show', 'fly-out');
 });
+
+function scrollToSection(id) {
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
