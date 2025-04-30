@@ -9,7 +9,7 @@ const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
-const API_URL = "/pages/api/ask";
+const API_URL = "/api/ask";
 
 let controller, typingInterval;
 const chatHistory = [];
