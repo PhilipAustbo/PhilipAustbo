@@ -1,134 +1,134 @@
 .football-page {
-    display: flex;
-    justify-content: center;
-    position: relative;
-  }
-  
-  .content-column {
-    max-width: 700px;
-    padding: 100px 40px 60px;
-    z-index: 1;
-  }
-  
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.content-column {
+  max-width: 700px;
+  padding: 100px 40px 60px;
+  z-index: 1;
+}
+
+.timeline-fixed {
+  position: fixed;
+  right: 60px;
+  top: 30%;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.timeline-fixed ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  border-left: 3px solid var(--primary);
+  padding-left: 20px;
+  height: 380px;
+}
+
+.timeline-fixed li {
+  position: relative;
+  margin: 12px 0;
+}
+
+.timeline-fixed li.left button {
+  position: absolute;
+  left: -160px;
+}
+
+.timeline-fixed li.right button {
+  position: absolute;
+  left: 0;
+}
+
+.timeline-fixed button {
+  background: var(--bg-light);
+  border: 2px solid var(--primary);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 120px;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.timeline-fixed button:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.dark-mode .timeline-fixed button {
+  background-color: #111;
+  color: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.dark-mode .timeline-fixed button:hover {
+  background-color: var(--accent-dark);
+  color: #111;
+}
+
+.team-section {
+  margin-bottom: 60px;
+}
+
+.team-section h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.post-content {
+  margin-top: 80px;
+}
+
+@media (max-width: 1250px) {
   .timeline-fixed {
-    position: fixed;
-    right: 60px;
-    top: 30%;
-    width: 160px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 10;
-  }
-  
-  .timeline-fixed ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    border-left: 3px solid var(--primary);
-    padding-left: 20px;
-    height: 380px;
-  }
-  
-  .timeline-fixed li {
-    position: relative;
-    margin: 12px 0px 12px 0px;
-  }
-  
-  .timeline-fixed li.left button {
-    position: absolute;
-    left: -160px;
-  }
-  
-  .timeline-fixed li.right button {
-    position: absolute;
-    left: 0px;
-  }
-  
-  .timeline-fixed button {
-    background: var(--bg-light);
-    border: 2px solid var(--primary);
-    border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 600;
-    width: 120px;
-    color: var(--primary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .timeline-fixed button:hover {
-    background-color: var(--primary);
-    color: white;
-  }
-  
-  .dark-mode .timeline-fixed button {
-    background-color: #111;
-    color: var(--accent-dark);
-    border-color: var(--accent-dark);
-  }
-  
-  .dark-mode .timeline-fixed button:hover {
-    background-color: var(--accent-dark);
-    color: #111;
-  }
-  
-  .team-section {
-    margin-bottom: 60px;
-  }
-  
-  .team-section h2 {
-    font-size: 26px;
-    margin-bottom: 10px;
-    color: var(--primary);
-  }
-  
-  .post-content {
-    margin-top: 80px;
+    display: none;
   }
 
-  @media (max-width: 1250px) {
-    .timeline-fixed {
-      display: none; /* hides the fixed timeline on small screens */
-    }
-  
-    .content-column {
-      padding: 100px 20px 60px;
-    }
+  .content-column {
+    padding: 100px 20px 60px;
   }
+}
 
-  .team-photo {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    margin: 1rem 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+.team-photo {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-  .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-    margin: 1.5rem auto;
-    max-width: 800px;
-  }
-  
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-  }
-  
-  /* === IMAGE GALLERY TOGGLE STYLES === */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  margin: 1.5rem auto;
+  max-width: 800px;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* === GALLERY TOGGLE === */
 .toggle-buttons {
   text-align: center;
   margin: 30px 0 10px;
@@ -147,6 +147,7 @@
 
 .gallery-container {
   display: none;
+  overflow: hidden;
   max-width: 1000px;
   margin: 20px auto;
   padding: 0 20px;
@@ -156,8 +157,16 @@
   display: block;
 }
 
+.gallery-container:not(.active) {
+  display: none !important;
+  height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* === COLLAGE GRID === */
 .collage {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
@@ -166,17 +175,13 @@
   width: 100%;
   height: auto;
   border-radius: 12px;
-  transition: transform 0.3s ease, z-index 0.3s ease;
+  cursor: pointer;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
 }
 
-.collage img:hover {
-  transform: scale(3);
-  z-index: 5;
-  position: relative;
-}
-
+/* === SLIDING WHEEL === */
 .wheel {
   position: relative;
   overflow: hidden;
@@ -187,15 +192,18 @@
 
 .wheel-inner {
   display: flex;
-  transition: transform 0.5s ease;
+  overflow-x: auto;
   scroll-snap-type: x mandatory;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
   max-width: 100%;
 }
 
+.wheel-inner::-webkit-scrollbar {
+  display: none;
+}
+
 .wheel-inner img {
-  flex-shrink: 0;
-  width: 100%;
+  flex: 0 0 100%;
   max-width: 650px;
   height: auto;
   scroll-snap-align: center;
@@ -203,6 +211,7 @@
   object-fit: cover;
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: none;
 }
 
 .wheel-btn {
@@ -225,4 +234,27 @@
 
 .wheel-btn.right {
   right: 12px;
+}
+
+/* === IMAGE OVERLAY ZOOM === */
+.image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  cursor: zoom-out;
+}
+
+.image-overlay img {
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
 }

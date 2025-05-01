@@ -34,7 +34,7 @@
     <div class="content-column">
       <section class="post-header center">
         <h1>My Football Journey</h1>
-        <p class="subtitle">My football story began like many others — with a ball, a dream, and two shoes way too big for me. I was five years old when I joined my first team. Back then, I had no idea that football would shape my mindset, my friendships, and my leadership skills for the years to come.</p>
+        <p class="subtitle">My football story began like many others — with a ball, a dream, and two shoes way too big for me. I was six years old when I joined my first team. Back then, I had no idea that football would shape my mindset, my friendships, and my leadership skills for the years to come.</p>
         <img src="Fotballbilde/liten.jpeg" class="team-photo" />
       </section>
 
@@ -63,6 +63,7 @@
         <img src="Fotballbilde/brann-itec.JPG" class="team-photo" />
         <p>At this point, there was no other thing then football on my mind. My life consisted of training before school, school, another session after school, homework and sleeping. There was no time to mess around.</p>
         <p>Even though it was hard work, it was extremely rewarding. I got to experience my dream at a very young age. High stakes, big tournaments, beating large European Clubs, and traveling with the team. It was a blast.</p>
+        <p>At the span of my three years at Brann, I got to play alongside current national team players. We won tournaments, and was known to be the best team in Norway at our age.</p>
         <img src="Fotballbilde/kretsmerster.JPG" class="team-photo" />
         <p>But, like all fairytales, it all comes to an end. When I was 16 I recieved the hardest message of my life. I was no longer guaranteed a spot in the team. </p>
 
@@ -107,38 +108,29 @@
 
       <section id="fyllingsdalen" class="team-section">
         <h2>Fyllingsdalen</h2>
-        <p> Coming ...</p>
+        <p> After returning from exchange, I did not have a club where I could return and feel welcome. At this point, I was considering ending my career. </p>
+        <p>I had some friends at Fyllingsdalen who convinced me to try out there. I joined the B-team, playing in 5. division. After a short while, I was also welcome to train with the A-team. </p>
         <img src="Fotballbilde/fyllingsdalen-huse.JPG" class="team-photo" />
+        <p>My home at Fyllingsdalen did however become the B-team, where I was named team captain. This was a team consisting of up and coming players. I was surrounded by a lot of talent, but we lacked experience. </p>
         <img src="Fotballbilde/fyllingsdalen2.png" class="team-photo" />
+
       </section>
 
       <section id="lyngbo" class="team-section">
         <h2>Lyngbø</h2>
-       <p>On the verge of giving up on football, I got a call from Lyngbø. The message was clear, they wanted to win the league, and they wanted me to be a part of it. </p>
-       <p>I gave football one last chance, and the rest was history. The rest of the season gave me a memory for a lifetime. Playing every game, becoming part of a family and having fun, playing for a really good team. </p>
-       <div class="toggle-buttons">
-        <button onclick="showGallery('collage')">Show Collage</button>
-        <button onclick="showGallery('wheel')">Show Wheel</button>
-      </div>
+        <p>
+          On the verge of giving up on football, I got a call from Lyngbø. The message was clear, they wanted to win the league, and they wanted me to be a part of it.
+        </p>
+        <p>
+          I gave football one last chance, and the rest was history. The season provided memories for a lifetime. Playing every game, becoming part of a family, and enjoying football again.
+        </p>
+        <p>Now, I am at the peak of my career! Im playing at the highest level I have ever played, having out supporters, the Ultras, screaming our names, creating a fantastic ambiance for each game, and playing at high stakes. I could not ask for anything else, and the story keeps on going.</p>
+        <div class="toggle-buttons">
+          <button onclick="showGallery('wheel')">Scroll Wheel</button>
+          <button onclick="showGallery('collage')">Collage</button>
+        </div>
       
-      <div id="collage" class="gallery-container collage active">
-        <img src="Fotballbilde/Signering Lyngbø.png" alt="Lyngbø 1">
-        <img src="Fotballbilde/laget-sirkel.png" alt="Lyngbø 2">
-        <img src="Fotballbilde/ultras.png" alt="Lyngbø 3">
-        <img src="Fotballbilde/laget-seruevinn-fana.png" alt="Lyngbø 4">
-        <img src="Fotballbilde/laget-km-seier.png" alt="Lyngbø 5">
-        <img src="Fotballbilde/krampe-gneist.png" alt="Lyngbø 6">
-        <img src="Fotballbilde/kriger-askøy.png" alt="Lyngbø 7">
-        <img src="Fotballbilde/kriging-førde.png" alt="Lyngbø 8">
-        <img src="Fotballbilde/hode-askøy.png" alt="Lyngbø 9">
-        <img src="Fotballbilde/i ryggen-askøy.png" alt="Lyngbø 10">
-        <img src="Fotballbilde/feiring.png" alt="Lyngbø 11">
-        <img src="Fotballbilde/feiring-serievinn.png" alt="Lyngbø 12">
-      </div>
-      
-      <div id="wheel" class="gallery-container wheel">
-        <button class="wheel-btn left" onclick="scrollWheel(-1)">&#10094;</button>
-        <div class="wheel-inner">
+        <div id="collage" class="gallery-container collage">
           <img src="Fotballbilde/Signering Lyngbø.png" alt="Lyngbø 1">
           <img src="Fotballbilde/laget-sirkel.png" alt="Lyngbø 2">
           <img src="Fotballbilde/ultras.png" alt="Lyngbø 3">
@@ -151,19 +143,35 @@
           <img src="Fotballbilde/i ryggen-askøy.png" alt="Lyngbø 10">
           <img src="Fotballbilde/feiring.png" alt="Lyngbø 11">
           <img src="Fotballbilde/feiring-serievinn.png" alt="Lyngbø 12">
+          <img src="Fotballbilde/ultras2.png" alt="Lyngbø 13">
         </div>
-        <button class="wheel-btn right" onclick="scrollWheel(1)">&#10095;</button>
-      </div>
       
-      <script>
-        function showGallery(type) {
-          document.getElementById('collage').classList.remove('active');
-          document.getElementById('wheel').classList.remove('active');
-          document.getElementById(type).classList.add('active');
-        }
-      </script>
-      
+
+        <div id="imageOverlay" class="image-overlay">
+          <img id="overlayImage" src="" alt="Zoomed Image" />
+        </div>
+        
+        <div id="wheel" class="gallery-container wheel active">
+          <button class="wheel-btn left" onclick="scrollWheel(-1)">&#10094;</button>
+          <div class="wheel-inner" id="wheelInner">
+            <img src="Fotballbilde/Signering Lyngbø.png" alt="Lyngbø 1">
+            <img src="Fotballbilde/laget-sirkel.png" alt="Lyngbø 2">
+            <img src="Fotballbilde/ultras.png" alt="Lyngbø 3">
+            <img src="Fotballbilde/laget-seruevinn-fana.png" alt="Lyngbø 4">
+            <img src="Fotballbilde/laget-km-seier.png" alt="Lyngbø 5">
+            <img src="Fotballbilde/krampe-gneist.png" alt="Lyngbø 6">
+            <img src="Fotballbilde/kriger-askøy.png" alt="Lyngbø 7">
+            <img src="Fotballbilde/kriging-førde.png" alt="Lyngbø 8">
+            <img src="Fotballbilde/hode-askøy.png" alt="Lyngbø 9">
+            <img src="Fotballbilde/i ryggen-askøy.png" alt="Lyngbø 10">
+            <img src="Fotballbilde/feiring.png" alt="Lyngbø 11">
+            <img src="Fotballbilde/feiring-serievinn.png" alt="Lyngbø 12">
+            <img src="Fotballbilde/ultras2.png" alt="Lyngbø 13">
+          </div>
+          <button class="wheel-btn right" onclick="scrollWheel(1)">&#10095;</button>
+        </div>
       </section>
+      
 
       <section class="post-content">
         <p>

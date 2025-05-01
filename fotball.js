@@ -1,6 +1,7 @@
+// === MATH TRAINER ===
 const mathBox = document.querySelector('.math-trainer');
-const problemEl = mathBox.querySelector('.math-problem');
-const spans = problemEl.querySelectorAll('span');
+const problemEl = mathBox?.querySelector('.math-problem');
+const spans = problemEl?.querySelectorAll('span') || [];
 
 const problems = [
   { num1: 43, operator: '+', num2: 74, result: 117 },
@@ -30,16 +31,17 @@ function showProblem() {
 
 let intervalId = null;
 
-mathBox.addEventListener('mouseenter', () => {
+mathBox?.addEventListener('mouseenter', () => {
   showProblem();
   intervalId = setInterval(showProblem, 4500);
 });
 
-mathBox.addEventListener('mouseleave', () => {
+mathBox?.addEventListener('mouseleave', () => {
   clearInterval(intervalId);
-  problemEl.classList.remove('show', 'fly-out');
+  problemEl?.classList.remove('show', 'fly-out');
 });
 
+// === TIMELINE SCROLL ===
 function scrollToSection(id) {
   const section = document.getElementById(id);
   if (section) {
@@ -47,32 +49,62 @@ function scrollToSection(id) {
   }
 }
 
-// === JS for Image Gallery Toggle ===
-
-function showGallery(type) {
-  document.getElementById('collage').classList.remove('active');
-  document.getElementById('wheel').classList.remove('active');
-  document.getElementById(type).classList.add('active');
-}
-
+// === GALLERY TOGGLE ===
 let currentIndex = 0;
 
-function scrollWheel(direction) {
-  const wheel = document.querySelector('.wheel-inner');
-  const images = wheel.querySelectorAll('img');
-  const total = images.length;
-  currentIndex = (currentIndex + direction + total) % total;
+function showGallery(type) {
+  const collage = document.getElementById('collage');
+  const wheel = document.getElementById('wheel');
+  const wheelInner = document.getElementById('wheelInner');
 
-  const offset = images[currentIndex].offsetLeft - wheel.offsetLeft;
-  wheel.scrollTo({ left: offset, behavior: 'smooth' });
+  if (type === 'collage') {
+    collage.classList.add('active');
+    wheel.classList.remove('active');
+    currentIndex = 0;
+  } else if (type === 'wheel') {
+    collage.classList.remove('active');
+    wheel.classList.add('active');
+    currentIndex = 0;
+    wheelInner.scrollLeft = 0;
+  }
 }
 
-// Optional: Reset to first image on resize
-window.addEventListener('resize', () => {
-  const wheel = document.querySelector('.wheel-inner');
+// === SCROLL WHEEL LEFT/RIGHT ===
+function scrollWheel(direction) {
+  const wheel = document.getElementById('wheelInner');
   const images = wheel.querySelectorAll('img');
-  const offset = images[currentIndex]?.offsetLeft - wheel.offsetLeft;
-  if (offset !== undefined) {
-    wheel.scrollTo({ left: offset, behavior: 'instant' });
-  }
+  if (images.length === 0) return;
+
+  const imageWidth = images[0].getBoundingClientRect().width;
+  const scrollAmount = direction * (imageWidth); // adjust if margin/padding between images
+
+  currentIndex = (currentIndex + direction + images.length) % images.length;
+  wheel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+}
+
+// === HANDLE WINDOW RESIZE ===
+window.addEventListener('resize', () => {
+  const wheel = document.getElementById('wheelInner');
+  const images = wheel.querySelectorAll('img');
+  const imageWidth = images[0]?.getBoundingClientRect().width || 0;
+  wheel.scrollTo({ left: currentIndex * imageWidth, behavior: 'instant' });
+});
+
+// === COLLAGE IMAGE ZOOM OVERLAY ===
+const collageImages = document.querySelectorAll('.collage img');
+const overlay = document.getElementById('imageOverlay');
+const overlayImg = document.getElementById('overlayImage');
+
+collageImages.forEach(img => {
+  img.addEventListener('click', () => {
+    overlayImg.src = img.src;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+overlay?.addEventListener('click', () => {
+  overlay.style.display = 'none';
+  overlayImg.src = '';
+  document.body.style.overflow = '';
 });
