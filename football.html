@@ -108,12 +108,61 @@
       <section id="fyllingsdalen" class="team-section">
         <h2>Fyllingsdalen</h2>
         <p> Coming ...</p>
+        <img src="Fotballbilde/fyllingsdalen-huse.JPG" class="team-photo" />
+        <img src="Fotballbilde/fyllingsdalen2.png" class="team-photo" />
       </section>
 
       <section id="lyngbo" class="team-section">
         <h2>Lyngbø</h2>
        <p>On the verge of giving up on football, I got a call from Lyngbø. The message was clear, they wanted to win the league, and they wanted me to be a part of it. </p>
        <p>I gave football one last chance, and the rest was history. The rest of the season gave me a memory for a lifetime. Playing every game, becoming part of a family and having fun, playing for a really good team. </p>
+       <div class="toggle-buttons">
+        <button onclick="showGallery('collage')">Show Collage</button>
+        <button onclick="showGallery('wheel')">Show Wheel</button>
+      </div>
+      
+      <div id="collage" class="gallery-container collage active">
+        <img src="Fotballbilde/Signering Lyngbø.png" alt="Lyngbø 1">
+        <img src="Fotballbilde/laget-sirkel.png" alt="Lyngbø 2">
+        <img src="Fotballbilde/ultras.png" alt="Lyngbø 3">
+        <img src="Fotballbilde/laget-seruevinn-fana.png" alt="Lyngbø 4">
+        <img src="Fotballbilde/laget-km-seier.png" alt="Lyngbø 5">
+        <img src="Fotballbilde/krampe-gneist.png" alt="Lyngbø 6">
+        <img src="Fotballbilde/kriger-askøy.png" alt="Lyngbø 7">
+        <img src="Fotballbilde/kriging-førde.png" alt="Lyngbø 8">
+        <img src="Fotballbilde/hode-askøy.png" alt="Lyngbø 9">
+        <img src="Fotballbilde/i ryggen-askøy.png" alt="Lyngbø 10">
+        <img src="Fotballbilde/feiring.png" alt="Lyngbø 11">
+        <img src="Fotballbilde/feiring-serievinn.png" alt="Lyngbø 12">
+      </div>
+      
+      <div id="wheel" class="gallery-container wheel">
+        <button class="wheel-btn left" onclick="scrollWheel(-1)">&#10094;</button>
+        <div class="wheel-inner">
+          <img src="Fotballbilde/Signering Lyngbø.png" alt="Lyngbø 1">
+          <img src="Fotballbilde/laget-sirkel.png" alt="Lyngbø 2">
+          <img src="Fotballbilde/ultras.png" alt="Lyngbø 3">
+          <img src="Fotballbilde/laget-seruevinn-fana.png" alt="Lyngbø 4">
+          <img src="Fotballbilde/laget-km-seier.png" alt="Lyngbø 5">
+          <img src="Fotballbilde/krampe-gneist.png" alt="Lyngbø 6">
+          <img src="Fotballbilde/kriger-askøy.png" alt="Lyngbø 7">
+          <img src="Fotballbilde/kriging-førde.png" alt="Lyngbø 8">
+          <img src="Fotballbilde/hode-askøy.png" alt="Lyngbø 9">
+          <img src="Fotballbilde/i ryggen-askøy.png" alt="Lyngbø 10">
+          <img src="Fotballbilde/feiring.png" alt="Lyngbø 11">
+          <img src="Fotballbilde/feiring-serievinn.png" alt="Lyngbø 12">
+        </div>
+        <button class="wheel-btn right" onclick="scrollWheel(1)">&#10095;</button>
+      </div>
+      
+      <script>
+        function showGallery(type) {
+          document.getElementById('collage').classList.remove('active');
+          document.getElementById('wheel').classList.remove('active');
+          document.getElementById(type).classList.add('active');
+        }
+      </script>
+      
       </section>
 
       <section class="post-content">

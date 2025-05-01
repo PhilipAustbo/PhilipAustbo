@@ -46,3 +46,33 @@ function scrollToSection(id) {
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
+
+// === JS for Image Gallery Toggle ===
+
+function showGallery(type) {
+  document.getElementById('collage').classList.remove('active');
+  document.getElementById('wheel').classList.remove('active');
+  document.getElementById(type).classList.add('active');
+}
+
+let currentIndex = 0;
+
+function scrollWheel(direction) {
+  const wheel = document.querySelector('.wheel-inner');
+  const images = wheel.querySelectorAll('img');
+  const total = images.length;
+  currentIndex = (currentIndex + direction + total) % total;
+
+  const offset = images[currentIndex].offsetLeft - wheel.offsetLeft;
+  wheel.scrollTo({ left: offset, behavior: 'smooth' });
+}
+
+// Optional: Reset to first image on resize
+window.addEventListener('resize', () => {
+  const wheel = document.querySelector('.wheel-inner');
+  const images = wheel.querySelectorAll('img');
+  const offset = images[currentIndex]?.offsetLeft - wheel.offsetLeft;
+  if (offset !== undefined) {
+    wheel.scrollTo({ left: offset, behavior: 'instant' });
+  }
+});

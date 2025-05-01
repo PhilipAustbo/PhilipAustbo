@@ -128,5 +128,101 @@
     border-radius: 12px;
   }
   
-  
-  
+  /* === IMAGE GALLERY TOGGLE STYLES === */
+.toggle-buttons {
+  text-align: center;
+  margin: 30px 0 10px;
+}
+
+.toggle-buttons button {
+  background-color: #0a3d62;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.gallery-container {
+  display: none;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.gallery-container.active {
+  display: block;
+}
+
+.collage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.collage img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.collage img:hover {
+  transform: scale(3);
+  z-index: 5;
+  position: relative;
+}
+
+.wheel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel-inner {
+  display: flex;
+  transition: transform 0.5s ease;
+  scroll-snap-type: x mandatory;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.wheel-inner img {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  scroll-snap-align: center;
+  border-radius: 12px;
+  object-fit: cover;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.wheel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 28px;
+  border-radius: 50%;
+}
+
+.wheel-btn.left {
+  left: 12px;
+}
+
+.wheel-btn.right {
+  right: 12px;
+}
