@@ -6,14 +6,27 @@ const visitedMemories = {
       images: [
         "image/hop-tur.jpg",
         "image/preikestolen.jpg", 
-        "image/preikestolen2.jpg"
+        "image/norge-nyttårs.jpg",
+        "image/geilo-ski.jpg",
+        "image/preikestolen2.jpg",
+        "image/kristiansand-tømmeren.jpg",
+        "image/geilo3.jpg",
       ]
     },
     
     "Spain": [
-      { name: "Marbella 🇪🇸", description: "We spent our family vacation in Marbella, soaking up the sun and taking day trips to Puerto Banús. It was a mix of lazy beach days and window-shopping in luxury boutiques. The afternoons were slow and warm, and evenings meant good food and long conversations by the pool. ", images: ["image/paris.jpg"] },
-      { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", images: ["images/cannes1.jpg"] },
-      { name: "Palma 🇪🇸", description: "A spontaneous boys’ trip to Palma turned into a great mix of adventure and downtime. We hiked through rugged mountains in the mornings and hit the beach or local bars at night. It was a few days of carefree laughter, group dinners, and shared stories under the stars..", images: ["images/cannes1.jpg"] }
+      { name: "Marbella 🇪🇸", description: "We spent our family vacation in Marbella, soaking up the sun and taking day trips to Puerto Banús. It was a mix of lazy beach days and window-shopping in luxury boutiques. The afternoons were slow and warm, and evenings meant good food and long conversations by the pool. ", 
+      images: [
+        "image/paris.jpg"
+      ] },
+      { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", 
+      images: [
+        "images/cannes1.jpg"
+      ] },
+      { name: "Palma 🇪🇸", description: "A spontaneous boys’ trip to Palma turned into a great mix of adventure and downtime. We hiked through rugged mountains in the mornings and hit the beach or local bars at night. It was a few days of carefree laughter, group dinners, and shared stories under the stars..", 
+      images: [
+        "images/cannes1.jpg"
+      ] }
     ],
     "France": [
       { name: "Paris 🇫🇷", description: "My first trip with my girlfriend took us to Paris. We spent hours wandering the streets, visiting every landmark we could find—the Eiffel Tower, the Louvre, Notre-Dame. In between, we had café stops and sat on benches, sharing pastries and soaking up the city’s beauty. It felt both grand and simple.", 
@@ -39,9 +52,19 @@ const visitedMemories = {
         "image/nice-strand.jpg",
         "image/nice-.jpg",
         "image/nice-lunsj.jpg",
+        "image/villefranche-sammen.jpg"
       ] },
-      { name: "Champagne 🇫🇷", description: "A visit to Champagne meant vineyard tours and tasting glasses of sparkling wine in serene countryside settings. It was peaceful and a bit surreal, standing in fields that stretch on forever while learning how something as delicate as champagne is made..", images: ["images/champagne1.jpg"] },
-      { name: "Lavender fields 🇫🇷", description: "Day trip to the amazing lavender fields in France", images: ["image/lavendel.jpg", "image/lavendelåker.jpg", "image/frankrike-lavendel.jpg"] },
+      { name: "Champagne 🇫🇷", description: "A visit to Champagne meant vineyard tours and tasting glasses of sparkling wine in serene countryside settings. It was peaceful and a bit surreal, standing in fields that stretch on forever while learning how something as delicate as champagne is made..", 
+      images: [
+        "images/.jpg"
+    ] },
+      { name: "Lavender fields 🇫🇷", description: "Day trip to the amazing lavender fields in France", 
+      images: [
+        "image/lavendel.jpg", 
+        "image/lavendelåker.jpg", 
+        "image/frankrike-lavendel.jpg",
+        "image/solsikke.jpg",
+      ] },
       { name: "St.Tropez 🇫🇷", description: "Supercars, yaths, fancy restaurants, and windowshopping. What a crazy city!", 
       images: [
         "image/st_tropez.jpg",
@@ -56,7 +79,7 @@ const visitedMemories = {
     "Monaco": {
       title: "Summer in Monaco 🇲🇨", 
       description: "It was a quick summer visit, but Monaco was unlike anywhere else. We spent the day exploring the harbor, watching yachts bigger than houses, and finding quiet corners of the city to rest our feet. The mix of luxury and Mediterranean calm was surprisingly charming, and sharing it all with close friends made it feel more real than just a postcard..",
-      images: ["images/sweden1.jpg"]
+      images: ["image/monaco-hage.jpg", "image/monaco-hav"]
     },
     "Denmark": {
       title: "Copenhagen Cool 🇩🇰",
@@ -76,7 +99,14 @@ const visitedMemories = {
     "United Arab Emirates": {
       title: "Desert and Skyscrapers 🇦🇪",
       description: "Dubai was a world apart. One moment we were standing at the top of the tallest building in the world, and the next we were bouncing through the desert on a safari, watching the sun disappear behind dunes. It was a trip full of contrasts—glass towers and golden sands, luxury malls and old souks—and somehow it all worked..",
-      images: ["images/uae1.jpg"]
+      images: [
+        "image/abudhabi-moske.jpg",
+        "image/dubai-kamel.jpg",
+        "image/dubai-solnedgang.jpg",
+        "image/dubai-terasse.jpg",
+        "image/dubai-ørken2.jpg",
+        "image/dubai8.jpg",
+      ]
     },
     "Maldives": {
       title: "Tropical Paradise 🇲🇻",
@@ -86,29 +116,76 @@ const visitedMemories = {
     "Poland": {
       title: "Historic Poland 🇵🇱",
       description: "Gdansk surprised me. The old town was full of charm—horse-drawn carriages, Gothic buildings, and warm food that felt like comfort in a bowl. We explored the city’s rich history by day and tucked into hearty meals by night, always with something new to discover around each corner.",
-      images: ["images/poland1.jpg"]
+      images: [
+        "image/polen.jpg",
+        "image/polen3.jpg",
+        "image/polen4.jpg",
+        "image/polen5.jpg",
+        "image/polen6.jpg",
+      ]
     },
     "Germany": {
       title: "Anniversary in Berlin 🇩🇪",
       description: "I went to Berlin with my girlfriend for our one year anniversary. This meant fancy dinners, coctail bars and fun daytime activities. Berlin was gritty and beautiful in equal measure. We walked a lot—through memorials, museums, street markets, and old neighborhoods full of stories. The food was simple but satisfying (Nothing beats the local egg sandwiches), and each place felt like it had something to teach if you took the time to look. We had an extraordinary time!",
-      images: ["images/germany1.jpg"]
+      images: [
+        "image/berlin-båt.jpg",
+        "image/berlin-båt2.jpg",
+        "image/berlin-doghnut.jpg",
+        "image/berlin-iskrem.jpg",
+        "image/berlin-slott.jpg",
+        "image/berlin3.jpg",
+      ]
     },
     "United States of America": [
-      { name: "Chicago 🇺🇸", description: "Chicago welcomed us with wind, towering buildings, and the smell of pizza in the air. We tried deep dish (as thick and cheesy as promised), walked along the lakeshore, and explored the city’s architecture. It had that big city energy but with a slower rhythm than New York—easier to breathe in..", images: ["images/chicago.jpg"] },
-      { name: "Ann Arbor 🇺🇸", description: "Ann Arbor was a chapter of its own—my exchange semester at the University of Michigan. Between lectures, football games, late-night study sessions, and spontaneous yard parties, I found a second home. There was something special about the balance—serious academic energy mixed with genuine warmth and endless activity.", images: ["images/annarbor.jpg"] },
-      { name: "Detroit 🇺🇸", description: "Detroit had a different feel. Some areas felt raw, even a little intimidating, but under that surface was a city rebuilding itself. We explored museums, saw a Red Wings hockey game, and noticed small signs of revival in once-forgotten neighborhoods. It wasn't polished—but it was real.", images: ["images/detroit.jpg"] },
-      { name: "New York 🇺🇸", description: "In New York, I did everything a tourist should. Times Square at night, biking through Central Park, bagels in the morning and street food in the afternoon. The city moved fast, but that just made the quiet moments—like sitting in Washington Square Park—feel even more vivid. Every corner felt like a scene from a movie.", images: ["images/nyc.jpg"] },
-      { name: "Miami 🇺🇸", description: "Miami was all about movement and color. Mornings began with long beach walks, afternoons meant biking through the art-filled streets of Wynwood, and evenings were reserved for watching the sky turn pink over the ocean. It was a family trip, but it still felt like an escape into summer.", images: ["images/miami.jpg"] }
+      { name: "Chicago 🇺🇸", description: "Chicago welcomed us with wind, towering buildings, and the smell of pizza in the air. We tried deep dish (as thick and cheesy as promised), walked along the lakeshore, and explored the city’s architecture. It had that big city energy but with a slower rhythm than New York—easier to breathe in..", 
+      images: [
+        "images/chicago.jpg"
+      ] },
+      { name: "Ann Arbor 🇺🇸", description: "Ann Arbor was a chapter of its own—my exchange semester at the University of Michigan. Between lectures, football games, late-night study sessions, and spontaneous yard parties, I found a second home. There was something special about the balance—serious academic energy mixed with genuine warmth and endless activity.", 
+      images: [
+        "images/annarbor.jpg"
+      ] },
+      { name: "Detroit 🇺🇸", description: "Detroit had a different feel. Some areas felt raw, even a little intimidating, but under that surface was a city rebuilding itself. We explored museums, saw a Red Wings hockey game, and noticed small signs of revival in once-forgotten neighborhoods. It wasn't polished—but it was real.", 
+      images: [
+        "images/detroit.jpg"
+      ] },
+      { name: "New York 🇺🇸", description: "In New York, I did everything a tourist should. Times Square at night, biking through Central Park, bagels in the morning and street food in the afternoon. The city moved fast, but that just made the quiet moments—like sitting in Washington Square Park—feel even more vivid. Every corner felt like a scene from a movie.", 
+      images: [
+        "image/newyork.jpg",
+        "image/statue-liberty.jpg",
+        "image/newyork3.jpg",
+        "image/newyourk2.jpg",
+      ] },
+      { name: "Miami 🇺🇸", description: "Miami was all about movement and color. Mornings began with long beach walks, afternoons meant biking through the art-filled streets of Wynwood, and evenings were reserved for watching the sky turn pink over the ocean. It was a family trip, but it still felt like an escape into summer.", 
+      images: [
+        "images/miami.jpg"
+      ] }
     ],
-    "Canada": {
-      title: "Toronto 🇨🇦",
-      description: "We visited Toronto in the middle of winter, which meant snow-covered streets and a deep chill in the air. Still, we explored the CN Tower, wandered through Little Italy, and took a day trip to Niagara Falls. Cold fingers, warm meals, and city lights—Toronto had a quiet strength to it.",
-      images: ["images/toronto.jpg"]
-    },
+    "Canada": [
+      { name: "Niagara falls 🇨🇦", description: "We took a daytrip to the wonderful niagara falls. Truly amazing views!", 
+      images: [
+        "image/niagara.jpg",
+        "image/niagara-2.jpg",
+        "image/niagara4.jpg",
+        "image/niagara5.jpg",
+      ] },
+      {name: "Toronto 🇨🇦",description: "We visited Toronto in the middle of winter, which meant snow-covered streets and a deep chill in the air. Still, we explored the CN Tower, wandered through Little Italy, and took a day trip to Niagara Falls. Cold fingers, warm meals, and city lights—Toronto had a quiet strength to it.",
+      images: [
+        "image/toronto.jpg",
+        "image/toronto-tower.jpg",
+        "image/toronto3.jpg",
+        "image/toronto4.jpg"
+      ] 
+    }],
     "Hungary": {
       title: "Budapest Beauty 🇭🇺",
       description: "Budapest had that postcard-perfect look with a lived-in soul. We soaked in thermal baths with steam rising into the winter sky, crossed the Chain Bridge for river views, and tried every Hungarian dish we could. One afternoon we even learned to bake chimney cakes, laughing our way through the sticky dough and powdered sugar mess.",
-      images: ["images/hungary1.jpg"]
+      images: [
+        "image/budapest-baking.jpg",
+        "image/budapest-bar.jpg",
+        "image/budapest-toppen.jpg",
+        "image/budapest.jpg",
+      ]
     },
     "Croatia": {
       title: "Adriatic Adventure 🇭🇷",
@@ -130,12 +207,33 @@ const visitedMemories = {
    
     "Greece": [
       { name: "Athens 🇬🇷", description: "Athens was loud, warm, and full of history. The Acropolis towered above the city, and wandering through ruins while the modern city buzzed around us felt surreal. We balanced sightseeing with shopping and long meals where the food never stopped coming..", images: ["images/.jpg"] },
-      { name: "Antiparos 🇬🇷", description: "I joined my girlfriend’s family for a trip to Antiparos, and the island became our shared little world. We rode quad bikes on dusty roads, jumped off boats into clear water, and spent entire days moving between pool and sea. It was peaceful and playful all at once.", images: ["images/.jpg"] },
+      { name: "Antiparos 🇬🇷", description: "I joined my girlfriend’s family for a trip to Antiparos, and the island became our shared little world. We rode quad bikes on dusty roads, jumped off boats into clear water, and spent entire days moving between pool and sea. It was peaceful and playful all at once.", 
+      images: [
+        "image/antiparos-1.jpg",
+        "image/antiparos-6.jpg",
+        "image/antiparos-strand.jpg",
+        "image/antiparos-sunset3.jpg",
+        "image/antiparos-therooster.jpg",
+    ] },
       { name: "Santorini 🇬🇷", description: "Family vacation in Santorini was beautiful and chaotic. White-washed buildings, cobbled streets packed with tourists, and donkeys carrying people up the steep hills. We explored, shopped, and always ended our days with sunsets that made everyone stop talking.", images: ["images/.jpg"] }
     ],
     "United Kingdom": [
-      { name: "London 🇬🇧", description: "London was electric. We hit all the classics—Big Ben, Buckingham Palace, Oxford Street. At night, we saw a musical in the West End, and during the day we tried not to get lost on the Tube. Museums, food markets, and rainy walks—it all blended into a memory that still feels alive.", images: ["images/london.jpg"] },
-      { name: "Edinburgh 🇬🇧", description: "I visited my sister in Edinburgh while she was studying there, and the city quickly grew on me. Castles overlooking the city, narrow alleys that felt like stepping into the past, and cozy pubs that warmed us up after exploring in the cold. The food was surprisingly great, and so was the company.", images: ["images/edinburgh.jpg"] }
+      { name: "London 🇬🇧", description: "London was electric. We hit all the classics—Big Ben, Buckingham Palace, Oxford Street. At night, we saw a musical in the West End, and during the day we tried not to get lost on the Tube. Museums, food markets, and rainy walks—it all blended into a memory that still feels alive.", 
+      images: [
+        "image/london-bigben.jpg",
+        "image/london-eye.jpg",
+        "image/london-park-natt.jpg",
+        "image/london.jpg",
+        "image/london4.jpg",
+        "image/london5.jpg",
+      ] },
+      { name: "Edinburgh 🇬🇧", description: "I visited my sister in Edinburgh while she was studying there, and the city quickly grew on me. Castles overlooking the city, narrow alleys that felt like stepping into the past, and cozy pubs that warmed us up after exploring in the cold. The food was surprisingly great, and so was the company.", 
+      images: [
+        "image/edinburgh.jpg",
+        "image/edinburgh-2.jpg",
+        "image/edinburgh-3.jpg",
+        "image/edinburgh4.jpg",
+      ] }
     ]
   };
   
@@ -242,3 +340,10 @@ const visitedMemories = {
     const banner = document.getElementById('infoBanner');
     if (banner) banner.style.display = 'none';
   });
+
+  // Close modal when clicking outside modal-content
+document.getElementById('travelModal')?.addEventListener('click', function (event) {
+  if (event.target === this) {
+    this.style.display = 'none';
+  }
+});
