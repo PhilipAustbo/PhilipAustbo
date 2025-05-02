@@ -2,7 +2,7 @@ const visitedMemories = {
     // full visitedMemories object you posted earlier
     "Norway": {
       title: "Norway.  🇳🇴",
-      description: "Living in Norway is a blend of routines and moments that feel just right. My days are filled with lectures, football matches with friends, home-cooked meals, and quiet evenings. It’s the backdrop of my everyday life. ",
+      description: "Growing up in Bergen, I was shaped by a culture that values resilience, community, and a close connection to nature. Between football fields, home-cooked meals, and time spent with friends, I developed a grounded mindset and an appreciation for both structure and spontaneity.",
       images: [
         "image/hop-tur.jpg",
         "image/preikestolen.jpg", 
@@ -73,7 +73,7 @@ const visitedMemories = {
     ],
     "Sweden": {
       title: "Summer in Sweden 🇸🇪",
-      description: "We drove through Sweden one summer, eventually making our way to Stockholm. The road trip itself was half the experience—endless forests, lakes that appeared out of nowhere, and quaint little towns we hadn’t planned to stop in.",
+      description: "One summer, we set out on a road trip through Sweden, with Stockholm as our final stop. Along the way, we passed endless forests, stumbled upon quiet lakes hidden behind bends, and explored charming little towns we hadn’t meant to visit.",
       images: ["images/sweden1.jpg"]
     },
     "Monaco": {
@@ -115,7 +115,7 @@ const visitedMemories = {
     },
     "Poland": {
       title: "Historic Poland 🇵🇱",
-      description: "Gdansk surprised me. The old town was full of charm—horse-drawn carriages, Gothic buildings, and warm food that felt like comfort in a bowl. We explored the city’s rich history by day and tucked into hearty meals by night, always with something new to discover around each corner.",
+      description: "After our final exams, we headed to Gdańsk for a well-earned break. We spent the days walking through the historic old town, taking in the architecture, and enjoying traditional Polish food. It was a relaxing and refreshing way to end a busy semester.",
       images: [
         "image/polen.jpg",
         "image/polen3.jpg",
@@ -126,7 +126,7 @@ const visitedMemories = {
     },
     "Germany": {
       title: "Anniversary in Berlin 🇩🇪",
-      description: "I went to Berlin with my girlfriend for our one year anniversary. This meant fancy dinners, coctail bars and fun daytime activities. Berlin was gritty and beautiful in equal measure. We walked a lot—through memorials, museums, street markets, and old neighborhoods full of stories. The food was simple but satisfying (Nothing beats the local egg sandwiches), and each place felt like it had something to teach if you took the time to look. We had an extraordinary time!",
+      description: "I visited Berlin with my girlfriend for our one-year anniversary. We explored museums, memorials, and local neighborhoods by day, and enjoyed good food and cocktail bars in the evenings. A simple local egg sandwich quickly became a favorite.",
       images: [
         "image/berlin-båt.jpg",
         "image/berlin-båt2.jpg",
@@ -179,7 +179,7 @@ const visitedMemories = {
     }],
     "Hungary": {
       title: "Budapest Beauty 🇭🇺",
-      description: "Budapest had that postcard-perfect look with a lived-in soul. We soaked in thermal baths with steam rising into the winter sky, crossed the Chain Bridge for river views, and tried every Hungarian dish we could. One afternoon we even learned to bake chimney cakes, laughing our way through the sticky dough and powdered sugar mess.",
+      description: "Budapest was an anniversary gift from my girlfriend, and it turned out to be one of our most memorable trips. We soaked in thermal baths, walked across the Chain Bridge, and explored the local food scene. One afternoon, we took a chimney cake baking class - fun, a bit chaotic, and a highlight of the trip",
       images: [
         "image/budapest-baking.jpg",
         "image/budapest-bar.jpg",
@@ -189,7 +189,7 @@ const visitedMemories = {
     },
     "Croatia": {
       title: "Adriatic Adventure 🇭🇷",
-      description: "Split was the kind of place where time doesn’t matter. It was a boys' trip full of late mornings, sunny afternoons by the beach, and long nights at pool parties or clubs that blurred into sunrise. Beneath all that fun was a beautiful city with old stone walls, clear water, and the smell of salt in the air.",
+      description: "It was a boys' trip full of late mornings, sunny afternoons by the beach, and long nights at pool parties or clubs that blurred into sunrise. Somewhere in the middle of all that, I met my girlfriend—turning an unforgettable trip into the start of something even more meaningful.",
       images: ["images/croatia1.jpg"]
     },
 
@@ -218,7 +218,7 @@ const visitedMemories = {
       { name: "Santorini 🇬🇷", description: "Family vacation in Santorini was beautiful and chaotic. White-washed buildings, cobbled streets packed with tourists, and donkeys carrying people up the steep hills. We explored, shopped, and always ended our days with sunsets that made everyone stop talking.", images: ["images/.jpg"] }
     ],
     "United Kingdom": [
-      { name: "London 🇬🇧", description: "London was electric. We hit all the classics—Big Ben, Buckingham Palace, Oxford Street. At night, we saw a musical in the West End, and during the day we tried not to get lost on the Tube. Museums, food markets, and rainy walks—it all blended into a memory that still feels alive.", 
+      { name: "London 🇬🇧", description: "London was vibrant and full of energy, made even more memorable by having my girlfriend, who had lived there, as a guide. She introduced me to both the city’s iconic landmarks and its hidden gems. From West End performances to rainy strolls through local markets, it was a meaningful way to experience the city through her eyes.", 
       images: [
         "image/london-bigben.jpg",
         "image/london-eye.jpg",
@@ -227,7 +227,7 @@ const visitedMemories = {
         "image/london4.jpg",
         "image/london5.jpg",
       ] },
-      { name: "Edinburgh 🇬🇧", description: "I visited my sister in Edinburgh while she was studying there, and the city quickly grew on me. Castles overlooking the city, narrow alleys that felt like stepping into the past, and cozy pubs that warmed us up after exploring in the cold. The food was surprisingly great, and so was the company.", 
+      { name: "Edinburgh 🇬🇧", description: "Edinburgh was a city full of history and character. We visited my sister, who is currently studying there, and spent the days exploring castles, walking through the city, and enjoying traditional pubs.", 
       images: [
         "image/edinburgh.jpg",
         "image/edinburgh-2.jpg",
