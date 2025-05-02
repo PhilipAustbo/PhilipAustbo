@@ -3,19 +3,50 @@ const visitedMemories = {
     "Norway": {
       title: "Norway.  🇳🇴",
       description: "Living in Norway is a blend of routines and moments that feel just right. My days are filled with lectures, football matches with friends, home-cooked meals, and quiet evenings. It’s the backdrop of my everyday life. ",
-      images: ["images/norway1.jpg"]
+      images: [
+        "image/hop-tur.jpg",
+        "image/preikestolen.jpg", 
+        "image/preikestolen2.jpg"
+      ]
     },
     
     "Spain": [
-      { name: "Marbella 🇪🇸", description: "We spent our family vacation in Marbella, soaking up the sun and taking day trips to Puerto Banús. It was a mix of lazy beach days and window-shopping in luxury boutiques. The afternoons were slow and warm, and evenings meant good food and long conversations by the pool. ", images: ["images/paris1.jpg"] },
+      { name: "Marbella 🇪🇸", description: "We spent our family vacation in Marbella, soaking up the sun and taking day trips to Puerto Banús. It was a mix of lazy beach days and window-shopping in luxury boutiques. The afternoons were slow and warm, and evenings meant good food and long conversations by the pool. ", images: ["image/paris.jpg"] },
       { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", images: ["images/cannes1.jpg"] },
       { name: "Palma 🇪🇸", description: "A spontaneous boys’ trip to Palma turned into a great mix of adventure and downtime. We hiked through rugged mountains in the mornings and hit the beach or local bars at night. It was a few days of carefree laughter, group dinners, and shared stories under the stars..", images: ["images/cannes1.jpg"] }
     ],
     "France": [
-      { name: "Paris 🇫🇷", description: "My first trip with my girlfriend took us to Paris. We spent hours wandering the streets, visiting every landmark we could find—the Eiffel Tower, the Louvre, Notre-Dame. In between, we had café stops and sat on benches, sharing pastries and soaking up the city’s beauty. It felt both grand and simple.", images: ["images/paris1.jpg"] },
-      { name: "Cannes 🇫🇷", description: "I’ve been lucky to visit Cannes with my family a few times. It’s the kind of place that lingers in your memory—the warm sea breeze, the sound of clinking glasses at beach clubs, and boat days that stretch from morning into the golden hour. The Riviera has a laid-back charm that’s hard to forget.", images: ["images/cannes1.jpg"] },
-      { name: "Nice 🇫🇷", description: "We took a few day trips to Nice, often just for the food and atmosphere. Shopping, trying local dishes, and strolling through the evening markets became our rhythm. The sunsets over the water had this calmness that made every visit feel like a pause from the world.", images: ["images/cannes1.jpg"] },
-      { name: "Champagne 🇫🇷", description: "A visit to Champagne meant vineyard tours and tasting glasses of sparkling wine in serene countryside settings. It was peaceful and a bit surreal, standing in fields that stretch on forever while learning how something as delicate as champagne is made..", images: ["images/champagne1.jpg"] }
+      { name: "Paris 🇫🇷", description: "My first trip with my girlfriend took us to Paris. We spent hours wandering the streets, visiting every landmark we could find—the Eiffel Tower, the Louvre, Notre-Dame. In between, we had café stops and sat on benches, sharing pastries and soaking up the city’s beauty. It felt both grand and simple.", 
+      images: [
+        "image/paris-eiffel.jpg",
+        "image/paris-iskrem.jpg",
+        "image/paris-restaurant.jpg",
+        "image/paris.jpg"
+      ] },
+      { name: "Cannes 🇫🇷", description: "I’ve been lucky to visit Cannes with my family a few times. It’s the kind of place that lingers in your memory—the warm sea breeze, the sound of clinking glasses at beach clubs, and boat days that stretch from morning into the golden hour. The Riviera has a laid-back charm that’s hard to forget.", 
+      images: [
+        "image/cannes-3.jpg",
+        "image/cannes-5.jpg",
+        "image/cannes-8.jpg",
+        "image/cannes-aperol.jpg",
+        "image/cannes4.jpg",
+        "image/cannes6.jpg",
+        "image/cannes7.jpg",
+        "image/cannes9.jpg",
+      ] },
+      { name: "Nice 🇫🇷", description: "We took a few day trips to Nice, often just for the food and atmosphere. Shopping, trying local dishes, and strolling through the evening markets became our rhythm. The sunsets over the water had this calmness that made every visit feel like a pause from the world.", 
+      images: [
+        "image/nice-strand.jpg",
+        "image/nice-.jpg",
+        "image/nice-lunsj.jpg",
+      ] },
+      { name: "Champagne 🇫🇷", description: "A visit to Champagne meant vineyard tours and tasting glasses of sparkling wine in serene countryside settings. It was peaceful and a bit surreal, standing in fields that stretch on forever while learning how something as delicate as champagne is made..", images: ["images/champagne1.jpg"] },
+      { name: "Lavender fields 🇫🇷", description: "Day trip to the amazing lavender fields in France", images: ["image/lavendel.jpg", "image/lavendelåker.jpg", "image/frankrike-lavendel.jpg"] },
+      { name: "St.Tropez 🇫🇷", description: "Supercars, yaths, fancy restaurants, and windowshopping. What a crazy city!", 
+      images: [
+        "image/st_tropez.jpg",
+        "image/st_tropes2.jpg",
+      ] },
     ],
     "Sweden": {
       title: "Summer in Sweden 🇸🇪",
@@ -23,7 +54,7 @@ const visitedMemories = {
       images: ["images/sweden1.jpg"]
     },
     "Monaco": {
-      title: "Monaco",
+      title: "Summer in Monaco 🇲🇨", 
       description: "It was a quick summer visit, but Monaco was unlike anywhere else. We spent the day exploring the harbor, watching yachts bigger than houses, and finding quiet corners of the city to rest our feet. The mix of luxury and Mediterranean calm was surprisingly charming, and sharing it all with close friends made it feel more real than just a postcard..",
       images: ["images/sweden1.jpg"]
     },
@@ -32,6 +63,16 @@ const visitedMemories = {
       description: "Copenhagen felt effortlessly cool. We rented bikes and rode everywhere—past canals, street art, and packed coffee spots. There was something comforting about the city’s pace, and the cozy cafés gave us shelter from the wind while we planned out our next stops. I left feeling inspired to bring some of that Danish calm back with me..",
       images: ["images/denmark1.jpg"]
     },
+
+    "Netherlands": [
+      { name: "Amsterdam trip NE", description: "Heiniken museum, boat trip, shoping, great food", 
+      images: [
+        "image/amster-2.jpg",
+        "image/amster-lookout.jpg",
+        "image/amsterdam-1.jpg"
+    ] },
+    ],
+
     "United Arab Emirates": {
       title: "Desert and Skyscrapers 🇦🇪",
       description: "Dubai was a world apart. One moment we were standing at the top of the tallest building in the world, and the next we were bouncing through the desert on a safari, watching the sun disappear behind dunes. It was a trip full of contrasts—glass towers and golden sands, luxury malls and old souks—and somehow it all worked..",
@@ -73,6 +114,18 @@ const visitedMemories = {
       title: "Adriatic Adventure 🇭🇷",
       description: "Split was the kind of place where time doesn’t matter. It was a boys' trip full of late mornings, sunny afternoons by the beach, and long nights at pool parties or clubs that blurred into sunrise. Beneath all that fun was a beautiful city with old stone walls, clear water, and the smell of salt in the air.",
       images: ["images/croatia1.jpg"]
+    },
+
+    "Albania": {
+      title: "Albanian Escape 🇦🇱",
+      description: "Albania turned out to be the perfect summer destination for two students on a budget. Everything cost half as much as back home, and the beaches were stunning. We drove across the country—navigating chaotic roads from Tirana all the way down to Ksamil. Along the way we found hidden coves, ate fresh seafood by the sea, and watched unforgettable sunsets. It felt like discovering a secret Mediterranean gem.",
+      images: ["images/albania1.jpg"]
+    },
+    
+    "Dominican Republic": {
+      title: "Caribbean All-Inclusive 🇩🇴",
+      description: "Our family trip to the Dominican Republic was all about slowing down and soaking it all in. We stayed at the Hard Rock Hotel, a massive resort with over twenty pools and more restaurants than we could try. I spent hours barefoot on a grass field playing football, only taking breaks to cool off or catch a World Cup match on the big screen. It was easy to forget what day it was—the sun, the rhythm, the laughter kept it all flowing.",
+      images: ["images/dominican1.jpg"]
     },
    
     "Greece": [
