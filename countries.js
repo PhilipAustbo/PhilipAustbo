@@ -226,7 +226,6 @@ const visitedMemories = {
       ] },
       { name: "New York 🇺🇸", description: "In New York, I did everything a tourist should. Times Square at night, biking through Central Park, bagels in the morning and street food in the afternoon. The city moved fast, but that just made the quiet moments—like sitting in Washington Square Park—feel even more vivid. Every corner felt like a scene from a movie.", 
       images: [
-        "image/newyork.jpg",
         "image/newyork2.jpg",
         "image/newyork3.jpg",
         "image/newyork4.jpg",
@@ -258,7 +257,7 @@ const visitedMemories = {
       {name: "Toronto 🇨🇦",description: "When my girlfriend visited me during my exchange, we changed our plans last minute and went to Toronto for parts of the stay, since New York was facing extreme cold. Toronto was still freezing, with snow-covered streets and icy air, but we made the most of it, visiting the CN Tower, exploring Little Italy, and taking a day trip to Niagara Falls. Despite the weather, it was a great experience.",
       images: [
         "image/toronto.jpg",
-        "image/toronto-tower.jpg",
+        "image/toronto2.jpg",
         "image/toronto3.jpg",
         "image/toronto4.jpg"
       ] 
