@@ -20,7 +20,7 @@ const visitedMemories = {
         "image/marbella.jpg",
         "image/marbella2.jpg",
         "image/marbella3.jpg",
-      
+        "image/marbella4.png",
       ] },
       { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", 
       images: [
