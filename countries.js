@@ -94,7 +94,13 @@ const visitedMemories = {
       images: [
         "image/amster-2.jpg",
         "image/amster-lookout.jpg",
-        "image/amsterdam-1.jpg"
+        "image/amsterdam-1.jpg",
+        "image/amster.heic",
+        "image/amster2.heic",
+        "image/amster3.heic",
+        "image/amster4.heic",
+        "image/amster5.heic",
+        "image/amster6.heic",
     ] },
     ],
 
@@ -122,7 +128,18 @@ const visitedMemories = {
     "Maldives": {
       title: "Tropical Paradise 🇲🇻",
       description: "The Maldives felt like a dream. Days blurred into each other—waking up to turquoise water, swimming with colorful fish, reading on the beach, and watching sunsets that looked painted. It was the kind of place where you forget about time completely and just exist, barefoot and happy..",
-      images: ["image/maldives1.jpg"]
+      images: [
+        "image/maldivene.jpg",
+        "image/maldivene2.jpg",
+        "image/maldivene3.jpg",
+        "image/maldivene4.jpg",
+        "image/maldivene5.jpg",
+        "image/maldivene6.jpg",
+        "image/maldivene7.jpg",
+        "image/maldivene8.jpg",
+        "image/maldivene9.jpg",
+        "image/maldivene10.jpg",
+      ]
     },
     "Poland": {
       title: "Historic Poland 🇵🇱",
@@ -243,13 +260,28 @@ const visitedMemories = {
     "Croatia": {
       title: "Adriatic Adventure 🇭🇷",
       description: "It was a boys' trip full of late mornings, sunny afternoons by the beach, and long nights at pool parties or clubs that blurred into sunrise. Somewhere in the middle of all that, I met my girlfriend—turning an unforgettable trip into the start of something even more meaningful.",
-      images: ["images/croatia1.jpg"]
+      images: [
+        "image/split2.png",
+        "image/split1.png",
+        "image/split3.mp4",
+    ]
     },
 
     "Albania": {
       title: "Albanian Escape 🇦🇱",
       description: "Albania turned out to be the perfect summer destination for two students on a budget. Everything cost half as much as back home, and the beaches were stunning. We drove across the country—navigating chaotic roads from Tirana all the way down to Ksamil. Along the way we found hidden coves, ate fresh seafood by the sea, and watched unforgettable sunsets. It felt like discovering a secret Mediterranean gem.",
-      images: ["images/albania1.jpg"]
+      images: [
+        "image/albania.heic",
+        "image/albania2.heic",
+        "image/albania3.MP4",
+        "image/albania4.heic",
+        "image/albania5.heic",
+        "image/albania6.heic",
+        "image/albania7.heic",
+        "image/albania8.heic",
+        "image/albania9.heic",
+        "image/albania10.heic",
+      ]
     },
     
     "Dominican Republic": {
@@ -288,9 +320,9 @@ const visitedMemories = {
     ] },
       { name: "Santorini 🇬🇷", description: "Family vacation in Santorini was beautiful and chaotic. White-washed buildings, cobbled streets packed with tourists, and donkeys carrying people up the steep hills. We explored, shopped, and always ended our days with sunsets that made everyone stop talking.", 
       images: [
-        "images/hellas2.heic",
-        "images/hellas3.heic",
-        "images/hellas4.heic",
+        "image/hellas2.heic",
+        "image/hellas3.heic",
+        "image/hellas4.heic",
       ] }
     ],
     "United Kingdom": [
