@@ -24,7 +24,6 @@ const visitedMemories = {
       ] },
       { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", 
       images: [
-        "images/nerja.jpg"
       ] },
       { name: "Palma 🇪🇸", description: "A spontaneous boys’ trip to Palma turned into a great mix of adventure and downtime. We hiked through rugged mountains in the mornings and hit the beach or local bars at night. It was a few days of carefree laughter, group dinners, and shared stories under the stars..", 
       images: [
@@ -61,10 +60,6 @@ const visitedMemories = {
         "image/nice-lunsj.jpg",
         "image/villefranche-sammen.jpg"
       ] },
-      { name: "Champagne 🇫🇷", description: "A visit to Champagne meant vineyard tours and tasting glasses of sparkling wine in serene countryside settings. It was peaceful and a bit surreal, standing in fields that stretch on forever while learning how something as delicate as champagne is made..", 
-      images: [
-        "image/.jpg"
-    ] },
       { name: "Lavender fields 🇫🇷", description: "Day trip to the amazing lavender fields in France", 
       images: [
         "image/lavendel.jpg", 
@@ -91,7 +86,7 @@ const visitedMemories = {
     "Denmark": {
       title: "Copenhagen Cool 🇩🇰",
       description: "Copenhagen felt effortlessly cool. We rented bikes and rode everywhere—past canals, street art, and packed coffee spots. There was something comforting about the city’s pace, and the cozy cafés gave us shelter from the wind while we planned out our next stops. I left feeling inspired to bring some of that Danish calm back with me..",
-      images: ["image/denmark1.jpg"]
+      images: []
     },
 
     "Netherlands": [
@@ -113,6 +108,15 @@ const visitedMemories = {
         "image/dubai-terasse.jpg",
         "image/dubai-ørken2.jpg",
         "image/dubai8.jpg",
+        "image/dubai9.heic",
+        "image/dubai10.heic",
+        "image/dubai11.heic",
+        "image/dubai12.heic",
+        "image/dubai13.heic",
+        "image/dubai14.heic",
+        "image/dubai15.heic",
+        "image/dubai16.heic",
+        "image/dubai17.heic",
       ]
     },
     "Maldives": {
@@ -251,7 +255,12 @@ const visitedMemories = {
     "Dominican Republic": {
       title: "Caribbean All-Inclusive 🇩🇴",
       description: "Our family trip to the Dominican Republic was all about slowing down and soaking it all in. We stayed at the Hard Rock Hotel, a massive resort with over twenty pools and more restaurants than we could try. I spent hours barefoot on a grass field playing football, only taking breaks to cool off or catch a World Cup match on the big screen. It was easy to forget what day it was—the sun, the rhythm, the laughter kept it all flowing.",
-      images: ["images/dominican1.jpg"]
+      images: [
+        "image/punta.jpg",
+        "image/punta2.jpg",
+        "image/punta3.jpg",
+        "image/puntacana.jpg",
+      ]
     },
    
     "Greece": [
