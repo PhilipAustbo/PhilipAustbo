@@ -20,7 +20,6 @@ const visitedMemories = {
         "image/marbella.jpg",
         "image/marbella2.jpg",
         "image/marbella3.jpg",
-        "image/marbella4.png",
       ] },
       { name: "Nerja 🇪🇸", description: "Visiting my grandparents’ home in Nerja offered a slower pace. Life there revolved around local cafés, chatting with neighbors, and long dinners that stretched into the night. I played football with the neighborhood kids and got a glimpse of what everyday life in a Spanish coastal town feels like.. ", 
       images: [
@@ -31,7 +30,7 @@ const visitedMemories = {
         "image/palma2.jpg",
         "image/palma3.jpg",
         "image/palma4.jpg",
-        "image/marbella4.png",
+        "image/marbella4.jpg",
       ] }
     ],
     "France": [
@@ -91,7 +90,7 @@ const visitedMemories = {
       description: "It was a quick summer visit, but Monaco was unlike anywhere else. We spent the day exploring the harbor, watching yachts bigger than houses, and finding quiet corners of the city to rest our feet. The mix of luxury and Mediterranean calm was surprisingly charming, and sharing it all with close friends made it feel more real than just a postcard..",
       images: [
         "image/monaco.jpg", 
-        "image/monaco2",
+        "image/monaco2.jpg",
       ]
     },
     "Denmark": {
@@ -286,8 +285,8 @@ const visitedMemories = {
       title: "Adriatic Adventure 🇭🇷",
       description: "It was a boys' trip full of late mornings, sunny afternoons by the beach, and long nights at pool parties or clubs that blurred into sunrise. Somewhere in the middle of all that, I met my girlfriend—turning an unforgettable trip into the start of something even more meaningful.",
       images: [
-        "image/split2.png",
-        "image/split1.png",
+        "image/split2.jpg",
+        "image/split1.jpg",
         "image/split3.mp4",
     ]
     },
