@@ -37,10 +37,12 @@ const visitedMemories = {
     "France": [
       { name: "Paris 🇫🇷", description: "My first trip with my girlfriend took us to Paris. We spent hours wandering the streets, visiting every landmark we could find—the Eiffel Tower, the Louvre, Notre-Dame. In between, we had café stops and sat on benches, sharing pastries and soaking up the city’s beauty. It felt both grand and simple.", 
       images: [
+        "image/paris3.jpg",
+        "image/paris4.jpg",
         "image/paris-eiffel.jpg",
         "image/paris-iskrem.jpg",
         "image/paris-restaurant.jpg",
-        "image/paris.jpg"
+        "image/paris.jpg",
       ] },
       { name: "Cannes 🇫🇷", description: "I’ve been lucky to visit Cannes with my family a few times. It’s the kind of place that lingers in your memory—the warm sea breeze, the sound of clinking glasses at beach clubs, and boat days that stretch from morning into the golden hour. The Riviera has a laid-back charm that’s hard to forget.", 
       images: [
