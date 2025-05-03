@@ -6,10 +6,10 @@ const visitedMemories = {
       images: [
         "image/hop-tur.jpg",
         "image/preikestolen.jpg", 
-        "image/norge-nyttårs.jpg",
+        "image/norge-nyttars.jpg",
         "image/geilo-ski.jpg",
         "image/preikestolen2.jpg",
-        "image/kristiansand-tømmeren.jpg",
+        "image/kristiansand-tommeren.jpg",
         "image/geilo3.jpg",
       ]
     },
@@ -63,7 +63,7 @@ const visitedMemories = {
       { name: "Lavender fields 🇫🇷", description: "Day trip to the amazing lavender fields in France", 
       images: [
         "image/lavendel.jpg", 
-        "image/lavendelåker.jpg", 
+        "image/lavendelaker.jpg", 
         "image/frankrike-lavendel.jpg",
         "image/solsikke.jpg",
       ] },
@@ -112,7 +112,7 @@ const visitedMemories = {
         "image/dubai-kamel.jpg",
         "image/dubai-solnedgang.jpg",
         "image/dubai-terasse.jpg",
-        "image/dubai-ørken2.jpg",
+        "image/dubai-orken2.jpg",
         "image/dubai8.jpg",
         "image/dubai9.heic",
         "image/dubai10.heic",
@@ -156,8 +156,8 @@ const visitedMemories = {
       title: "Anniversary in Berlin 🇩🇪",
       description: "I visited Berlin with my girlfriend for our one-year anniversary. We explored museums, memorials, and local neighborhoods by day, and enjoyed good food and cocktail bars in the evenings. A simple local egg sandwich quickly became a favorite.",
       images: [
-        "image/berlin-båt.jpg",
-        "image/berlin-båt2.jpg",
+        "image/berlin-bat.jpg",
+        "image/berlin-bat2.jpg",
         "image/berlin-doghnut.jpg",
         "image/berlin-iskrem.jpg",
         "image/berlin-slott.jpg",
