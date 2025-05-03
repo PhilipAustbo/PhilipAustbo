@@ -39,14 +39,7 @@
     color: #333;
   }
   
-  .image-gallery img {
-    max-width: 120px;
-    max-height: 100px;
-    border-radius: 8px;
-    object-fit: cover;
-    margin: 5px;
-  }
-  
+ 
   .trip-selector button {
     background-color: #0a3d62;
     color: #fff;
@@ -65,17 +58,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
+    gap: 17px;
     margin-top: 20px;
   }
   
   .image-gallery img {
-    max-width: 200px;
+    max-width: 280px;
     max-height: 500px;
     border-radius: 8px;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
+  
   
   .image-gallery img:hover {
     transform: scale(1.05);
