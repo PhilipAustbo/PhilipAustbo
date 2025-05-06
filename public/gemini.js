@@ -17,18 +17,10 @@ const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
 document.body.classList.toggle("light-theme", isLightTheme);
 themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 
-
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
-
-  try {
-    div.innerHTML = typeof marked !== "undefined" ? marked.parse(content) : content;
-  } catch (e) {
-    console.error("Markdown parsing failed:", e);
-    div.innerHTML = content;
-  }
-
+  div.innerHTML = content;
   return div;
 };
 
@@ -113,9 +105,8 @@ const handleFormSubmit = (e) => {
           : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`)
       : ""}
   `;
-  
-  const userMsgHTML = `**${userData.message}**`; // optional formatting
   const userMsgDiv = createMessageElement(userMsgHTML, "user-message");
+  userMsgDiv.querySelector(".message-text").textContent = userData.message;
   chatsContainer.appendChild(userMsgDiv);
   scrollToBottom();
 
