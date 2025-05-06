@@ -17,12 +17,21 @@ const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
 document.body.classList.toggle("light-theme", isLightTheme);
 themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 
+
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
-  div.innerHTML = content;
+
+  try {
+    div.innerHTML = typeof marked !== "undefined" ? marked.parse(content) : content;
+  } catch (e) {
+    console.error("Markdown parsing failed:", e);
+    div.innerHTML = content;
+  }
+
   return div;
 };
+
 
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
