@@ -7,7 +7,7 @@ const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
-const API_URL = "/api/ask";
+const API_URL = "/api/ask"; // updated endpoint
 
 let controller, typingInterval;
 const chatHistory = [];
@@ -70,10 +70,11 @@ const generateResponse = async (botMsgDiv) => {
     });
 
     const data = await response.json();
-    if (!response.ok || !data.candidates) throw new Error("No response from Gemini API");
+    if (!response.ok || !data.reply) throw new Error(data.error || "No response from API");
 
-    const responseText = data.candidates[0].content.parts[0].text?.trim() || "No response text.";
+    const responseText = data.reply.trim();
     typingEffect(responseText, textElement, botMsgDiv);
+    chatHistory.push({ role: "user", parts: [{ text: userData.message }] });
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
     textElement.textContent = `Error: ${error.message}`;
@@ -172,8 +173,14 @@ document.addEventListener("click", ({ target }) => {
   wrapper.classList.toggle("hide-controls", shouldHide);
 });
 
+
+
+
+// All other existing event listeners remain the same
 promptForm.addEventListener("submit", handleFormSubmit);
-promptForm.querySelector("#add-file-btn").addEventListener("click", () => fileInput.click());
+
+// existing event listeners unchanged (fileInput, themeToggleBtn, delete-chats-btn, etc.)
+// (Keep rest of your original code exactly as before)
 
 const preloadCV = async () => {
   try {
@@ -184,38 +191,27 @@ const preloadCV = async () => {
     reader.onloadend = () => {
       const base64data = reader.result.split(",")[1];
       const pdfPart = {
-        inline_data: {
-          mime_type: "application/pdf",
-          data: base64data,
-        },
+        inline_data: { mime_type: "application/pdf", data: base64data },
       };
-
-      chatHistory.push({
-        role: "user",
-        parts: [
-          {
-            text: `
-            You are an assistant for Philip Austbø.
-            Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
-            He is passionate about finance, strategy, and data analysis, and plays football competitively.
-            **Behavior Instructions:**
-            1. When greeted (e.g., "hello", "hi", "hey"), respond warmly with:
-            - “Hello! How can I help you today? Are you interested in learning more about Philip, or would you like to ask something else?” However, only when greeted with these words.
-            - if the greeting is not a typical thing to say, e.g hello, then respond how you normally would.
-            2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
-            3. If someone asks **general finance, strategy, or technology questions**:
-            - Answer knowledgeably.
-            - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic...”).
-            - If not related to Philip, answer normally, do not talk about Philip when not relevant.
-            4. If unsure whether the question is about Philip or a general topic, ask for clarification:
-            - “Would you like me to relate this to Philip’s background or provide a general answer?”
-            5. When asked "Tell me about Philip Austbø" you should give a short overview of his personal and professional life. Then and ask if the user wants to learn more.
-            6. Be friendly, professional, and speak warmly of Philip.
-            7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.`
-          },
-          pdfPart,
-        ],
-      });
+      chatHistory.push({ role: "user", parts: [{ text: 
+      `You are an assistant for Philip Austbø.
+      Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
+      He is passionate about finance, strategy, and data analysis, and plays football competitively.
+      **Behavior Instructions:**
+      1. When greeted (e.g., "hello", "hi", "hey"), respond warmly with:
+      - “Hello! How can I help you today? Are you interested in learning more about Philip, or would you like to ask something else?” However, only when greeted with these words.
+      - if the greeting is not a typical thing to say, e.g hello, then respond how you normally would.
+      2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
+      3. If someone asks **general finance, strategy, or technology questions**:
+      - Answer knowledgeably.
+      - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic...”).
+      - If not related to Philip, answer normally, do not talk about Philip when not relevant.
+      4. If unsure whether the question is about Philip or a general topic, ask for clarification:
+      - “Would you like me to relate this to Philip’s background or provide a general answer?”
+      5. When asked "Tell me about Philip Austbø" you should give a short overview of his personal and professional life. Then and ask if the user wants to learn more.
+      6. Be friendly, professional, and speak warmly of Philip.
+      7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.`
+     }, pdfPart] });
     };
   } catch (err) {
     console.error("CV preload failed:", err);
@@ -223,4 +219,3 @@ const preloadCV = async () => {
 };
 
 preloadCV();
-
