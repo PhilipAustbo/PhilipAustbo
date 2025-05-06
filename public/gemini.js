@@ -20,10 +20,9 @@ themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
-  div.innerHTML = marked.parse(content); // Parse markdown content to HTML
+  div.innerHTML = content;
   return div;
 };
-
 
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
@@ -137,7 +136,7 @@ const preloadCV = async () => {
         inline_data: { mime_type: "application/pdf", data: base64data },
       };
       chatHistory.push({ role: "user", parts: [{ text: 
-        `You are an assistant for Philip Austbø.
+      `You are an assistant for Philip Austbø.
       Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
       He is passionate about finance, strategy, and data analysis, and plays football competitively.
       **Behavior Instructions:**
