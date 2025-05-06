@@ -113,8 +113,9 @@ const handleFormSubmit = (e) => {
           : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`)
       : ""}
   `;
+  
+  const userMsgHTML = `**${userData.message}**`; // optional formatting
   const userMsgDiv = createMessageElement(userMsgHTML, "user-message");
-  userMsgDiv.querySelector(".message-text").textContent = userData.message;
   chatsContainer.appendChild(userMsgDiv);
   scrollToBottom();
 
