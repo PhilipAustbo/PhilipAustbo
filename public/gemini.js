@@ -118,64 +118,6 @@ const handleFormSubmit = (e) => {
   }, 600);
 };
 
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (!file) return;
-  const isImage = file.type.startsWith("image/");
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = (e) => {
-    fileInput.value = "";
-    const base64String = e.target.result.split(",")[1];
-    fileUploadWrapper.querySelector(".file-preview").src = e.target.result;
-    fileUploadWrapper.classList.add("active", isImage ? "img-attached" : "file-attached");
-    userData.file = { fileName: file.name, data: base64String, mime_type: file.type, isImage };
-  };
-});
-
-document.querySelector("#cancel-file-btn").addEventListener("click", () => {
-  userData.file = {};
-  fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");
-});
-
-document.querySelector("#stop-response-btn").addEventListener("click", () => {
-  controller?.abort();
-  userData.file = {};
-  clearInterval(typingInterval);
-  const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
-  if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
-  document.body.classList.remove("bot-responding");
-});
-
-themeToggleBtn.addEventListener("click", () => {
-  const isLightTheme = document.body.classList.toggle("light-theme");
-  localStorage.setItem("themeColor", isLightTheme ? "light_mode" : "dark_mode");
-  themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
-});
-
-document.querySelector("#delete-chats-btn").addEventListener("click", () => {
-  chatHistory.length = 0;
-  chatsContainer.innerHTML = "";
-  document.body.classList.remove("chats-active", "bot-responding");
-});
-
-document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
-  suggestion.addEventListener("click", () => {
-    promptInput.value = suggestion.querySelector(".text").textContent;
-    promptForm.dispatchEvent(new Event("submit"));
-  });
-});
-
-document.addEventListener("click", ({ target }) => {
-  const wrapper = document.querySelector(".prompt-wrapper");
-  const shouldHide = target.classList.contains("prompt-input") ||
-    (wrapper.classList.contains("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
-  wrapper.classList.toggle("hide-controls", shouldHide);
-});
-
-
-
-
 // All other existing event listeners remain the same
 promptForm.addEventListener("submit", handleFormSubmit);
 
@@ -194,7 +136,7 @@ const preloadCV = async () => {
         inline_data: { mime_type: "application/pdf", data: base64data },
       };
       chatHistory.push({ role: "user", parts: [{ text: 
-      `You are an assistant for Philip Austbø.
+        `You are an assistant for Philip Austbø.
       Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
       He is passionate about finance, strategy, and data analysis, and plays football competitively.
       **Behavior Instructions:**
