@@ -20,9 +20,10 @@ themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
-  div.innerHTML = content;
+  div.innerHTML = marked.parse(content); // Parse markdown content to HTML
   return div;
 };
+
 
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
