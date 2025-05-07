@@ -100,7 +100,7 @@ nav a:hover::after {
   display: block;
   height: 3px;
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: #fff;
   border-radius: 2px;
   position: absolute;
   left: 0;
@@ -167,50 +167,36 @@ nav a:hover::after {
 /* === MOBILE === */
 @media (max-width: 768px) {
   header {
-    opacity: 0;
-    transform: translateY(-200px);
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-  }
-
-  header.open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+    top:-100px;
+    transform: translate(-48px, 32px);
   }
 
   .burger {
     display: block;
-  }
-
-  header h1 {
-    display: none;
-  }
-
-  nav {
-    position: relative;
-    right: 0;
+    position: fixed;
+    top: 21px;
+    right: 75px;
+    z-index: 1005;
   }
 
   nav ul {
-    position: fixed;
-    top: 130px;
-    right: 78px;
-    background-color: rgb(31, 105, 129);
-    border-radius: 20px;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 999;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: rgb(31, 105, 129);
+    border-radius: 20px;
     padding: 30px 10px;
     transform: scale(0);
     opacity: 0;
-    transform-origin: top right;
     pointer-events: none;
+    transform-origin: top right;
     transition: transform 0.4s, opacity 0.1s ease;
   }
 
   nav ul.open {
-    transform: scale(1) translateY(-135px) translateX(10px);
+    transform: scale(1);
     opacity: 1;
     pointer-events: auto;
   }
@@ -218,4 +204,5 @@ nav a:hover::after {
   nav ul li {
     margin: 10px 40px;
   }
+ 
 }

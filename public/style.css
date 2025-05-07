@@ -346,7 +346,6 @@
   
   /* === RESPONSIVE === */
   @media (max-width: 768px) {
-    
     header {
       opacity: 0;
       transform: translateY(-200px);

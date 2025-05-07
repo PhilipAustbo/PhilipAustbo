@@ -20,6 +20,14 @@
   z-index: 1;
 }
 
+@media (max-width: 800px) {
+  #game {
+    width: 90vw;
+    height: 56.25vw; /* for 16:10 ratio */
+  }
+}
+
+
 /* === PADDLES & BALL === */
 .paddle {
   position: absolute;
