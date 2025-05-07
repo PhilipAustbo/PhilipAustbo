@@ -606,3 +606,55 @@
     stroke: #3d1111; /* Red for puts */
     animation: wave 6s ease-in-out infinite;
   }
+
+
+  .info-banner {
+    top: 40vh;
+    padding: 5vh 2vw;
+    background-color: black;
+    font-size: larger;
+  }
+
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 960px;
+    margin: auto;
+  }
+  
+  header h1 {
+    color: #fff;
+    font-size: 22px;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    position: relative;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-light);
+    transition: width 0.3s;
+  }
+  
+  nav a:hover::after {
+    width: 100%;
+  }

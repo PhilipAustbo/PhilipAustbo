@@ -4,30 +4,64 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pong Game</title>
-  <link rel="stylesheet" href="pong.css" />
+  <link rel="stylesheet" href="meny.css" /> <!-- Your global styles with nav, header, etc -->
+  <link rel="stylesheet" href="pong.css" />   <!-- Your game-specific styles -->
 </head>
 <body>
-  <!-- Setup Overlay -->
-  <div id="setup-overlay">
-    <div class="setup-box">
-      <h2>Welcome to Pong</h2>
-      <input type="text" id="player-name" placeholder="Enter your name" />
-      <p>Choose control method:</p>
-      <div class="button-group">
-        <button onclick="startGame('mouse')">Mouse</button>
-        <button onclick="startGame('keyboard')">Keyboard</button>
+  <!-- Dark Mode Toggle -->
+  <button id="darkModeToggle" class="dark-toggle">🌙</button>
+
+  <!-- Burger Menu -->
+  <button class="burger" id="burger" aria-label="Toggle navigation">
+    <span class="line"></span>
+    <span class="line"></span>
+    <span class="line"></span>
+  </button>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="nav-container">
+      <h1>Philip Austbø</h1>
+      <nav>
+        <ul id="navMenu">
+          <li><a href="/public/index.html">Home</a></li>
+          <li><a href="/public/hours.html">Hours</a></li>
+          <li><a href="/public/football.html">Fotball</a></li>
+          <li><a href="/public/gemini.html">ChatBot</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Pong Game Wrapper -->
+  <div id="pong-wrapper">
+    <!-- Setup Overlay -->
+    <div id="setup-overlay">
+      <div class="setup-box">
+        <h2>Welcome to Pong</h2>
+        <input type="text" id="player-name" placeholder="Enter your name" />
+        <p>Choose control method:</p>
+        <div class="button-group">
+          <button onclick="startGame('mouse')">Mouse</button>
+          <button onclick="startGame('keyboard')">Keyboard</button>
+        </div>
       </div>
+    </div>
+
+    <!-- Game Area -->
+    <div id="game">
+      <div id="ball"></div>
+      <div class="paddle" id="paddle-left"></div>
+      <div class="paddle" id="paddle-right"></div>
     </div>
   </div>
 
-  <!-- Game Area -->
-  <div id="game">
-    <div id="ball"></div>
-    <div class="paddle" id="paddle-left"></div>
-    <div class="paddle" id="paddle-right"></div>
-  </div>
-
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="pong.js"></script>
+
+  <!-- Optional: Navigation Behavior Script -->
+  <script>
+  </script>
 </body>
 </html>

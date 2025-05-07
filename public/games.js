@@ -87,3 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+  document.getElementById('closeBanner')?.addEventListener('click', () => {
+    const banner = document.getElementById('infoBanner');
+    if (banner) banner.style.display = 'none';
+  });

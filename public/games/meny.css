@@ -1,0 +1,221 @@
+/* === COLOR VARIABLES === */
+:root {
+  --bg-light: #f9f9f9;
+  --bg-dark: #111;
+  --text-light: #1a1a1a;
+  --text-dark: #e6e6e6;
+  --primary: #0a3d62;
+  --primary-light: #cce7ff;
+  --accent-dark: #8ac6ff;
+}
+
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === BASE === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  line-height: 1.6;
+}
+
+/* === HEADER === */
+header {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 960px;
+  margin: auto;
+  padding: 15px 0;
+}
+
+header h1 {
+  color: #fff;
+  font-size: 22px;
+}
+
+/* === NAVIGATION === */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-light);
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* === BURGER MENU === */
+.burger {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 75px;
+  width: 30px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.burger .line {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #1a1a1a;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+.burger .line:nth-child(1) { top: 0; }
+.burger .line:nth-child(2) { top: 10px; }
+.burger .line:nth-child(3) { top: 20px; }
+
+.burger.active .line:nth-child(1) {
+  transform: rotate(45deg);
+  top: 10px;
+}
+.burger.active .line:nth-child(2) {
+  opacity: 0;
+}
+.burger.active .line:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 10px;
+}
+
+/* === DARK MODE === */
+.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.dark-mode header {
+  background-color: #0c223f;
+}
+
+.dark-mode nav ul {
+  background-color: #0c223f;
+}
+
+.dark-mode nav a {
+  color: var(--accent-dark);
+}
+
+.dark-mode nav a::after {
+  background-color: var(--accent-dark);
+}
+
+.dark-mode .burger .line {
+  background-color: #f1f1f1;
+}
+
+/* === DARK TOGGLE === */
+.dark-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 16px;
+}
+
+/* === MOBILE === */
+@media (max-width: 768px) {
+  header {
+    opacity: 0;
+    transform: translateY(-200px);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  header.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  header h1 {
+    display: none;
+  }
+
+  nav {
+    position: relative;
+    right: 0;
+  }
+
+  nav ul {
+    position: fixed;
+    top: 130px;
+    right: 78px;
+    background-color: rgb(31, 105, 129);
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 999;
+    padding: 30px 10px;
+    transform: scale(0);
+    opacity: 0;
+    transform-origin: top right;
+    pointer-events: none;
+    transition: transform 0.4s, opacity 0.1s ease;
+  }
+
+  nav ul.open {
+    transform: scale(1) translateY(-135px) translateX(10px);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  nav ul li {
+    margin: 10px 40px;
+  }
+}

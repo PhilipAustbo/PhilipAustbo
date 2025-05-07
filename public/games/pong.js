@@ -270,3 +270,18 @@ function initGame() {
   renderLeaderboard();
   update();
 }
+
+const burger = document.getElementById("burger");
+const navMenu = document.getElementById("navMenu");
+
+burger.addEventListener("click", () => {
+  navMenu.classList.toggle("open");
+  burger.classList.toggle("active");
+  document.querySelector("header").classList.toggle("open");
+});
+
+// Optional: Dark Mode Toggle
+const darkBtn = document.getElementById("darkModeToggle");
+darkBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+});
