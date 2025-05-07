@@ -24,8 +24,6 @@ const createMessageElement = (content, ...classes) => {
   return div;
 };
 
-
-
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
 const typingEffect = (text, textElement, botMsgDiv) => {
@@ -43,139 +41,6 @@ const typingEffect = (text, textElement, botMsgDiv) => {
     }
   }, 40);
 };
-
-setTimeout(() => {
-  const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <div class="message-text">Loading...</div>`;
-  const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
-  chatsContainer.appendChild(botMsgDiv);
-  scrollToBottom();
-  generateResponse(botMsgDiv);
-}, 600);
-
-// 📁 Handle file uploads
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  if (!file) return;
-
-  const isImage = file.type.startsWith("image/");
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-
-  reader.onload = (e) => {
-    fileInput.value = "";
-    const base64String = e.target.result.split(",")[1];
-    fileUploadWrapper.querySelector(".file-preview").src = e.target.result;
-    fileUploadWrapper.classList.add("active", isImage ? "img-attached" : "file-attached");
-
-    userData.file = {
-      fileName: file.name,
-      data: base64String,
-      mime_type: file.type,
-      isImage,
-    };
-  };
-});
-
-// ❌ Cancel file attachment
-document.querySelector("#cancel-file-btn").addEventListener("click", () => {
-  userData.file = {};
-  fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");
-});
-
-// 🛑 Stop response generation
-document.querySelector("#stop-response-btn").addEventListener("click", () => {
-  controller?.abort();
-  userData.file = {};
-  clearInterval(typingInterval);
-
-  const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
-  if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
-
-  document.body.classList.remove("bot-responding");
-});
-
-// 🌗 Theme toggle
-themeToggleBtn.addEventListener("click", () => {
-  const isLightTheme = document.body.classList.toggle("light-theme");
-  localStorage.setItem("themeColor", isLightTheme ? "light_mode" : "dark_mode");
-  themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
-});
-
-// 🧹 Clear chat
-document.querySelector("#delete-chats-btn").addEventListener("click", () => {
-  chatHistory.length = 0;
-  chatsContainer.innerHTML = "";
-  document.body.classList.remove("chats-active", "bot-responding");
-});
-
-// 💡 Suggestions click-to-fill
-document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
-  suggestion.addEventListener("click", () => {
-    promptInput.value = suggestion.querySelector(".text").textContent;
-    promptForm.dispatchEvent(new Event("submit"));
-  });
-});
-
-// 🔍 Show/hide controls on click
-document.addEventListener("click", ({ target }) => {
-  const wrapper = document.querySelector(".prompt-wrapper");
-  const shouldHide =
-    target.classList.contains("prompt-input") ||
-    (wrapper.classList.contains("hide-controls") &&
-      (target.id === "add-file-btn" || target.id === "stop-response-btn"));
-
-  wrapper.classList.toggle("hide-controls", shouldHide);
-});
-
-// ➕ File add button
-promptForm.querySelector("#add-file-btn").addEventListener("click", () => fileInput.click());
-
-// 📥 Preload Philip Austbø's CV (optional but nice touch)
-const preloadCV = async () => {
-  try {
-    const response = await fetch("Philip_Austbo_CV.pdf");
-    const blob = await response.blob();
-    const reader = new FileReader();
-
-    reader.readAsDataURL(blob);
-    reader.onloadend = () => {
-      const base64data = reader.result.split(",")[1];
-      const pdfPart = {
-        inline_data: {
-          mime_type: "application/pdf",
-          data: base64data,
-        },
-      };
-
-      chatHistory.push({
-        role: "user",
-        parts: [
-          {
-            text: `
-You are an assistant for Philip Austbø.
-
-Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects. He is passionate about finance, strategy, and data analysis, and plays football competitively.
-
-**Behavior Instructions:**
-1. Greet users warmly if they say \"hello\", \"hi\", or \"hey\".
-2. If asked about Philip’s background, experience, hobbies, etc., use the context and CV.
-3. For general finance/strategy questions, answer normally and optionally relate to Philip.
-4. Ask for clarification if unsure if the question is about Philip.
-5. When asked \"Tell me about Philip Austbø\", give a short overview and ask if they want more.
-6. Be friendly, professional, and speak warmly of Philip.
-7. Use paragraphs, especially before asking follow-up questions.
-            `,
-          },
-          pdfPart,
-        ],
-      });
-    };
-  } catch (err) {
-    console.error("CV preload failed:", err);
-  }
-};
-
-preloadCV();
 
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
@@ -253,11 +118,63 @@ const handleFormSubmit = (e) => {
   }, 600);
 };
 
-// All other existing event listeners remain the same
 promptForm.addEventListener("submit", handleFormSubmit);
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const isImage = file.type.startsWith("image/");
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = (e) => {
+    fileInput.value = "";
+    const base64String = e.target.result.split(",")[1];
+    fileUploadWrapper.querySelector(".file-preview").src = e.target.result;
+    fileUploadWrapper.classList.add("active", isImage ? "img-attached" : "file-attached");
+    userData.file = { fileName: file.name, data: base64String, mime_type: file.type, isImage };
+  };
+});
 
-// existing event listeners unchanged (fileInput, themeToggleBtn, delete-chats-btn, etc.)
-// (Keep rest of your original code exactly as before)
+document.querySelector("#cancel-file-btn").addEventListener("click", () => {
+  userData.file = {};
+  fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");
+});
+
+document.querySelector("#stop-response-btn").addEventListener("click", () => {
+  controller?.abort();
+  userData.file = {};
+  clearInterval(typingInterval);
+  const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
+  if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
+  document.body.classList.remove("bot-responding");
+});
+
+themeToggleBtn.addEventListener("click", () => {
+  const isLightTheme = document.body.classList.toggle("light-theme");
+  localStorage.setItem("themeColor", isLightTheme ? "light_mode" : "dark_mode");
+  themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
+});
+
+document.querySelector("#delete-chats-btn").addEventListener("click", () => {
+  chatHistory.length = 0;
+  chatsContainer.innerHTML = "";
+  document.body.classList.remove("chats-active", "bot-responding");
+});
+
+document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
+  suggestion.addEventListener("click", () => {
+    promptInput.value = suggestion.querySelector(".text").textContent;
+    promptForm.dispatchEvent(new Event("submit"));
+  });
+});
+
+document.addEventListener("click", ({ target }) => {
+  const wrapper = document.querySelector(".prompt-wrapper");
+  const shouldHide = target.classList.contains("prompt-input") ||
+    (wrapper.classList.contains("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
+  wrapper.classList.toggle("hide-controls", shouldHide);
+});
+
+promptForm.querySelector("#add-file-btn").addEventListener("click", () => fileInput.click());
 
 const preloadCV = async () => {
   try {
