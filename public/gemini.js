@@ -130,17 +130,34 @@ promptForm.addEventListener("submit", handleFormSubmit);
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (!file) return;
+
+  const MAX_FILE_SIZE_MB = 4.5;
+  const fileSizeMB = file.size / (1024 * 1024);
+
+  if (fileSizeMB > MAX_FILE_SIZE_MB) {
+    alert(`File too large! Max file size is ${MAX_FILE_SIZE_MB} MB. Your file is ${fileSizeMB.toFixed(2)} MB.`);
+    fileInput.value = ""; // reset input
+    return;
+  }
+
   const isImage = file.type.startsWith("image/");
   const reader = new FileReader();
   reader.readAsDataURL(file);
+
   reader.onload = (e) => {
     fileInput.value = "";
     const base64String = e.target.result.split(",")[1];
     fileUploadWrapper.querySelector(".file-preview").src = e.target.result;
     fileUploadWrapper.classList.add("active", isImage ? "img-attached" : "file-attached");
-    userData.file = { fileName: file.name, data: base64String, mime_type: file.type, isImage };
+    userData.file = {
+      fileName: file.name,
+      data: base64String,
+      mime_type: file.type,
+      isImage,
+    };
   };
 });
+
 
 document.querySelector("#cancel-file-btn").addEventListener("click", () => {
   userData.file = {};
