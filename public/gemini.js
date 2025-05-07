@@ -27,15 +27,23 @@ const createMessageElement = (content, ...classes) => {
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
 const typingEffect = (text, textElement, botMsgDiv) => {
-  textElement.textContent = "";
-  const words = text.split(" ");
+  textElement.innerHTML = "";
+  const html = marked.parse(text); // Convert markdown to HTML
+  const tempDiv = document.createElement("div");
+  tempDiv.innerHTML = html;
+  const words = tempDiv.textContent.split(" "); // Just the plain words
+
   let wordIndex = 0;
+  let displayText = "";
+
   typingInterval = setInterval(() => {
     if (wordIndex < words.length) {
-      textElement.textContent += (wordIndex === 0 ? "" : " ") + words[wordIndex++];
+      displayText += (wordIndex === 0 ? "" : " ") + words[wordIndex++];
+      textElement.textContent = displayText;
       scrollToBottom();
     } else {
       clearInterval(typingInterval);
+      textElement.innerHTML = html; // Replace with full parsed HTML after typing
       botMsgDiv.classList.remove("loading");
       document.body.classList.remove("bot-responding");
     }
@@ -110,7 +118,7 @@ const handleFormSubmit = (e) => {
   scrollToBottom();
 
   setTimeout(() => {
-    const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <p class="message-text">Loading...</p>`;
+    const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <div class="message-text">Loading...</div>`;
     const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
     chatsContainer.appendChild(botMsgDiv);
     scrollToBottom();
