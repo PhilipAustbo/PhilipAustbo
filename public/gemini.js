@@ -158,7 +158,6 @@ fileInput.addEventListener("change", () => {
   };
 });
 
-
 document.querySelector("#cancel-file-btn").addEventListener("click", () => {
   userData.file = {};
   fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");

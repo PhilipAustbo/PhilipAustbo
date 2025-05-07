@@ -5,6 +5,14 @@ let controlMode = null;
 let playerName = null;
 let playerCount = JSON.parse(localStorage.getItem("pongPlayerCount")) || 1;
 
+let paddleLeftY = 210;
+let keysPressed = {
+  ArrowUp: false,
+  ArrowDown: false,
+};
+const paddleSpeed = 7; // feel free to increase this
+
+
 function startGame(selectedControl) {
   // Get player name or assign default
   const nameInput = document.getElementById("player-name").value.trim();
@@ -143,6 +151,17 @@ function initGame() {
       ballX = gameWidth - (paddleWidth + 10) - 15;
     }
 
+    if (controlMode === "keyboard") {
+      if (keysPressed.ArrowUp) {
+        paddleLeftY = Math.max(paddleLeftY - paddleSpeed, 0);
+      }
+      if (keysPressed.ArrowDown) {
+        paddleLeftY = Math.min(paddleLeftY + paddleSpeed, gameHeight - paddleHeight);
+      }
+      paddleLeft.style.top = `${paddleLeftY}px`;
+    }
+    
+
     // Reset if player misses
     if (ballX < 0) {
       resetBall();
@@ -158,8 +177,8 @@ function initGame() {
     requestAnimationFrame(update);
   }
 
-  // Paddle control setup
-  let paddleLeftY = 210;
+
+  
 
   if (controlMode === "mouse") {
     document.addEventListener("mousemove", (e) => {
@@ -172,12 +191,14 @@ function initGame() {
     });
   } else if (controlMode === "keyboard") {
     document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowUp") {
-        paddleLeftY = Math.max(paddleLeftY - 10, 0);
-      } else if (e.key === "ArrowDown") {
-        paddleLeftY = Math.min(paddleLeftY + 10, gameHeight - paddleHeight);
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        keysPressed[e.key] = true;
       }
-      paddleLeft.style.top = `${paddleLeftY}px`;
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        keysPressed[e.key] = false;
+      }
     });
   }
 
