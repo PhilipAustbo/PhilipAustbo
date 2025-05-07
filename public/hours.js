@@ -180,3 +180,4 @@ document.querySelectorAll('#barChart .bar').forEach((bar, i) => {
   const percent = (hours / maxHours) * 100;
   bar.innerHTML = `<span>${label} (${hours} hrs)</span><div style="width: ${percent}%; background:#0a3d62; height: 24px; border-radius: 6px; margin-top: 5px;"></div>`;
 });
+

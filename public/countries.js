@@ -481,3 +481,4 @@ document.getElementById('travelModal')?.addEventListener('click', function (even
     this.style.display = 'none';
   }
 });
+
