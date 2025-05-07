@@ -27,28 +27,29 @@ const createMessageElement = (content, ...classes) => {
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
 const typingEffect = (text, textElement, botMsgDiv) => {
-  textElement.innerHTML = "";
-  const html = marked.parse(text); // Convert markdown to HTML
+  const html = marked.parse(text); // parse full markdown
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
-  const words = tempDiv.textContent.split(" "); // Just the plain words
+  const children = Array.from(tempDiv.children);
 
-  let wordIndex = 0;
-  let displayText = "";
+  textElement.innerHTML = "";
+  let i = 0;
 
-  typingInterval = setInterval(() => {
-    if (wordIndex < words.length) {
-      displayText += (wordIndex === 0 ? "" : " ") + words[wordIndex++];
-      textElement.textContent = displayText;
+  const showNextChunk = () => {
+    if (i < children.length) {
+      textElement.appendChild(children[i]);
+      i++;
       scrollToBottom();
+      setTimeout(showNextChunk, 300); // delay per chunk
     } else {
-      clearInterval(typingInterval);
-      textElement.innerHTML = html; // Replace with full parsed HTML after typing
       botMsgDiv.classList.remove("loading");
       document.body.classList.remove("bot-responding");
     }
-  }, 40);
+  };
+
+  showNextChunk();
 };
+
 
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
