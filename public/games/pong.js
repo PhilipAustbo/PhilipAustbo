@@ -10,11 +10,9 @@ let keysPressed = {
   ArrowUp: false,
   ArrowDown: false,
 };
-const paddleSpeed = 7; // feel free to increase this
-
+const paddleSpeed = 7;
 
 function startGame(selectedControl) {
-  // Get player name or assign default
   const nameInput = document.getElementById("player-name").value.trim();
   if (nameInput) {
     playerName = nameInput;
@@ -25,17 +23,17 @@ function startGame(selectedControl) {
   }
 
   controlMode = selectedControl;
-
   document.getElementById("setup-overlay").style.display = "none";
   initGame();
 }
 
 function initGame() {
+  const game = document.getElementById("game");
   const ball = document.getElementById("ball");
   const paddleLeft = document.getElementById("paddle-left");
   const paddleRight = document.getElementById("paddle-right");
 
-  // Hit counter display
+  // Displays
   const hitDisplay = document.createElement("div");
   hitDisplay.style.color = "white";
   hitDisplay.style.fontSize = "20px";
@@ -43,9 +41,8 @@ function initGame() {
   hitDisplay.style.bottom = "20px";
   hitDisplay.style.left = "20px";
   hitDisplay.textContent = "Hits: 0";
-  document.getElementById("game").appendChild(hitDisplay);
+  game.appendChild(hitDisplay);
 
-  // High score display
   const highScoreDisplay = document.createElement("div");
   highScoreDisplay.style.color = "white";
   highScoreDisplay.style.fontSize = "20px";
@@ -53,9 +50,8 @@ function initGame() {
   highScoreDisplay.style.bottom = "20px";
   highScoreDisplay.style.right = "20px";
   highScoreDisplay.textContent = "High Score: 0";
-  document.getElementById("game").appendChild(highScoreDisplay);
+  game.appendChild(highScoreDisplay);
 
-  // Leaderboard display
   const leaderboard = document.createElement("div");
   leaderboard.style.color = "white";
   leaderboard.style.fontSize = "16px";
@@ -63,9 +59,8 @@ function initGame() {
   leaderboard.style.top = "20px";
   leaderboard.style.right = "20px";
   leaderboard.innerHTML = "<strong>Leaderboard</strong><br>(Top 5 Hits)";
-  document.getElementById("game").appendChild(leaderboard);
+  game.appendChild(leaderboard);
 
-  // Load leaderboard from localStorage
   let leaderboardScores = JSON.parse(localStorage.getItem("pongLeaderboard")) || [];
 
   function renderLeaderboard() {
@@ -80,12 +75,10 @@ function initGame() {
   // Game variables
   let playerHits = 0;
   let highScore = 0;
-
   let ballX = gameWidth / 2;
   let ballY = gameHeight / 2;
   let ballSpeedX = 4;
   let ballSpeedY = 4;
-
   const paddleWidth = 10;
   const paddleHeight = 80;
 
@@ -94,40 +87,47 @@ function initGame() {
     ballY = gameHeight / 2;
     ballSpeedX *= -1;
 
-    // Update leaderboard if player had hits
     if (playerHits > 0) {
       leaderboardScores.push({ name: playerName, hits: playerHits });
       leaderboardScores.sort((a, b) => b.hits - a.hits);
-      leaderboardScores = leaderboardScores.slice(0, 5); // keep top 5
-
-      // Save to localStorage
+      leaderboardScores = leaderboardScores.slice(0, 5);
       localStorage.setItem("pongLeaderboard", JSON.stringify(leaderboardScores));
       renderLeaderboard();
     }
 
-    // Reset hit streak
     playerHits = 0;
     hitDisplay.textContent = `Hits: ${playerHits}`;
   }
 
   function update() {
-    // Move ball
+    // Update paddle movement for keyboard
+    if (controlMode === "keyboard") {
+      if (keysPressed.ArrowUp) {
+        paddleLeftY = Math.max(paddleLeftY - paddleSpeed, 0);
+      }
+      if (keysPressed.ArrowDown) {
+        paddleLeftY = Math.min(paddleLeftY + paddleSpeed, gameHeight - paddleHeight);
+      }
+      paddleLeft.style.top = `${paddleLeftY}px`;
+    }
+
+    // Ball movement
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    // Bounce off top and bottom
+    // Bounce top/bottom
     if (ballY <= 0 || ballY + 15 >= gameHeight) {
       ballSpeedY *= -1;
     }
 
-    const paddleLeftY = parseInt(paddleLeft.style.top);
-    const paddleRightY = parseInt(paddleRight.style.top);
+    const paddleLeftTop = parseInt(paddleLeft.style.top);
+    const paddleRightTop = parseInt(paddleRight.style.top);
 
     // Left paddle collision
     if (
       ballX <= paddleWidth + 10 &&
-      ballY + 15 >= paddleLeftY &&
-      ballY <= paddleLeftY + paddleHeight
+      ballY + 15 >= paddleLeftTop &&
+      ballY <= paddleLeftTop + paddleHeight
     ) {
       ballSpeedX *= -1;
       ballX = paddleWidth + 10;
@@ -144,42 +144,29 @@ function initGame() {
     // Right paddle collision (AI)
     if (
       ballX + 15 >= gameWidth - (paddleWidth + 10) &&
-      ballY + 15 >= paddleRightY &&
-      ballY <= paddleRightY + paddleHeight
+      ballY + 15 >= paddleRightTop &&
+      ballY <= paddleRightTop + paddleHeight
     ) {
       ballSpeedX *= -1;
       ballX = gameWidth - (paddleWidth + 10) - 15;
     }
 
-    if (controlMode === "keyboard") {
-      if (keysPressed.ArrowUp) {
-        paddleLeftY = Math.max(paddleLeftY - paddleSpeed, 0);
-      }
-      if (keysPressed.ArrowDown) {
-        paddleLeftY = Math.min(paddleLeftY + paddleSpeed, gameHeight - paddleHeight);
-      }
-      paddleLeft.style.top = `${paddleLeftY}px`;
-    }
-    
-
-    // Reset if player misses
+    // Missed ball
     if (ballX < 0) {
       resetBall();
     }
 
-    // AI unbeatable: follow ball
+    // AI paddle follows ball
     paddleRight.style.top = `${Math.min(Math.max(ballY - paddleHeight / 2, 0), gameHeight - paddleHeight)}px`;
 
-    // Ball position
+    // Ball position update
     ball.style.left = `${ballX}px`;
     ball.style.top = `${ballY}px`;
 
     requestAnimationFrame(update);
   }
 
-
-  
-
+  // Mouse or keyboard control setup
   if (controlMode === "mouse") {
     document.addEventListener("mousemove", (e) => {
       const gameTop = game.getBoundingClientRect().top;
@@ -202,7 +189,7 @@ function initGame() {
     });
   }
 
-  // Set initial paddle positions
+  // Initial paddle positions
   paddleLeft.style.top = "210px";
   paddleRight.style.top = "210px";
 
