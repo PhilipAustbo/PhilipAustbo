@@ -466,6 +466,10 @@
     display: block;
     transition: transform 0.2s ease;
   }
+
+  .linkedin {
+    height: 50px !important; 
+  }
   
   .social-icon:hover {
     transform: scale(1.1);
