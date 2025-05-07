@@ -33,7 +33,7 @@ header {
   left: 0;
   width: 100%;
   background-color: var(--primary);
-  z-index: 100;
+  z-index: 1001;
   transition: all 0.3s ease;
 }
 
@@ -93,7 +93,7 @@ nav a:hover::after {
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 101;
+  z-index: 1002;
 }
 
 .burger .line {
@@ -160,7 +160,7 @@ nav a:hover::after {
   padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 1002;
   font-size: 16px;
 }
 
