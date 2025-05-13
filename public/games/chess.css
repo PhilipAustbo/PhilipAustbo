@@ -38,4 +38,21 @@
     outline: 3px solid red;
     outline-offset: -3px;
   }
+  .square {
+    position: relative; /* ← this is key */
+  }
+  
+  
+  .square.highlight::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.2); /* dark transparent circle */
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
   
