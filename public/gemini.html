@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="gemini.css" />
 </head>
 <body>
-  <a class="homebutton" href="index.html" aria-label="Go to home">Home</a>
-  <a class="newchat" href="gemini.html" aria-label="Start a new chat">New Chat</a>
+  <a class="homebutton" href="index.html">Home</a>
+  <a class="newchat" href="gemini.html">New Chat</a>
 
   <div class="container">
     <!-- App Header -->
@@ -20,50 +20,59 @@
       <h4 class="sub-heading">How can I help you today?</h4>
     </header>
 
-    <!-- Suggestions List (buttons for accessibility) -->
-    <ul class="suggestions" role="list">
-      <li class="suggestions-item"><button type="button" class="suggestion-btn">Tell me about Philip Austbø.</button></li>
-      <li class="suggestions-item"><button type="button" class="suggestion-btn">How can I level up my web development expertise in 2025?</button></li>
-      <li class="suggestions-item"><button type="button" class="suggestion-btn">Suggest some useful tools for debugging JavaScript code.</button></li>
-      <li class="suggestions-item"><button type="button" class="suggestion-btn">Who won the world cup in football 2010</button></li>
+    <!-- Suggestions List -->
+    <ul class="suggestions">
+      <li class="suggestions-item">
+        <p class="text">Tell me about Philip Austbø.</p>
+        <span class="icon material-symbols-rounded">draw</span>
+      </li>
+      <li class="suggestions-item">
+        <p class="text">How can I level up my web development expertise in 2025?</p>
+        <span class="icon material-symbols-rounded">lightbulb</span>
+      </li>
+      <li class="suggestions-item">
+        <p class="text">Suggest some useful tools for debugging JavaScript code.</p>
+        <span class="icon material-symbols-rounded">explore</span>
+      </li>
+      <li class="suggestions-item">
+        <p class="text">Who won the world cup in football 2010</p>
+        <span class="icon material-symbols-rounded">code_blocks</span>
+      </li>
     </ul>
 
     <!-- Chats Container -->
-    <div class="chats-container" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <div class="chats-container"></div>
 
     <!-- Prompt Input -->
     <div class="prompt-container">
       <div class="prompt-wrapper">
-        <form action="#" class="prompt-form" aria-label="Chat prompt form">
-          <input type="text" placeholder="Write Prompt" class="prompt-input" required aria-label="Message input" />
+        <form action="#" class="prompt-form">
+          <input type="text" placeholder="Write prompt" class="prompt-input" required />
           <div class="prompt-actions">
             <!-- File Upload -->
-            <div class="file-upload-wrapper" aria-label="File upload controls">
-              <img src="#" class="file-preview" alt="File preview" />
+            <div class="file-upload-wrapper">
+              <img src="#" class="file-preview" />
               <input id="file-input" type="file" accept="image/*, .pdf, .txt, .csv" hidden />
-              <button type="button" class="file-icon material-symbols-rounded" aria-label="Show attached file">description</button>
-              <button id="cancel-file-btn" type="button" class="material-symbols-rounded" aria-label="Remove attached file">close</button>
-              <button id="add-file-btn" type="button" class="material-symbols-rounded" aria-label="Attach a file">attach_file</button>
+              <button type="button" class="file-icon material-symbols-rounded">description</button>
+              <button id="cancel-file-btn" type="button" class="material-symbols-rounded">close</button>
+              <button id="add-file-btn" type="button" class="material-symbols-rounded">attach_file</button>
             </div>
 
             <!-- Send + Stop Buttons -->
-            <button id="stop-response-btn" type="button" class="material-symbols-rounded" aria-label="Stop response">stop_circle</button>
-            <button id="send-prompt-btn" class="material-symbols-rounded" aria-label="Send message">arrow_upward</button>
+            <button id="stop-response-btn" type="button" class="material-symbols-rounded">stop_circle</button>
+            <button id="send-prompt-btn" class="material-symbols-rounded">arrow_upward</button>
           </div>
         </form>
 
         <!-- Theme + Delete -->
-        <button id="theme-toggle-btn" class="material-symbols-rounded" aria-label="Toggle theme">light_mode</button>
-        <button id="delete-chats-btn" class="material-symbols-rounded" aria-label="Delete chat history">delete</button>
+        <button id="theme-toggle-btn" class="material-symbols-rounded">light_mode</button>
+        <button id="delete-chats-btn" class="material-symbols-rounded">delete</button>
       </div>
 
       <p class="disclaimer-text">AI can make mistakes, so double-check it.</p>
     </div>
   </div>
-
-  <!-- Markdown parser + Sanitizer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
   <script src="gemini.js"></script>
 </body>
 </html>
