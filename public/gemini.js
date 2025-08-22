@@ -1,4 +1,3 @@
-// ===== DOM references =====
 const container = document.querySelector(".container");
 const chatsContainer = document.querySelector(".chats-container");
 const promptForm = document.querySelector(".prompt-form");
@@ -7,37 +6,17 @@ const fileInput = promptForm.querySelector("#file-input");
 const fileUploadWrapper = promptForm.querySelector(".file-upload-wrapper");
 const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 const sendPromptBtn = document.querySelector("#send-prompt-btn");
-const suggestionButtons = document.querySelectorAll(".suggestion-btn");
 
-const API_URL = "/api/ask";
+const API_URL = "/api/ask"; // updated endpoint
 
-// ===== System context (goes on every request) =====
-const SYSTEM_CONTEXT_TEXT = `You are an AI assistant representing Philip Tinius Riise Austbø to recruiters and hiring managers.
-Your goals: (1) showcase Philip's fit for roles in finance/consulting, (2) answer recruiter-style questions concisely and professionally, (3) proactively offer to share relevant projects or experience when helpful.
-
-About Philip (public profile):
-- Education: Master's in Finance at NHH (Norwegian School of Economics).
-- Experience: EY (assurance/audit), DNV Dubai (aquaculture consulting, Sept–Oct 2025), various data/tech side projects (interactive portfolio, games, chatbot).
-- Interests: corporate finance, strategy, data analysis, sustainability; competitive football with leadership experience.
-- Style: friendly, concise, evidence-based; avoid overselling—use concrete examples.
-
-Behavior:
-- If asked about Philip, give a crisp summary first, then offer deeper details (education, internships, leadership, tech skills, notable projects, links to portfolio pages).
-- For general finance/strategy/tech questions, answer well and (when relevant) connect to Philip's experience.
-- If a question could be about Philip or general, ask: "Shall I relate this to Philip or keep it general?"`;
-
-// ===== State =====
 let controller, typingInterval;
-let isFirstExchange = true;
-const chatHistory = []; // we will push the system on each request; we also maintain conversation turns here
+const chatHistory = [];
 const userData = { message: "", file: {} };
 
-// ===== Theme init =====
 const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
 document.body.classList.toggle("light-theme", isLightTheme);
-if (themeToggleBtn) themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
+themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 
-// ===== Helpers =====
 const createMessageElement = (content, ...classes) => {
   const div = document.createElement("div");
   div.classList.add("message", ...classes);
@@ -45,37 +24,14 @@ const createMessageElement = (content, ...classes) => {
   return div;
 };
 
-const scrollToBottom = () =>
-  container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
-const escapeHTML = (s) =>
-  s.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
-
-const postProcessLinks = (root) => {
-  root.querySelectorAll("a").forEach((a) => {
-    a.setAttribute("target", "_blank");
-    a.setAttribute("rel", "noopener noreferrer");
-  });
-};
-
-const setBusy = (busy) => {
-  document.body.classList.toggle("bot-responding", busy);
-  sendPromptBtn.disabled = busy;
-  sendPromptBtn.setAttribute("aria-disabled", String(busy));
-};
-
-// ===== Typing effect with safe HTML =====
 const typingEffect = (text, textElement, botMsgDiv) => {
-  clearInterval(typingInterval);
   textElement.innerHTML = "";
-
-  const htmlUnsafe = marked.parse(text || "");
-  const htmlSafe = DOMPurify.sanitize(htmlUnsafe, { USE_PROFILES: { html: true } });
-
-  // Build word-by-word using plain text (from sanitized HTML)
+  const html = marked.parse(text); // Convert markdown to HTML
   const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = htmlSafe;
-  const words = tempDiv.textContent.split(/\s+/).filter(Boolean);
+  tempDiv.innerHTML = html;
+  const words = tempDiv.textContent.split(" "); // Just the plain words
 
   let wordIndex = 0;
   let displayText = "";
@@ -87,27 +43,28 @@ const typingEffect = (text, textElement, botMsgDiv) => {
       scrollToBottom();
     } else {
       clearInterval(typingInterval);
-      textElement.innerHTML = htmlSafe; // swap to full sanitized HTML
-      postProcessLinks(textElement);
+      textElement.innerHTML = html; // Replace with full parsed HTML after typing
       botMsgDiv.classList.remove("loading");
-      setBusy(false);
+      document.body.classList.remove("bot-responding");
     }
   }, 40);
 };
 
-// ===== Networking =====
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
 
   const fullHistory = [
-    { role: "system", parts: [{ text: SYSTEM_CONTEXT_TEXT }] },
     ...chatHistory,
     {
       role: "user",
       parts: [
         { text: userData.message },
-        ...(userData.file.data ? [{ inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file) }] : []),
+        ...(userData.file.data
+          ? [{
+              inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file),
+            }]
+          : []),
       ],
     },
   ];
@@ -120,94 +77,66 @@ const generateResponse = async (botMsgDiv) => {
       signal: controller.signal,
     });
 
-    let data;
-    try {
-      data = await response.json();
-    } catch {
-      throw new Error("Invalid JSON from server");
-    }
-    if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
-    if (!data.reply) throw new Error("Empty reply from API");
+    const data = await response.json();
+    if (!response.ok || !data.reply) throw new Error(data.error || "No response from API");
 
-    const responseText = String(data.reply).trim();
+    const responseText = data.reply.trim();
     typingEffect(responseText, textElement, botMsgDiv);
-
-    // store turn (without file to keep memory lean)
     chatHistory.push({ role: "user", parts: [{ text: userData.message }] });
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
     textElement.textContent = `Error: ${error.message}`;
     textElement.style.color = "#d62939";
     botMsgDiv.classList.remove("loading");
-    setBusy(false);
+    document.body.classList.remove("bot-responding");
     scrollToBottom();
   } finally {
     userData.file = {};
   }
 };
 
-// ===== Form handling =====
 const handleFormSubmit = (e) => {
   e.preventDefault();
   const userMessage = promptInput.value.trim();
   if (!userMessage || document.body.classList.contains("bot-responding")) return;
-
   userData.message = userMessage;
   promptInput.value = "";
-  setBusy(true);
+  document.body.classList.add("chats-active", "bot-responding");
   fileUploadWrapper.classList.remove("file-attached", "img-attached", "active");
 
-  // USER message
   const userMsgHTML = `
     <p class="message-text"></p>
-    ${
-      userData.file.data
-        ? userData.file.isImage
-          ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="img-attachment" alt="Image attachment" />`
-          : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${escapeHTML(userData.file.fileName)}</p>`
-        : ""
-    }
+    ${userData.file.data
+      ? (userData.file.isImage
+          ? `<img src="data:${userData.file.mime_type};base64,${userData.file.data}" class="img-attachment" />`
+          : `<p class="file-attachment"><span class="material-symbols-rounded">description</span>${userData.file.fileName}</p>`)
+      : ""}
   `;
   const userMsgDiv = createMessageElement(userMsgHTML, "user-message");
-  if (isFirstExchange) userMsgDiv.classList.add("first-exchange");
   userMsgDiv.querySelector(".message-text").textContent = userData.message;
   chatsContainer.appendChild(userMsgDiv);
-
-  if (isFirstExchange) {
-    chatsContainer.classList.add("first-run");
-  }
-
   scrollToBottom();
 
-  // BOT loading & fetch
   setTimeout(() => {
-    const botMsgHTML = `<img class="avatar" src="gemini.svg" alt="AI avatar" /> <div class="message-text">Loading...</div>`;
+    const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <div class="message-text">Loading...</div>`;
     const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
-    if (isFirstExchange) botMsgDiv.classList.add("first-exchange");
     chatsContainer.appendChild(botMsgDiv);
     scrollToBottom();
     generateResponse(botMsgDiv);
-
-    if (isFirstExchange) {
-      // visually nudge to “center” the first pair a bit
-      setTimeout(() => container.scrollBy({ top: 120, behavior: "smooth" }), 100);
-      isFirstExchange = false;
-    }
-  }, 300);
+  }, 600);
 };
 
 promptForm.addEventListener("submit", handleFormSubmit);
-
-// ===== File upload =====
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (!file) return;
 
   const MAX_FILE_SIZE_MB = 4.5;
   const fileSizeMB = file.size / (1024 * 1024);
+
   if (fileSizeMB > MAX_FILE_SIZE_MB) {
     alert(`File too large! Max file size is ${MAX_FILE_SIZE_MB} MB. Your file is ${fileSizeMB.toFixed(2)} MB.`);
-    fileInput.value = "";
+    fileInput.value = ""; // reset input
     return;
   }
 
@@ -240,14 +169,13 @@ document.querySelector("#stop-response-btn").addEventListener("click", () => {
   clearInterval(typingInterval);
   const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
   if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
-  setBusy(false);
+  document.body.classList.remove("bot-responding");
 });
 
-// ===== Theme & housekeeping =====
 themeToggleBtn.addEventListener("click", () => {
-  const isLight = document.body.classList.toggle("light-theme");
-  localStorage.setItem("themeColor", isLight ? "light_mode" : "dark_mode");
-  themeToggleBtn.textContent = isLight ? "dark_mode" : "light_mode";
+  const isLightTheme = document.body.classList.toggle("light-theme");
+  localStorage.setItem("themeColor", isLightTheme ? "light_mode" : "dark_mode");
+  themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 });
 
 document.querySelector("#delete-chats-btn").addEventListener("click", () => {
@@ -256,39 +184,56 @@ document.querySelector("#delete-chats-btn").addEventListener("click", () => {
   document.body.classList.remove("chats-active", "bot-responding");
 });
 
-// ===== Suggestions -> submit =====
-suggestionButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    promptInput.value = btn.textContent;
+document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
+  suggestion.addEventListener("click", () => {
+    promptInput.value = suggestion.querySelector(".text").textContent;
     promptForm.dispatchEvent(new Event("submit"));
   });
 });
 
-// ===== Optional: on-demand CV preload (call only when needed) =====
+document.addEventListener("click", ({ target }) => {
+  const wrapper = document.querySelector(".prompt-wrapper");
+  const shouldHide = target.classList.contains("prompt-input") ||
+    (wrapper.classList.contains("hide-controls") && (target.id === "add-file-btn" || target.id === "stop-response-btn"));
+  wrapper.classList.toggle("hide-controls", shouldHide);
+});
+
+promptForm.querySelector("#add-file-btn").addEventListener("click", () => fileInput.click());
+
 const preloadCV = async () => {
   try {
     const response = await fetch("Philip_Austbo_CV.pdf");
-    if (!response.ok) return;
     const blob = await response.blob();
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = () => {
       const base64data = reader.result.split(",")[1];
-      const pdfPart = { inline_data: { mime_type: "application/pdf", data: base64data } };
-      // You can push a context turn that includes the CV as inline data (optional):
-      chatHistory.push({
-        role: "user",
-        parts: [
-          {
-            text:
-              "Context document: Philip's CV (use for answering recruiter questions concisely and accurately).",
-          },
-          pdfPart,
-        ],
-      });
+      const pdfPart = {
+        inline_data: { mime_type: "application/pdf", data: base64data },
+      };
+      chatHistory.push({ role: "user", parts: [{ text: 
+      `You are an assistant for Philip Austbø.
+      Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
+      He is passionate about finance, strategy, and data analysis, and plays football competitively.
+      **Behavior Instructions:**
+      1. When greeted (e.g., "hello", "hi", "hey"), respond warmly with:
+      - “Hello! How can I help you today? Are you interested in learning more about Philip, or would you like to ask something else?” However, only when greeted with these words.
+      - if the greeting is not a typical thing to say, e.g hello, then respond how you normally would.
+      2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
+      3. If someone asks **general finance, strategy, or technology questions**:
+      - Answer knowledgeably.
+      - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic...”).
+      - If not related to Philip, answer normally, do not talk about Philip when not relevant.
+      4. If unsure whether the question is about Philip or a general topic, ask for clarification:
+      - “Would you like me to relate this to Philip’s background or provide a general answer?”
+      5. When asked "Tell me about Philip Austbø" you should give a short overview of his personal and professional life. Then and ask if the user wants to learn more.
+      6. Be friendly, professional, and speak warmly of Philip.
+      7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.`
+     }, pdfPart] });
     };
   } catch (err) {
     console.error("CV preload failed:", err);
   }
 };
-// Example usage: call preloadCV() before the first recruiter-style question if you want CV included.
+
+preloadCV();
