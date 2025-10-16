@@ -361,12 +361,25 @@ const visitedMemories = {
     ] }
   ]
 };
-// ---- Utility: is video file?
-function isVideo(src = "") {
-  return /\.mp4($|\?)/i.test(src);
-}
+/*****************  INSERT YOUR visitedMemories OBJECT HERE  *****************
+Paste your full visitedMemories object below (exactly as you have it) and
+delete this note. Make sure the keys match country names like "France",
+"Germany", "United States of America", etc.
+***************************************************************************/
 
-// ---- Utility: create media element (img or video)
+// Example structure (REMOVE this example and paste yours):
+// const visitedMemories = {
+//   "Norway": { title: "...", description: "...", images: ["image/norge.jpg"] },
+//   "United Kingdom": [ { name: "London ...", description: "...", images: [...] } ],
+//   ...
+// };
+
+/***********************  END visitedMemories INSERT  ************************/
+
+
+// ---- Helpers
+function isVideo(src = "") { return /\.mp4($|\?)/i.test(src); }
+
 function createMediaEl(src, alt) {
   if (isVideo(src)) {
     const v = document.createElement('video');
@@ -377,17 +390,71 @@ function createMediaEl(src, alt) {
     v.style.maxHeight = '500px';
     v.style.borderRadius = '8px';
     return v;
-  } else {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = alt || '';
-    return img;
   }
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt || '';
+  return img;
 }
 
-// ---- When DOM is ready
+// Normalize/resolve a display name for a Feature from different datasets
+function featureName(props = {}) {
+  return (
+    props.name ||
+    props.ADMIN ||
+    props.NAME ||
+    props.Country ||
+    props.country ||
+    props.admin ||
+    props.sovereignt ||
+    props.SOVEREIGNT ||
+    props.sov_a3 ||
+    ''
+  );
+}
+
+// A tiny inline fallback FeatureCollection so the map *always* shows something
+const FALLBACK_FC = {
+  "type": "FeatureCollection",
+  "features": [
+    // A simple polygon roughly around mainland Norway (very rough),
+    // purely to prove the pipeline works if network fails.
+    {
+      "type": "Feature",
+      "properties": { "name": "Norway" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [4.0, 58.0], [12.0, 58.0], [12.0, 71.0], [24.0, 71.0],
+          [31.0, 70.0], [31.0, 69.0], [24.0, 67.0], [20.0, 65.0],
+          [18.0, 63.0], [14.0, 61.0], [10.0, 60.0], [7.0, 59.0],
+          [4.0, 58.0]
+        ]]
+      }
+    }
+  ]
+};
+
+// If your memories use "United Kingdom" but the dataset says
+// "United Kingdom of Great Britain and Northern Ireland", map aliases here:
+const NAME_ALIASES = {
+  "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
+  "Russian Federation": "Russia",
+  "Czechia": "Czech Republic",
+  "Korea, Republic of": "South Korea",
+  "Korea, Democratic People's Republic of": "North Korea",
+  "United Republic of Tanzania": "Tanzania",
+  "Viet Nam": "Vietnam",
+};
+
+// Resolve final key against visitedMemories (handles aliasing)
+function resolveMemoryKey(rawName) {
+  const candidate = NAME_ALIASES[rawName] || rawName;
+  return candidate;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // ——— Banner: close on X or any click
+  // ——— Banner: close on X or *any* click
   document.getElementById('infoBanner')?.addEventListener('click', (e) => {
     if (e.target.id !== 'closeBanner') e.currentTarget.style.display = 'none';
   });
@@ -407,8 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ——— Leaflet Map init
   const map = L.map('map', {
     zoomControl: false,
-    // Allow dragging by default so it doesn't feel "dead".
-    // If you want a static map, set dragging:false and also disable others.
+    // Keep dragging enabled so it doesn't feel "frozen"
     dragging: true,
     scrollWheelZoom: false,
     doubleClickZoom: false,
@@ -421,92 +487,11 @@ document.addEventListener('DOMContentLoaded', () => {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
-  let geojson;
-
-  // Normalize/resolve a display name for a Feature
-  function featureName(fProps = {}) {
-    // Common properties across datasets
-    return (
-      fProps.name ||
-      fProps.ADMIN ||
-      fProps.NAME ||
-      fProps.Country ||
-      fProps.country ||
-      fProps.admin ||
-      fProps.sovereignt ||
-      fProps.SOVEREIGNT ||
-      fProps.sov_a3 ||
-      ''
-    );
-  }
-
-  function onEachFeature(feature, layer) {
-    const name = featureName(feature.properties || {});
-    // Hover style
-    layer.on('mouseover', function () {
-      this.setStyle({ weight: 2, fillColor: '#06213f', fillOpacity: 1, color: '#06213f' });
-      this.bringToFront();
-    });
-    layer.on('mouseout', function () {
-      geojson.resetStyle(this);
-    });
-
-    // Click opens modal if we have memories
-    if (visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name)) {
-      layer.on('click', () => {
-        const memory = visitedMemories[name];
-
-        const countryTitleEl = document.getElementById('modalCountry');
-        const titleEl = document.getElementById('modalTitle');
-        const descEl = document.getElementById('modalDescription');
-        const imgContainer = document.getElementById('modalImages');
-        const tripSelector = document.getElementById('tripSelector');
-
-        if (!titleEl || !descEl || !imgContainer || !tripSelector || !travelModal) return;
-
-        // Set country title (new h2)
-        if (countryTitleEl) countryTitleEl.textContent = name;
-
-        // Reset containers
-        tripSelector.innerHTML = '';
-        imgContainer.innerHTML = '';
-
-        // If multiple trips (array), build buttons
-        if (Array.isArray(memory)) {
-          memory.forEach((trip, idx) => {
-            const btn = document.createElement('button');
-            btn.textContent = trip.name || `Trip ${idx + 1}`;
-            btn.addEventListener('click', () => {
-              titleEl.textContent = trip.name || name;
-              descEl.textContent = trip.description || '';
-              imgContainer.innerHTML = '';
-              (trip.images || []).forEach(src => {
-                imgContainer.appendChild(createMediaEl(src, trip.name));
-              });
-            });
-            tripSelector.appendChild(btn);
-          });
-          // Auto-select first
-          tripSelector.querySelector('button')?.click();
-        } else {
-          // Single memory object
-          titleEl.textContent = memory.title || name;
-          descEl.textContent = memory.description || '';
-          (memory.images || []).forEach(src => {
-            imgContainer.appendChild(createMediaEl(src, memory.title));
-          });
-        }
-
-        travelModal.style.display = 'block';
-      });
-    }
-  }
-
-  // Style countries: highlight visited
-  geojson = L.geoJSON(null, {
+  let geojson = L.geoJSON(null, {
     style: (feature) => {
-      const name = featureName(feature?.properties || {});
-      const visited = visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name);
+      const raw = featureName(feature?.properties || {});
+      const resolved = resolveMemoryKey(raw);
+      const visited = visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, resolved);
       return {
         color: '#0a3d62',
         weight: 1,
@@ -514,15 +499,70 @@ document.addEventListener('DOMContentLoaded', () => {
         fillOpacity: visited ? 0.85 : 0.2
       };
     },
-    onEachFeature
+    onEachFeature: (feature, layer) => {
+      const raw = featureName(feature?.properties || {});
+      const name = resolveMemoryKey(raw);
+
+      layer.on('mouseover', function () {
+        this.setStyle({ weight: 2, fillColor: '#06213f', fillOpacity: 1, color: '#06213f' });
+        this.bringToFront();
+      });
+      layer.on('mouseout', function () {
+        geojson.resetStyle(this);
+      });
+
+      if (visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name)) {
+        layer.on('click', () => {
+          const memory = visitedMemories[name];
+
+          const countryTitleEl = document.getElementById('modalCountry');
+          const titleEl = document.getElementById('modalTitle');
+          const descEl = document.getElementById('modalDescription');
+          const imgContainer = document.getElementById('modalImages');
+          const tripSelector = document.getElementById('tripSelector');
+
+          if (!titleEl || !descEl || !imgContainer || !tripSelector || !travelModal) return;
+
+          if (countryTitleEl) countryTitleEl.textContent = name;
+
+          tripSelector.innerHTML = '';
+          imgContainer.innerHTML = '';
+
+          if (Array.isArray(memory)) {
+            memory.forEach((trip, idx) => {
+              const btn = document.createElement('button');
+              btn.textContent = trip.name || `Trip ${idx + 1}`;
+              btn.addEventListener('click', () => {
+                titleEl.textContent = trip.name || name;
+                descEl.textContent = trip.description || '';
+                imgContainer.innerHTML = '';
+                (trip.images || []).forEach(src => {
+                  imgContainer.appendChild(createMediaEl(src, trip.name));
+                });
+              });
+              tripSelector.appendChild(btn);
+            });
+            tripSelector.querySelector('button')?.click();
+          } else {
+            titleEl.textContent = memory.title || name;
+            descEl.textContent = memory.description || '';
+            (memory.images || []).forEach(src => {
+              imgContainer.appendChild(createMediaEl(src, memory.title));
+            });
+          }
+
+          travelModal.style.display = 'block';
+        });
+      }
+    }
   }).addTo(map);
 
-  // Load world countries GeoJSON from multiple sources (robust)
+  // ——— Robust world GeoJSON loader with multiple sources + fallback
   (async function loadWorldGeoJSON() {
     const sources = [
       // Stable mirror (Natural Earth via geojson.xyz)
       'https://geojson.xyz/world/ne_110m_admin_0_countries.geojson',
-      // Original (can be throttled sometimes)
+      // Original GitHub dataset (can be rate-limited sometimes)
       'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
     ];
 
@@ -539,10 +579,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ensure FeatureCollection shape
         const fc = data.features ? data : { type: 'FeatureCollection', features: data };
 
-        // Normalize properties so "name" exists
+        // Normalize: ensure props.name exists and apply alias mapping
         fc.features = fc.features.map(f => {
           f.properties = f.properties || {};
-          f.properties.name = featureName(f.properties);
+          const raw = featureName(f.properties);
+          f.properties.name = resolveMemoryKey(raw);
           return f;
         });
 
@@ -554,6 +595,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    console.error('All GeoJSON sources failed to load.');
+    // If all network sources fail, draw the fallback shape
+    console.error('All GeoJSON sources failed. Using inline fallback.');
+    try {
+      geojson.addData(FALLBACK_FC);
+    } catch (e) {
+      console.error('Failed to load fallback FC:', e);
+    }
   })();
 });
