@@ -361,23 +361,10 @@ const visitedMemories = {
     ] }
   ]
 };
-/*****************  INSERT YOUR visitedMemories OBJECT HERE  *****************
-Paste your full visitedMemories object below (exactly as you have it) and
-delete this note. Make sure the keys match country names like "France",
-"Germany", "United States of America", etc.
-***************************************************************************/
 
-// Example structure (REMOVE this example and paste yours):
-// const visitedMemories = {
-//   "Norway": { title: "...", description: "...", images: ["image/norge.jpg"] },
-//   "United Kingdom": [ { name: "London ...", description: "...", images: [...] } ],
-//   ...
-// };
+const visitedMemories = (typeof window !== "undefined" && window.visitedMemories) || (typeof visitedMemories !== "undefined" && visitedMemories) || {};
 
-/***********************  END visitedMemories INSERT  ************************/
-
-
-// ---- Helpers
+// ---- Small helpers
 function isVideo(src = "") { return /\.mp4($|\?)/i.test(src); }
 
 function createMediaEl(src, alt) {
@@ -413,30 +400,7 @@ function featureName(props = {}) {
   );
 }
 
-// A tiny inline fallback FeatureCollection so the map *always* shows something
-const FALLBACK_FC = {
-  "type": "FeatureCollection",
-  "features": [
-    // A simple polygon roughly around mainland Norway (very rough),
-    // purely to prove the pipeline works if network fails.
-    {
-      "type": "Feature",
-      "properties": { "name": "Norway" },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [4.0, 58.0], [12.0, 58.0], [12.0, 71.0], [24.0, 71.0],
-          [31.0, 70.0], [31.0, 69.0], [24.0, 67.0], [20.0, 65.0],
-          [18.0, 63.0], [14.0, 61.0], [10.0, 60.0], [7.0, 59.0],
-          [4.0, 58.0]
-        ]]
-      }
-    }
-  ]
-};
-
-// If your memories use "United Kingdom" but the dataset says
-// "United Kingdom of Great Britain and Northern Ireland", map aliases here:
+// Map dataset names to your memory keys if they differ
 const NAME_ALIASES = {
   "United Kingdom of Great Britain and Northern Ireland": "United Kingdom",
   "Russian Federation": "Russia",
@@ -445,16 +409,33 @@ const NAME_ALIASES = {
   "Korea, Democratic People's Republic of": "North Korea",
   "United Republic of Tanzania": "Tanzania",
   "Viet Nam": "Vietnam",
+  "United States": "United States of America",
 };
 
-// Resolve final key against visitedMemories (handles aliasing)
 function resolveMemoryKey(rawName) {
-  const candidate = NAME_ALIASES[rawName] || rawName;
-  return candidate;
+  return NAME_ALIASES[rawName] || rawName;
 }
 
+// Tiny inline fallback so the map shows *something* even if all network calls fail
+const FALLBACK_FC = {
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "properties": { "name": "Norway" },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[
+        [4.0, 58.0], [12.0, 58.0], [12.0, 71.0], [24.0, 71.0],
+        [31.0, 70.0], [31.0, 69.0], [24.0, 67.0], [20.0, 65.0],
+        [18.0, 63.0], [14.0, 61.0], [10.0, 60.0], [7.0, 59.0],
+        [4.0, 58.0]
+      ]]
+    }
+  }]
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-  // ——— Banner: close on X or *any* click
+  // ——— Info banner: close on X or any click
   document.getElementById('infoBanner')?.addEventListener('click', (e) => {
     if (e.target.id !== 'closeBanner') e.currentTarget.style.display = 'none';
   });
@@ -463,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (b) b.style.display = 'none';
   });
 
-  // ——— Modal close buttons/behavior
+  // ——— Modal close behavior
   const travelModal = document.getElementById('travelModal');
   const modalClose = document.getElementById('modalClose');
   modalClose?.addEventListener('click', () => { if (travelModal) travelModal.style.display = 'none'; });
@@ -471,11 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (evt.target === travelModal) travelModal.style.display = 'none';
   });
 
-  // ——— Leaflet Map init
+  // ——— Leaflet map
   const map = L.map('map', {
     zoomControl: false,
-    // Keep dragging enabled so it doesn't feel "frozen"
-    dragging: true,
+    dragging: true,          // keep dragging on so it doesn't feel "dead"
     scrollWheelZoom: false,
     doubleClickZoom: false,
     boxZoom: false,
@@ -491,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
     style: (feature) => {
       const raw = featureName(feature?.properties || {});
       const resolved = resolveMemoryKey(raw);
-      const visited = visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, resolved);
+      const visited = Object.prototype.hasOwnProperty.call(visitedMemories, resolved);
       return {
         color: '#0a3d62',
         weight: 1,
@@ -511,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         geojson.resetStyle(this);
       });
 
-      if (visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name)) {
+      if (Object.prototype.hasOwnProperty.call(visitedMemories, name)) {
         layer.on('click', () => {
           const memory = visitedMemories[name];
 
@@ -557,13 +537,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }).addTo(map);
 
-  // ——— Robust world GeoJSON loader with multiple sources + fallback
+  // ——— Robust loader with multiple sources + graceful fallback
   (async function loadWorldGeoJSON() {
     const sources = [
-      // Stable mirror (Natural Earth via geojson.xyz)
-      'https://geojson.xyz/world/ne_110m_admin_0_countries.geojson',
-      // Original GitHub dataset (can be rate-limited sometimes)
-      'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+      'https://geojson.xyz/world/ne_110m_admin_0_countries.geojson',           // stable mirror (Natural Earth)
+      'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json' // original
     ];
 
     for (const url of sources) {
@@ -579,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ensure FeatureCollection shape
         const fc = data.features ? data : { type: 'FeatureCollection', features: data };
 
-        // Normalize: ensure props.name exists and apply alias mapping
+        // Normalize names & apply alias mapping
         fc.features = fc.features.map(f => {
           f.properties = f.properties || {};
           const raw = featureName(f.properties);
@@ -595,10 +573,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // If all network sources fail, draw the fallback shape
+    // If all sources fail, paint the inline fallback and surface a friendly message
     console.error('All GeoJSON sources failed. Using inline fallback.');
     try {
       geojson.addData(FALLBACK_FC);
+      const b = document.getElementById('infoBanner');
+      if (b) {
+        b.style.display = 'block';
+        b.textContent = 'Couldn’t load world boundaries (network blocked or offline). Showing a fallback shape so the page still works.';
+      }
     } catch (e) {
       console.error('Failed to load fallback FC:', e);
     }
