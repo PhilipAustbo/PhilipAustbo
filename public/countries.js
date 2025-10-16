@@ -492,6 +492,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (banner) banner.style.display = 'none';
   });
 
+  // Make clicking anywhere on the banner close it too
+document.getElementById('infoBanner')?.addEventListener('click', (e) => {
+  // Let clicks on links inside the banner pass through if you add any later
+  if (e.target.id !== 'closeBanner') {
+    e.currentTarget.style.display = 'none';
+  }
+});
+
+
   // Close modal when clicking outside modal-content
   document.getElementById('travelModal')?.addEventListener('click', function (event) {
     if (event.target === this) {
@@ -500,3 +509,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
 });
+
+fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+  .then(r => r.ok ? r.json() : Promise.reject(r))
+  .then(data => geojson.addData(data))
+  .catch(err => {
+    console.error('Map data fetch failed, loading local copy...', err);
+    fetch('countries.geo.json')            // put a local copy in your project
+      .then(r => r.json())
+      .then(data => geojson.addData(data))
+      .catch(e => console.error('Local map data failed:', e));
+  });
+
