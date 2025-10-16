@@ -361,13 +361,55 @@ const visitedMemories = {
     ] }
   ]
 };
+// ---- Utility: is video file?
+function isVideo(src = "") {
+  return /\.mp4($|\?)/i.test(src);
+}
 
-// Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', function() {
-  
+// ---- Utility: create media element (img or video)
+function createMediaEl(src, alt) {
+  if (isVideo(src)) {
+    const v = document.createElement('video');
+    v.src = src;
+    v.controls = true;
+    v.playsInline = true;
+    v.style.maxWidth = '280px';
+    v.style.maxHeight = '500px';
+    v.style.borderRadius = '8px';
+    return v;
+  } else {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt || '';
+    return img;
+  }
+}
+
+// ---- When DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // ——— Banner: close on X or any click
+  document.getElementById('infoBanner')?.addEventListener('click', (e) => {
+    if (e.target.id !== 'closeBanner') e.currentTarget.style.display = 'none';
+  });
+  document.getElementById('closeBanner')?.addEventListener('click', () => {
+    const b = document.getElementById('infoBanner');
+    if (b) b.style.display = 'none';
+  });
+
+  // ——— Modal close buttons/behavior
+  const travelModal = document.getElementById('travelModal');
+  const modalClose = document.getElementById('modalClose');
+  modalClose?.addEventListener('click', () => { if (travelModal) travelModal.style.display = 'none'; });
+  travelModal?.addEventListener('click', (evt) => {
+    if (evt.target === travelModal) travelModal.style.display = 'none';
+  });
+
+  // ——— Leaflet Map init
   const map = L.map('map', {
     zoomControl: false,
-    dragging: false,
+    // Allow dragging by default so it doesn't feel "dead".
+    // If you want a static map, set dragging:false and also disable others.
+    dragging: true,
     scrollWheelZoom: false,
     doubleClickZoom: false,
     boxZoom: false,
@@ -381,143 +423,137 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let geojson;
 
-  function onEachFeature(feature, layer) {
-    const name = feature.properties.name;
+  // Normalize/resolve a display name for a Feature
+  function featureName(fProps = {}) {
+    // Common properties across datasets
+    return (
+      fProps.name ||
+      fProps.ADMIN ||
+      fProps.NAME ||
+      fProps.Country ||
+      fProps.country ||
+      fProps.admin ||
+      fProps.sovereignt ||
+      fProps.SOVEREIGNT ||
+      fProps.sov_a3 ||
+      ''
+    );
+  }
 
+  function onEachFeature(feature, layer) {
+    const name = featureName(feature.properties || {});
+    // Hover style
     layer.on('mouseover', function () {
       this.setStyle({ weight: 2, fillColor: '#06213f', fillOpacity: 1, color: '#06213f' });
       this.bringToFront();
     });
-
     layer.on('mouseout', function () {
       geojson.resetStyle(this);
     });
 
-    if (visitedMemories[name]) {
+    // Click opens modal if we have memories
+    if (visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name)) {
       layer.on('click', () => {
         const memory = visitedMemories[name];
-        const countryTitle = document.getElementById('modalCountry');
-        const title = document.getElementById('modalTitle');
-        const desc = document.getElementById('modalDescription');
+
+        const countryTitleEl = document.getElementById('modalCountry');
+        const titleEl = document.getElementById('modalTitle');
+        const descEl = document.getElementById('modalDescription');
         const imgContainer = document.getElementById('modalImages');
         const tripSelector = document.getElementById('tripSelector');
-        const modal = document.getElementById('travelModal');
 
-        if (!title || !desc || !imgContainer || !tripSelector || !modal) return;
+        if (!titleEl || !descEl || !imgContainer || !tripSelector || !travelModal) return;
 
+        // Set country title (new h2)
+        if (countryTitleEl) countryTitleEl.textContent = name;
+
+        // Reset containers
         tripSelector.innerHTML = '';
         imgContainer.innerHTML = '';
 
-        // Set country name
-        if (countryTitle) {
-          countryTitle.textContent = name;
-        }
-
+        // If multiple trips (array), build buttons
         if (Array.isArray(memory)) {
-          memory.forEach((trip, index) => {
+          memory.forEach((trip, idx) => {
             const btn = document.createElement('button');
-            btn.textContent = trip.name;
+            btn.textContent = trip.name || `Trip ${idx + 1}`;
             btn.addEventListener('click', () => {
-              title.textContent = trip.name;
-              desc.textContent = trip.description;
+              titleEl.textContent = trip.name || name;
+              descEl.textContent = trip.description || '';
               imgContainer.innerHTML = '';
-              trip.images.forEach(src => {
-                if (src.toLowerCase().endsWith('.mp4')) {
-                  const video = document.createElement('video');
-                  video.src = src;
-                  video.controls = true;
-                  video.alt = trip.name;
-                  imgContainer.appendChild(video);
-                } else {
-                  const img = document.createElement('img');
-                  img.src = src;
-                  img.alt = trip.name;
-                  imgContainer.appendChild(img);
-                }
+              (trip.images || []).forEach(src => {
+                imgContainer.appendChild(createMediaEl(src, trip.name));
               });
             });
             tripSelector.appendChild(btn);
           });
+          // Auto-select first
           tripSelector.querySelector('button')?.click();
         } else {
-          title.textContent = memory.title;
-          desc.textContent = memory.description;
-          memory.images.forEach(src => {
-            if (src.toLowerCase().endsWith('.mp4')) {
-              const video = document.createElement('video');
-              video.src = src;
-              video.controls = true;
-              video.alt = memory.title;
-              imgContainer.appendChild(video);
-            } else {
-              const img = document.createElement('img');
-              img.src = src;
-              img.alt = memory.title;
-              imgContainer.appendChild(img);
-            }
+          // Single memory object
+          titleEl.textContent = memory.title || name;
+          descEl.textContent = memory.description || '';
+          (memory.images || []).forEach(src => {
+            imgContainer.appendChild(createMediaEl(src, memory.title));
           });
         }
 
-        modal.style.display = 'block';
+        travelModal.style.display = 'block';
       });
     }
   }
 
+  // Style countries: highlight visited
   geojson = L.geoJSON(null, {
-    style: feature => {
-      const name = feature.properties.name;
-      const visited = visitedMemories.hasOwnProperty(name);
+    style: (feature) => {
+      const name = featureName(feature?.properties || {});
+      const visited = visitedMemories && Object.prototype.hasOwnProperty.call(visitedMemories, name);
       return {
-        color: "#0a3d62",
+        color: '#0a3d62',
         weight: 1,
-        fillColor: visited ? "#0a3d62" : "#ccc",
+        fillColor: visited ? '#0a3d62' : '#ccc',
         fillOpacity: visited ? 0.85 : 0.2
       };
     },
-    onEachFeature: onEachFeature
+    onEachFeature
   }).addTo(map);
 
-  fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-    .then(res => res.json())
-    .then(data => geojson.addData(data))
-    .catch(err => console.error('Error loading map data:', err));
+  // Load world countries GeoJSON from multiple sources (robust)
+  (async function loadWorldGeoJSON() {
+    const sources = [
+      // Stable mirror (Natural Earth via geojson.xyz)
+      'https://geojson.xyz/world/ne_110m_admin_0_countries.geojson',
+      // Original (can be throttled sometimes)
+      'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
+    ];
 
-  document.getElementById('modalClose')?.addEventListener('click', () => {
-    const modal = document.getElementById('travelModal');
-    if (modal) modal.style.display = 'none';
-  });
+    for (const url of sources) {
+      try {
+        console.log('Loading countries from:', url);
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) {
+          console.warn('Non-OK response:', res.status, url);
+          continue;
+        }
+        const data = await res.json();
 
-  document.getElementById('closeBanner')?.addEventListener('click', () => {
-    const banner = document.getElementById('infoBanner');
-    if (banner) banner.style.display = 'none';
-  });
+        // Ensure FeatureCollection shape
+        const fc = data.features ? data : { type: 'FeatureCollection', features: data };
 
-  // Make clicking anywhere on the banner close it too
-document.getElementById('infoBanner')?.addEventListener('click', (e) => {
-  // Let clicks on links inside the banner pass through if you add any later
-  if (e.target.id !== 'closeBanner') {
-    e.currentTarget.style.display = 'none';
-  }
-});
+        // Normalize properties so "name" exists
+        fc.features = fc.features.map(f => {
+          f.properties = f.properties || {};
+          f.properties.name = featureName(f.properties);
+          return f;
+        });
 
-
-  // Close modal when clicking outside modal-content
-  document.getElementById('travelModal')?.addEventListener('click', function (event) {
-    if (event.target === this) {
-      this.style.display = 'none';
+        geojson.addData(fc);
+        console.log('Loaded countries from:', url);
+        return;
+      } catch (err) {
+        console.warn('Failed to load:', url, err);
+      }
     }
-  });
 
+    console.error('All GeoJSON sources failed to load.');
+  })();
 });
-
-fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-  .then(r => r.ok ? r.json() : Promise.reject(r))
-  .then(data => geojson.addData(data))
-  .catch(err => {
-    console.error('Map data fetch failed, loading local copy...', err);
-    fetch('countries.geo.json')            // put a local copy in your project
-      .then(r => r.json())
-      .then(data => geojson.addData(data))
-      .catch(e => console.error('Local map data failed:', e));
-  });
-
