@@ -301,7 +301,7 @@ function initPortfolio() {
 
 // Eksempel på å hente pris fra Alpha Vantage
 async function fetchPriceAlpha(symbol) {
-  const apiKey = '5MQE4DKYDO4WB2W6'; // bytt ut med egen nøkkel
+  const apiKey = 'YOUR_API_KEY'; // bytt ut med egen nøkkel
   const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
   const res = await fetch(url);
   const data = await res.json();
