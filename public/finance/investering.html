@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investering</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Ingen lenke i navbaren, men vi beholder designet -->
+  <nav class="navbar">
+    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
+    <ul style="display:none;"><!-- skjult liste --></ul>
+  </nav>
+
+  <main class="container">
+    <section class="overview">
+      <h2>Ny investering</h2>
+      <form id="investForm">
+        <label>
+          Aksjesymbol (f.eks. EQNR):
+          <input type="text" id="symbol" required />
+        </label>
+        <br /><br />
+        <label>
+          Antall:
+          <input type="number" id="quantity" required />
+        </label>
+        <br /><br />
+        <label>
+          Type transaksjon:
+          <select id="tradeType">
+            <option value="Kjøp">Kjøp</option>
+            <option value="Salg">Salg</option>
+          </select>
+        </label>
+        <br /><br />
+        <button type="submit">Utfør handel</button>
+      </form>
+      <div id="tradeResult" style="margin-top:1rem;"></div>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

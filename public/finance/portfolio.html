@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mock Portfolio</title>
+  <link rel="stylesheet" href="portfolio.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="portfolio.css" />
-
 </head>
 <body>
   <header>
@@ -16,7 +15,7 @@
       <div class="row">
         <div>
           <h1>Mock Portfolio</h1>
-          <div class="sub">Live value, add/remove companies, and a full investment history.</div>
+          <div class="sub">Live portfolio value, add/remove companies, and track performance over time.</div>
         </div>
         <div class="grow"></div>
         <button id="openSettings">Settings</button>
@@ -25,19 +24,20 @@
   </header>
 
   <main class="wrap" style="margin-top:16px">
-
     <section class="grid">
       <div class="card">
         <div class="row" style="margin-bottom:10px">
           <h2 class="grow">Holdings</h2>
-          <span class="pill" title="Refresh quotes interval"><span id="statusDot">•</span> <span id="refreshLabel">loading…</span></span>
+          <span class="pill"><span id="statusDot">•</span> <span id="refreshLabel">loading…</span></span>
         </div>
-        <div class="kpi" style="margin-bottom:12px">
+
+        <div class="kpi">
           <div class="kcard"><div class="label">Portfolio Value</div><div class="value" id="k_value">—</div></div>
           <div class="kcard"><div class="label">Unrealized P&L</div><div class="value" id="k_pl">—</div></div>
-          <div class="kcard"><div class="label">Cash (Sim)</div><div class="value" id="k_cash">—</div></div>
+          <div class="kcard"><div class="label">Cash</div><div class="value" id="k_cash">—</div></div>
           <div class="kcard"><div class="label">Day Change</div><div class="value" id="k_day">—</div></div>
         </div>
+
         <table id="holdingsTable">
           <thead>
             <tr>
@@ -53,10 +53,11 @@
           </thead>
           <tbody></tbody>
         </table>
-        <div class="footer-actions" style="margin-top:12px">
+
+        <div class="footer-actions">
           <button class="ghost" id="exportCSV">Export CSV</button>
           <button class="ghost" id="snapshotNow">Snapshot Now</button>
-          <span class="hint">Tip: sell all at market via the ••• menu on a row.</span>
+          <span class="hint">Sell all at market using the row menu.</span>
         </div>
       </div>
 
@@ -73,15 +74,24 @@
           <input id="date" type="datetime-local" />
           <button id="addTx">Add</button>
         </form>
-        <p class="hint" style="margin-top:8px">If price is blank, we'll use the latest market price from your selected data provider.</p>
-        <hr style="border-color:var(--border); opacity:.5; margin:14px 0">
-        <h2 style="margin-top:0">Portfolio Value Over Time</h2>
+
+        <h2 style="margin-top:1em;">Portfolio Value Over Time</h2>
+        <div class="rangebar" id="rangeBar">
+          <button data-range="1D">1D</button>
+          <button data-range="1W">1W</button>
+          <button data-range="1M">1M</button>
+          <button data-range="3M">3M</button>
+          <button data-range="6M">6M</button>
+          <button data-range="1Y">1Y</button>
+          <button data-range="3Y">3Y</button>
+          <button data-range="ALL">All</button>
+        </div>
         <canvas id="chart" height="220"></canvas>
       </div>
     </section>
 
     <section class="card" style="margin-top:16px">
-      <div class="row" style="margin-bottom:8px">
+      <div class="row">
         <h2 class="grow">Investment Timeline</h2>
         <span class="tag" id="txCount">0 transactions</span>
       </div>
@@ -92,29 +102,28 @@
   <!-- Settings Modal -->
   <div class="settings" id="settings">
     <div class="modal">
-      <div class="row" style="margin-bottom:6px">
-        <h2 class="grow" style="margin:0">Settings</h2>
+      <div class="row">
+        <h2 class="grow">Settings</h2>
         <button class="ghost" id="closeSettings">Close</button>
       </div>
-      <p class="hint" style="margin-top:0">Choose a price data provider and set refresh frequency. For free, try Alpha Vantage (needs an API key). Your key is kept locally in your browser.</p>
-      <div class="row" style="margin-bottom:8px">
+      <p class="hint">Enter your Alpha Vantage API key and refresh interval.</p>
+      <div class="row">
         <label class="tag">Provider</label>
         <select id="provider">
-          <option value="alphavantage">Alpha Vantage (Global Quote)</option>
+          <option value="alphavantage">Alpha Vantage</option>
         </select>
         <input id="apiKey" placeholder="API Key" class="grow" />
       </div>
-      <div class="row" style="margin-bottom:8px">
+      <div class="row">
         <label class="tag">Refresh (sec)</label>
         <input id="refreshInt" type="number" min="15" value="60" />
-        <label class="tag">Starting Cash (sim)</label>
+        <label class="tag">Starting Cash</label>
         <input id="startingCash" type="number" min="0" step="any" placeholder="100000" />
       </div>
       <div class="row">
         <button id="saveSettings">Save</button>
-        <button class="ghost" id="resetAll">Reset All (keeps settings)</button>
+        <button class="ghost" id="resetAll">Reset All</button>
       </div>
-      <p class="hint" style="margin-top:8px">Alpha Vantage free tier allows ~5 requests/minute. We'll throttle accordingly.</p>
     </div>
   </div>
 

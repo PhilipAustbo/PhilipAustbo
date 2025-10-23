@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Min Kapitalforvaltning</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Chart.js fra CDN for grafene -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
+    <ul>
+      <li><a href="index.html" class="active">Portefølje</a></li>
+      <li><a href="historikk.html">Historikk</a></li>
+      <li><a href="blogg.html">Blogg</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="overview">
+      <h2>Porteføljeoversikt</h2>
+      <div class="stats">
+          <!-- legg inn etter <div class="stats">… -->
+
+  
+        <div class="card" id="total-value-card">
+          <h3>Total verdi</h3>
+          <p id="totalValue">–</p>
+        </div>
+        <div class="card">
+          <h3>Endring siste måned</h3>
+          <p id="monthlyChange" class="positive">–</p>
+        </div>
+        <div class="card">
+          <h3>Avkastning 12 mnd</h3>
+          <p id="yearReturn" class="positive">–</p>
+        </div>
+      </div>
+      <div class="time-range">
+        <button data-range="1D">1 dag</button>
+        <button data-range="1U">1 uke</button>
+        <button data-range="1M">1 mnd</button>
+        <button data-range="6M">6 mnd</button>
+        <button data-range="1Y">1 år</button>
+        <button data-range="3Y">3 år</button>
+        <button data-range="5Y">5 år</button>
+        <button data-range="ALL">All time</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

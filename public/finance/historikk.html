@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investeringshistorikk</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
+    <ul>
+      <li><a href="index.html">Portefølje</a></li>
+      <li><a href="historikk.html" class="active">Historikk</a></li>
+      <li><a href="blogg.html">Blogg</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="overview">
+      <h2>Investeringshistorikk</h2>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Dato</th>
+            <th>Verdipapir</th>
+            <th>Type</th>
+            <th>Beløp (NOK)</th>
+            <th>Avkastning</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody">
+          <!-- Rader settes inn av JavaScript -->
+        </tbody>
+      </table>
+      <div id="transactionDetails" class="details"></div>
+    </section>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>
