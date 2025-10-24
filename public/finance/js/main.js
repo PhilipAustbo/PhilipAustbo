@@ -4,6 +4,17 @@ const supabaseAnonKey = window.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 const stockApiKey = window.NEXT_PUBLIC_ALPHA_API_KEY;
 
+async function fetchStockPrice(symbol) {
+  try {
+    const res = await fetch(`/api/stock?symbol=${symbol}`);
+    const data = await res.json();
+    return data.price;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 const blogPosts = [
   {
     title: 'Analyse av fornybar energi-markedet',
