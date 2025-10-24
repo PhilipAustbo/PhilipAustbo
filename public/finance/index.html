@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <!-- Chart.js fra CDN for grafene -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -46,7 +47,13 @@
       </div>
     </section>
   </main>
+  <div class="chart-container">
+  <canvas id="portfolioChart"></canvas>
+</div>
+<div class="chart-container">
+  <canvas id="portfolioPieChart"></canvas>
+</div>
   <script src="js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
 </body>
 </html>
