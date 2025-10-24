@@ -2,7 +2,7 @@
 const supabaseUrl = window.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = window.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
-const stockApiKey = window.NEXT_PUBLIC_FINNHUB_API_KEY;
+const stockApiKey = window.NEXT_PUBLIC_ALPHA_API_KEY;
 
 const blogPosts = [
   {
@@ -45,7 +45,7 @@ async function fetchTrades() {
 }
 async function fetchStockPrice(symbol) {
   try {
-    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${stockApiKey}`;
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&token=${stockApiKey}`;
     const res = await fetch(url);
     const data = await res.json();
     return data.c;
@@ -59,7 +59,10 @@ function renderLineChart(labels, values) {
   const canvas = document.getElementById('portfolioChart');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  if (portfolioChart) {
+  if (portfolioChart) {const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${stockApiKey}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return parseFloat(data['Global Quote']['05. price']);
     portfolioChart.destroy();
   }
   portfolioChart = new Chart(ctx, {
