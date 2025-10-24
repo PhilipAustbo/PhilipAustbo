@@ -45,10 +45,11 @@ async function fetchTrades() {
 }
 async function fetchStockPrice(symbol) {
   try {
-    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&token=${stockApiKey}`;
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${stockApiKey}`;
     const res = await fetch(url);
     const data = await res.json();
-    return data.c;
+    // returner prisen som et tall
+    return parseFloat(data['Global Quote']['05. price']);
   } catch (err) {
     console.error(err);
     return null;
