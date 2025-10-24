@@ -1,233 +1,246 @@
-// Eksempeldata for porteføljen (kan byttes ut med ekte tall senere)
-const portfolioData = {
-    values: [1000000, 1020000, 1015000, 1050000, 1075000, 1100000, 1120000, 1150000, 1200000, 1250000],
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt'],
-    total: 1250000,
-    monthlyChange: 1250000 - 1200000,
-    yearReturn: ((1250000 - 1000000) / 1000000) * 100
-  };
-  
-  // Eksempeltransaksjoner
-  const transactions = [
-    { date: '10.10.2025', asset: 'Equinor', type: 'Kjøp', amount: 25000, return: 6,
-      details: { description: 'Kjøp av Equinor-aksjer', series: [0, 2, 4, 6] } },
-    { date: '20.09.2025', asset: 'Norsk Hydro', type: 'Salg', amount: 12000, return: -2,
-      details: { description: 'Salg av Norsk Hydro-aksjer', series: [0, -1, -2] } },
-    { date: '15.08.2025', asset: 'Yara', type: 'Kjøp', amount: 30000, return: 4,
-      details: { description: 'Kjøp av Yara-aksjer', series: [0, 1, 2, 4] } }
-  ];
-  
-  // Eksempelblogginnlegg
-  const blogPosts = [
-    {
-      title: 'Analyse av fornybar energi-markedet',
-      date: '20. oktober 2025',
-      summary: 'Et dypdykk i vekstutsiktene for grønn energi og hvordan sektoren kan påvirke porteføljen min.',
-      link: '#'
-    },
-    {
-      title: 'Hvorfor inflasjonen påvirker spareporteføljer',
-      date: '5. september 2025',
-      summary: 'En enkel forklaring på effekten av inflasjon og hvordan investorer kan beskytte seg.',
-      link: '#'
-    }
-  ];
-  
-  // Formater tall med mellomrom som tusenskiller (norsk standard)
-  function formatNumber(n) {
-    return n.toLocaleString('no-NO');
-  }
-  
-  // Initialiser porteføljesiden
-  function initPortfolio() {
-    if (!document.getElementById('portfolioChart')) return;
-    // Oppdater nøkkeltall
-    document.getElementById('totalValue').textContent =
-      formatNumber(portfolioData.total) + ' NOK';
-    const monthlyChangeEl = document.getElementById('monthlyChange');
-    monthlyChangeEl.textContent =
-      (portfolioData.monthlyChange >= 0 ? '+' : '') +
-      formatNumber(portfolioData.monthlyChange) + ' NOK';
-    monthlyChangeEl.className =
-      portfolioData.monthlyChange >= 0 ? 'positive' : 'negative';
-    const yearReturnEl = document.getElementById('yearReturn');
-    yearReturnEl.textContent =
-      (portfolioData.yearReturn >= 0 ? '+' : '') +
-      portfolioData.yearReturn.toFixed(1) + ' %';
-    yearReturnEl.className =
-      portfolioData.yearReturn >= 0 ? 'positive' : 'negative';
-  
-    // Tegn porteføljegrafen
-    const ctx = document.getElementById('portfolioChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: portfolioData.labels,
-        datasets: [{
-          label: 'Porteføljeverdi (NOK)',
-          data: portfolioData.values,
-          fill: false,
-          tension: 0.3
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            beginAtZero: false,
-            ticks: { color: '#e6edf3' },
-            grid: { color: 'rgba(255,255,255,0.1)' }
-          },
-          x: {
-            ticks: { color: '#e6edf3' },
-            grid: { color: 'rgba(255,255,255,0.1)' }
-          }
-        }
-      }
-    });
-  }
-  
-  // Initialiser historikksiden
-  function initHistory() {
-    const body = document.getElementById('historyBody');
-    if (!body) return;
-    body.innerHTML = '';
-    transactions.forEach((tx) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${tx.date}</td>
-        <td>${tx.asset}</td>
-        <td>${tx.type}</td>
-        <td>${formatNumber(tx.amount)}</td>
-        <td class="${tx.return >= 0 ? 'positive' : 'negative'}">${
-          tx.return >= 0 ? '+' : ''
-        }${tx.return} %</td>
-      `;
-      tr.addEventListener('click', () => showTransactionDetails(tx));
-      body.appendChild(tr);
-    });
-  }
-  
-  // Vis detaljer for en transaksjon (inkl. mini‑graf)
-  function showTransactionDetails(tx) {
-    const detailsDiv = document.getElementById('transactionDetails');
-    detailsDiv.innerHTML = `
-      <h3>${tx.asset} (${tx.type})</h3>
-      <p>${tx.details.description}</p>
-      <canvas id="txChart" height="100"></canvas>
-    `;
-    // Mini-graf for denne transaksjonen
-    const ctx = document.getElementById('txChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: tx.details.series.map((_, i) => i + 1),
-        datasets: [{
-          label: 'Utvikling (%)',
-          data: tx.details.series,
-          fill: false,
-          tension: 0.3
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            ticks: { color: '#e6edf3' },
-            grid: { color: 'rgba(255,255,255,0.1)' }
-          },
-          x: {
-            ticks: { color: '#e6edf3' },
-            grid: { color: 'rgba(255,255,255,0.1)' }
-          }
-        }
-      }
-    });
-  }
-  
-  // Initialiser bloggsiden
-  function initBlog() {
-    const container = document.getElementById('blogPosts');
-    if (!container) return;
-    container.innerHTML = '';
-    blogPosts.forEach((post) => {
-      const article = document.createElement('article');
-      article.className = 'post';
-      article.innerHTML = `
-        <h3>${post.title}</h3>
-        <p class="date">Publisert: ${post.date}</p>
-        <p>${post.summary}</p>
-        <a href="${post.link}" class="read-more">Les mer →</a>
-      `;
-      container.appendChild(article);
-    });
-  }
-  
-  // Kjør riktig initialisering når siden lastes
-  document.addEventListener('DOMContentLoaded', () => {
-    initPortfolio();
-    initHistory();
-    initBlog();
-  });
-  
+/* Supabase and portfolio simulation */
+const supabaseUrl = window.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = window.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+const stockApiKey = window.NEXT_PUBLIC_FINNHUB_API_KEY;
 
-  // ------- Tilstands­håndtering ------- //
-const defaultState = {
-    cash: 100000,
-    holdings: {},
-    transactions: []
-  };
-  
-  function loadState() {
-    const saved = localStorage.getItem('portfolioState');
-    return saved ? JSON.parse(saved) : { ...defaultState };
+const blogPosts = [
+  {
+    title: 'Analyse av fornybar energi-markedet',
+    date: '20. oktober 2025',
+    summary: 'Et dypdykk i vekstutsiktene for grønn energi og hvordan sektoren kan påvirke porteføljen min.',
+    link: '#'
+  },
+  {
+    title: 'Hvorfor inflasjonen påvirker spareporteføljer',
+    date: '5. september 2025',
+    summary: 'En enkel forklaring på effekten av inflasjon og hvordan investorer kan beskytte seg.',
+    link: '#'
   }
-  
-  function saveState(state) {
-    localStorage.setItem('portfolioState', JSON.stringify(state));
+];
+
+async function fetchPortfolio() {
+  const { data, error } = await supabase.from('portfolio').select('*').single();
+  if (error) {
+    console.error(error);
+    return null;
   }
-  
-  // Ha en global variabel for tilstanden
-  let state = loadState();
-  
-  // ------- Oppdater visning -------- //
-  async function updatePortfolioView() {
-    // Hent nåverdi for alle holdings
-    let total = state.cash;
-    const holdingsRows = [];
-    for (const symbol in state.holdings) {
-      const qty = state.holdings[symbol].quantity;
-      const price = await fetchStockPrice(symbol);  // hent via API
-      const currentValue = price * qty;
-      const avgCost = state.holdings[symbol].avgCost;
-      const pnl = currentValue - (avgCost * qty);
-      total += currentValue;
-      holdingsRows.push({ symbol, qty, avgCost, price, currentValue, pnl });
+  return data;
+}
+async function fetchHoldings() {
+  const { data, error } = await supabase.from('holdings').select('*');
+  if (error) {
+    console.error(error);
+    return [];
+  }
+  return data;
+}
+async function fetchTrades() {
+  const { data, error } = await supabase.from('trades').select('*').order('date', { ascending: false });
+  if (error) {
+    console.error(error);
+    return [];
+  }
+  return data;
+}
+async function fetchStockPrice(symbol) {
+  try {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${stockApiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.c;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+let portfolioChart;
+function renderLineChart(labels, values) {
+  const canvas = document.getElementById('portfolioChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (portfolioChart) {
+    portfolioChart.destroy();
+  }
+  portfolioChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Porteføljeverdi (NOK)',
+        data: values,
+        fill: false,
+        tension: 0.3
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          ticks: { color: '#e6edf3' },
+          grid: { color: 'rgba(255,255,255,0.1)' }
+        },
+        x: {
+          ticks: { color: '#e6edf3' },
+          grid: { color: 'rgba(255,255,255,0.1)' }
+        }
+      }
     }
-  
-    // Oppdater totalsum i statistikk
-    document.getElementById('totalValue').textContent =
-      total.toLocaleString('no-NO') + ' NOK';
-  
-    // Oppdater kontantsaldo (kan vises i en egen card)
-    // document.getElementById('cashValue').textContent = state.cash.toLocaleString('no-NO') + ' NOK';
-  
-    // Bygg holdings-tabell i porteføljens oversikt
-    const container = document.getElementById('holdingsTableBody');
-    if (container) {
-      container.innerHTML = '';
-      holdingsRows.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${row.symbol}</td>
-          <td>${row.qty}</td>
-          <td>${row.avgCost.toFixed(2)}</td>
-          <td>${row.price.toFixed(2)}</td>
-          <td>${row.currentValue.toFixed(2)}</td>
-          <td class="${row.pnl >= 0 ? 'positive' : 'negative'}">${row.pnl.toFixed(2)}</td>
-        `;
-        container.appendChild(tr);
-      });
+  });
+}
+let compositionChart;
+function renderCompositionChart(labels, values) {
+  const canvas = document.getElementById('portfolioPieChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (compositionChart) {
+    compositionChart.destroy();
+  }
+  compositionChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values
+      }]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom' } }
+    }
+  });
+}
+async function initPortfolio() {
+  const portfolio = await fetchPortfolio();
+  const holdings = await fetchHoldings();
+  if (!portfolio) return;
+  let totalValue = portfolio.cash;
+  const compLabels = ['Kontanter'];
+  const compValues = [portfolio.cash];
+  for (const item of holdings) {
+    const price = await fetchStockPrice(item.symbol);
+    const value = item.quantity * price;
+    totalValue += value;
+    compLabels.push(item.symbol);
+    compValues.push(value);
+  }
+  const totalEl = document.getElementById('totalValue');
+  if (totalEl) {
+    totalEl.textContent = totalValue.toLocaleString('no-NO') + ' NOK';
+  }
+  const monthlyChangeEl = document.getElementById('monthlyChange');
+  if (monthlyChangeEl) {
+    monthlyChangeEl.textContent = '-';
+    monthlyChangeEl.className = '';
+  }
+  const yearReturnEl = document.getElementById('yearReturn');
+  if (yearReturnEl) {
+    yearReturnEl.textContent = '-';
+    yearReturnEl.className = '';
+  }
+  renderCompositionChart(compLabels, compValues);
+  const lineLabels = ['-5m','-4m','-3m','-2m','-1m','Nå'];
+  const lineValues = [
+    totalValue * 0.8,
+    totalValue * 0.85,
+    totalValue * 0.9,
+    totalValue * 0.95,
+    totalValue * 0.98,
+    totalValue
+  ];
+  renderLineChart(lineLabels, lineValues);
+}
+async function initHistory() {
+  const tableBody = document.getElementById('historyBody');
+  if (!tableBody) return;
+  const trades = await fetchTrades();
+  tableBody.innerHTML = '';
+  trades.forEach(tx => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${new Date(tx.date).toLocaleDateString('no-NO')}</td>
+      <td>${tx.symbol}</td>
+      <td>${tx.trade_type}</td>
+      <td>${tx.quantity}</td>
+      <td>${tx.price.toFixed(2)}</td>
+    `;
+    tableBody.appendChild(tr);
+  });
+}
+function initBlog() {
+  const container = document.getElementById('blogPosts');
+  if (!container) return;
+  container.innerHTML = '';
+  blogPosts.forEach(post => {
+    const article = document.createElement('article');
+    article.className = 'post';
+    article.innerHTML = `
+      <h3>${post.title}</h3>
+      <p class="date">Publisert: ${post.date}</p>
+      <p>${post.summary}</p>
+      <a href="${post.link}" class="read-more">Les mer →</a>
+    `;
+    container.appendChild(article);
+  });
+}
+async function performTrade(symbol, qty, type) {
+  const price = await fetchStockPrice(symbol);
+  if (!price) {
+    alert('Klarte ikke hente pris.');
+    return;
+  }
+  const portfolio = await fetchPortfolio();
+  const holdings = await fetchHoldings();
+  if (type === 'Kjøp') {
+    const cost = price * qty;
+    if (portfolio.cash < cost) {
+      alert('Ikke nok kontanter.');
+      return;
+    }
+    const newCash = portfolio.cash - cost;
+    await supabase.from('portfolio').update({ cash: newCash }).eq('id', portfolio.id);
+    const existing = holdings.find(h => h.symbol === symbol);
+    if (existing) {
+      const newQty = existing.quantity + qty;
+      const newAvg = ((existing.avg_cost * existing.quantity) + cost) / newQty;
+      await supabase.from('holdings').update({ quantity: newQty, avg_cost: newAvg }).eq('id', existing.id);
+    } else {
+      await supabase.from('holdings').insert([{ symbol: symbol, quantity: qty, avg_cost: price }]);
+    }
+  } else {
+    const existing = holdings.find(h => h.symbol === symbol);
+    if (!existing || existing.quantity < qty) {
+      alert('Du eier ikke nok aksjer.');
+      return;
+    }
+    const revenue = price * qty;
+    const newCash = portfolio.cash + revenue;
+    await supabase.from('portfolio').update({ cash: newCash }).eq('id', portfolio.id);
+    const newQty = existing.quantity - qty;
+    if (newQty === 0) {
+      await supabase.from('holdings').delete().eq('id', existing.id);
+    } else {
+      await supabase.from('holdings').update({ quantity: newQty }).eq('id', existing.id);
     }
   }
-  
+  await supabase.from('trades').insert([{ date: new Date().toISOString(), symbol: symbol, trade_type: type, quantity: qty, price: price }]);
+  alert('Transaksjonen ble gjennomført.');
+}
+function initInvestPage() {
+  const form = document.getElementById('investForm');
+  if (!form) return;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const symbol = document.getElementById('symbol').value.toUpperCase();
+    const quantity = parseFloat(document.getElementById('quantity').value);
+    const type = document.getElementById('tradeType').value;
+    await performTrade(symbol, quantity, type);
+    document.getElementById('symbol').value = '';
+    document.getElementById('quantity').value = '';
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  initPortfolio();
+  initHistory();
+  initBlog();
+  initInvestPage();
+});
