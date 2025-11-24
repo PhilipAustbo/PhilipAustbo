@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Philip Austbø | Finance & Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Portfolio of Philip Tinius Riise Austbø – Finance student at NHH with experience from EY, DNV and student organizations."
+  />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-alt: #ffffff;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #e0ecff;
+      --text: #0f172a;
+      --text-muted: #6b7280;
+      --border-subtle: #e2e8f0;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 14px 32px rgba(15, 23, 42, 0.08);
+      --nav-height: 70px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* NAV */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(245, 245, 247, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .nav {
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      font-size: 0.9rem;
+    }
+
+    .brand-text span:last-child {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 2px;
+      color: var(--text-muted);
+      transition: color 0.16s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width 0.16s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-nav {
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease,
+        transform 0.12s ease, box-shadow 0.16s ease;
+    }
+
+    .btn-nav:hover {
+      background: #f9fafb;
+      border-color: #cbd5f5;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .icon {
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+    }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .burger span {
+      width: 20px;
+      height: 2px;
+      border-radius: 999px;
+      background: #111827;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    /* MOBILE NAV */
+
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        inset: var(--nav-height) 0 0 0;
+        background: #ffffff;
+        border-top: 1px solid #e5e7eb;
+        padding: 1.5rem;
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .mobile-menu.open {
+        display: flex;
+      }
+
+      .mobile-menu a {
+        font-size: 1rem;
+        color: var(--text-muted);
+      }
+
+      .mobile-menu a:hover {
+        color: var(--text);
+      }
+
+      .mobile-menu .mobile-actions {
+        margin-top: 1.25rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .mobile-menu .btn-nav {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* HERO */
+
+    main {
+      flex: 1;
+    }
+
+    .hero {
+      padding: 2.5rem 0 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .hero {
+        padding: 3.5rem 0 3rem;
+      }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 2.25rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3.5vw, 2.8rem);
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 35rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.7rem;
+      background: #ffffff;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+      transition: transform 0.12s ease, box-shadow 0.16s ease,
+        background 0.16s ease, border-color 0.16s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-secondary {
+      border-color: var(--border-subtle);
+      background: #ffffff;
+    }
+
+    .btn-secondary:hover {
+      border-color: #cbd5f5;
+      background: #f9fafb;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .btn-ghost {
+      border-color: transparent;
+      background: transparent;
+      padding-left: 0;
+    }
+
+    .btn-ghost:hover {
+      background: transparent;
+      color: #111827;
+      transform: translateY(-1px);
+    }
+
+    .hero-footnote {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* HERO VISUAL */
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 1.4rem 1.4rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-avatar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 999px;
+      background: #2563eb;
+      border: 2px solid #eff6ff;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #ffffff;
+    }
+
+    .hero-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-avatar-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .hero-avatar-text h2 {
+      font-size: 1.05rem;
+    }
+
+    .hero-avatar-text span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-pill {
+      font-size: 0.72rem;
+      border-radius: 999px;
+      padding: 0.2rem 0.65rem;
+      background: #f9fafb;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .hero-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      border-radius: var(--radius-lg);
+      padding: 0.9rem;
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-meta strong {
+      color: #111827;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+    }
+
+    @media (max-width: 500px) {
+      .hero-highlights {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-hl {
+      border-radius: 12px;
+      padding: 0.6rem 0.7rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-hl strong {
+      display: block;
+      font-size: 0.8rem;
+      color: #111827;
+      margin-bottom: 0.1rem;
+    }
+
+    .hero-ribbon {
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .hero-ribbon span:first-child {
+      font-size: 0.8rem;
+      color: #22c55e;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 1.8rem 0;
+    }
+
+    section + section {
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .section-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .section-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 36rem;
+    }
+
+    .card-row {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 800px) {
+      .card-row--two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-muted {
+      background: #f9fafb;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .card-body {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.7rem;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #2563eb;
+    }
+
+    ul.list {
+      list-style: none;
+      margin-top: 0.4rem;
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    ul.list li {
+      position: relative;
+      padding-left: 1.1rem;
+      font-size: 0.86rem;
+    }
+
+    ul.list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.45rem;
+    }
+
+    .pill-link {
+      font-size: 0.78rem;
+      border-radius: 999px;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background 0.16s ease, color 0.16s ease,
+        border-color 0.16s ease, transform 0.12s ease;
+    }
+
+    .pill-link:hover {
+      background: #f3f4ff;
+      border-color: #cbd5f5;
+      color: #111827;
+      transform: translateY(-1px);
+    }
+
+    /* CONTACT */
+
+    .contact-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 700px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      }
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .contact-list a {
+      color: #1d4ed8;
+    }
+
+    .contact-list a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-list span.label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    footer {
+      padding: 1.5rem 0 2.2rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid #e5e7eb;
+      margin-top: 1rem;
+    }
+
+    footer .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer a {
+      color: var(--text-muted);
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="wrapper">
+        <nav class="nav">
+          <div class="brand">
+            <div class="brand-mark">PA</div>
+            <div class="brand-text">
+              <span>Philip Austbø</span>
+              <span>Finance &amp; Analytics</span>
+            </div>
+          </div>
+
+          <div class="nav-links" aria-label="Primary navigation">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#football">Football</a>
+            <a href="#contact">Contact</a>
+          </div>
+
+          <div class="nav-cta">
+            <a href="Philip_Austbo_CV.pdf" class="btn-nav">
+              <span class="icon">📄</span>
+              <span>CV</span>
+            </a>
+          </div>
+
+          <button class="burger" id="burger" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#football">Football</a>
+        <a href="#contact">Contact</a>
+
+        <div class="mobile-actions">
+          <a href="Philip_Austbo_CV.pdf" class="btn-nav">
+            <span class="icon">📄</span>
+            <span>Download CV</span>
+          </a>
+          <a href="mailto:philip@austbo.no" class="btn-nav">
+            <span class="icon">✉️</span>
+            <span>Email me</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="top">
+        <div class="wrapper">
+          <div class="hero-grid">
+            <div>
+              <div class="hero-kicker">Finance · Analytics · People</div>
+              <h1 class="hero-title">
+                I’m <span>Philip Austbø</span>, a finance student who enjoys turning
+                complex problems into clear decisions.
+              </h1>
+              <p class="hero-subtitle">
+                Master’s in Finance at NHH, experience from EY and DNV, and a background
+                in student leadership and tutoring. I like combining numbers, structure
+                and people to create impact.
+              </p>
+
+              <div class="hero-tags">
+                <div class="chip">NHH · MSc Finance</div>
+                <div class="chip">Audit internship at EY</div>
+                <div class="chip">Consulting internship at DNV Dubai</div>
+                <div class="chip">Student leadership &amp; case work</div>
+              </div>
+
+              <div class="hero-actions">
+                <a href="Philip_Austbo_CV.pdf" class="btn btn-primary">
+                  <span>Download CV</span>
+                  <span>↗</span>
+                </a>
+                <a href="#experience" class="btn btn-secondary">
+                  <span>View experience</span>
+                </a>
+                <a href="#projects" class="btn btn-ghost">
+                  <span>See projects &amp; games</span>
+                </a>
+              </div>
+
+              <div class="hero-footnote">
+                Based in Bergen, Norway · open for internships and projects.
+              </div>
+            </div>
+
+            <div class="hero-visual">
+              <div class="hero-card">
+                <div class="hero-avatar-wrap">
+                  <div class="hero-avatar">
+                    <!-- Replace with your own transparent PNG if you want -->
+                    <!-- <img src="images/philip.png" alt="Portrait of Philip Austbø" /> -->
+                    P
+                  </div>
+                  <div class="hero-avatar-text">
+                    <h2>Philip Tinius Riise Austbø</h2>
+                    <span>Finance student at NHH · Bergen</span>
+                  </div>
+                </div>
+
+                <div class="hero-pill-row">
+                  <div class="hero-pill">Audit &amp; Assurance · EY</div>
+                  <div class="hero-pill">Consulting · DNV Dubai</div>
+                  <div class="hero-pill">Tutoring &amp; student roles</div>
+                </div>
+
+                <div class="hero-meta">
+                  <strong>What I like working on</strong><br />
+                  Financial analysis, risk and valuation – and the human side:
+                  understanding teams, incentives and how decisions are made.
+                </div>
+
+                <div class="hero-highlights">
+                  <div class="hero-hl">
+                    <strong>Experience</strong>
+                    EY audit (shipping &amp; energy), DNV consulting, tutoring &amp; student organizations.
+                  </div>
+                  <div class="hero-hl">
+                    <strong>Focus</strong>
+                    Where finance, strategy and data meet – with a practical, down-to-earth approach.
+                  </div>
+                  <div class="hero-hl">
+                    <strong>Side projects</strong>
+                    Personal website, finance-themed games, chatbot experiments.
+                  </div>
+                  <div class="hero-hl">
+                    <strong>Background</strong>
+                    Football, teamwork and coaching mindset applied to studies and work.
+                  </div>
+                </div>
+
+                <div class="hero-ribbon">
+                  <span>●</span>
+                  <span>
+                    Happy to chat about internships, projects or careers in finance.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">About</div>
+            <h2 class="section-title">Who I am in short</h2>
+            <p class="section-subtitle">
+              Curious, structured and people-oriented. I like learning fast, taking
+              responsibility early and being in teams where the bar is high but the
+              culture is supportive.
+            </p>
+          </div>
+
+          <div class="card card-muted">
+            <div class="card-body">
+              I’m a Master’s student in Finance at NHH with experience from EY, DNV and
+              student roles. I enjoy breaking down complex topics – whether it’s a client’s
+              risk profile, a case competition or a tough finance concept – into something
+              understandable and solvable.
+              <br /><br />
+              My background from football has taught me a lot about teamwork, discipline
+              and showing up for others. Going forward, I want to work where finance,
+              strategy and technology meet, in an environment that is international,
+              ambitious and still genuinely nice to be in.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">Experience</div>
+            <h2 class="section-title">Recent roles &amp; internships</h2>
+            <p class="section-subtitle">
+              A mix of audit, consulting, tutoring and student leadership – with a common
+              thread of responsibility and problem-solving.
+            </p>
+          </div>
+
+          <div class="card-row">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">EY – Financial Audit &amp; Assurance</div>
+                  <div class="card-meta">
+                    Jan 2025 – Jun 2025 · Bergen, Norway
+                  </div>
+                </div>
+                <div class="badge">
+                  <span class="badge-dot"></span>
+                  <span>Audit internship</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li>Worked on audits of shipping and energy companies with complex capital structures.</li>
+                  <li>Built and maintained Excel models for testing, variance analysis and risk assessments.</li>
+                  <li>Collaborated with client finance teams and senior auditors to turn findings into clear recommendations.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">DNV – Consulting Intern (Aquaculture)</div>
+                  <div class="card-meta">
+                    Sep 2025 – Oct 2025 · Dubai, UAE
+                  </div>
+                </div>
+                <div class="badge">
+                  <span class="badge-dot"></span>
+                  <span>Upcoming</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li>Joining DNV’s aquaculture division to support strategic and analytical projects in the blue economy.</li>
+                  <li>Working with data-driven analysis, market insights and operational performance topics.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Tutoring &amp; Academic Support</div>
+                  <div class="card-meta">
+                    Ongoing · Bergen, Norway
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li>Help students understand math, statistics and finance concepts in a practical way.</li>
+                  <li>Focus on building structure and confidence, not only on getting the right answer.</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Student leadership &amp; case work</div>
+                  <div class="card-meta">
+                    Various roles · NHH
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li>Experience from student organizations, events and case-related work at NHH.</li>
+                  <li>Enjoy working in teams where expectations are high and feedback is honest.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION & SKILLS -->
+      <section id="education">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">Education &amp; Skills</div>
+            <h2 class="section-title">Finance foundations + practical tools</h2>
+          </div>
+
+          <div class="card-row card-row--two">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Norges Handelshøyskole (NHH)</div>
+                  <div class="card-meta">Master’s in Finance</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li>Focus on corporate finance, valuation, risk management and financial markets.</li>
+                  <li>Interested in topics where finance meets real-world uncertainty and decisions.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card card-muted" id="skills">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Skills &amp; tools</div>
+                  <div class="card-meta">What I use in practice</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <ul class="list">
+                  <li><strong>Finance &amp; analytics:</strong> financial modelling, valuation, risk analysis, corporate finance.</li>
+                  <li><strong>Tools:</strong> Excel (advanced), PowerPoint, basic Python/JS for projects and data.</li>
+                  <li><strong>Ways of working:</strong> structured problem-solving, clear communication, teaching &amp; mentoring, teamwork.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS / GAMES / HOURS -->
+      <section id="projects">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">Projects</div>
+            <h2 class="section-title">Side projects &amp; experiments</h2>
+            <p class="section-subtitle">
+              I like to learn by building: small games, tools and visualizations
+              related to finance, math and decision-making.
+            </p>
+          </div>
+
+          <div class="card-row card-row--two">
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Finance &amp; math mini-games</div>
+                  <div class="card-meta">Web games · Built from scratch</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>
+                  Browser-based mini-games exploring topics like stock moves, portfolio choices,
+                  options intuition and basic math speed.
+                </p>
+                <div class="pill-row">
+                  <a href="games.html" class="pill-link">
+                    <span>Open games hub</span><span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Chatbot &amp; tools</div>
+                  <div class="card-meta">Personal experiments</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>
+                  A small chatbot interface and other tools to experiment with prompts,
+                  explanations and interactive learning.
+                </p>
+                <div class="pill-row">
+                  <a href="chatbot.html" class="pill-link">
+                    <span>Try the chatbot</span><span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Hours of My Life</div>
+                  <div class="card-meta">Visualizing time spent</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>
+                  A visual overview of how I’ve spent thousands of hours across football, studies,
+                  gaming, travel, sleeping and work – partly for fun, partly to reflect.
+                </p>
+                <div class="pill-row">
+                  <a href="hours.html" class="pill-link">
+                    <span>See hours overview</span><span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Countries &amp; travel</div>
+                  <div class="card-meta">Interactive map</div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>
+                  An interactive map of countries I’ve visited, with short stories and memories
+                  from trips – including Dubai and other places that shaped how I think about work and life.
+                </p>
+                <div class="pill-row">
+                  <a href="countries.html" class="pill-link">
+                    <span>Open travel map</span><span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTBALL -->
+      <section id="football">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">Football</div>
+            <h2 class="section-title">From football pitches to finance</h2>
+            <p class="section-subtitle">
+              Football has been a big part of my life. It’s where I learned about teamwork,
+              discipline, feedback and handling both wins and losses.
+            </p>
+          </div>
+
+          <div class="card card-muted">
+            <div class="card-body">
+              I’ve spent many hours on the pitch – training, playing matches and being
+              part of different teams. That background shapes how I think about work:
+              showing up prepared, supporting others and trying to improve a little bit
+              each week.
+              <br /><br />
+              On my football page, I share my journey in a more personal, story-like format:
+              <a href="football.html">my football story ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="wrapper">
+          <div class="section-header">
+            <div class="section-kicker">Contact</div>
+            <h2 class="section-title">Let’s get in touch</h2>
+            <p class="section-subtitle">
+              I’m happy to talk about internships, projects, case work or questions about
+              studying finance and careers.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="card">
+              <div class="card-body">
+                <p>
+                  If you think I could be a good fit for your team – or if you just want
+                  to exchange thoughts about finance, consulting or life at NHH – feel
+                  free to reach out.
+                </p>
+                <br />
+                <div class="hero-actions">
+                  <a href="mailto:philip@austbo.no" class="btn btn-primary">
+                    <span>Email me</span><span>✉️</span>
+                  </a>
+                  <a href="https://www.linkedin.com" class="btn btn-secondary">
+                    <span>Connect on LinkedIn</span><span>↗</span>
+                  </a>
+                  <a href="Philip_Austbo_CV.pdf" class="btn btn-ghost">
+                    <span>Download CV</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-muted">
+              <div class="card-body contact-list">
+                <div>
+                  <span class="label">Email</span><br />
+                  <a href="mailto:philip@austbo.no">philip@austbo.no</a>
+                </div>
+                <div>
+                  <span class="label">Location</span><br />
+                  Bergen, Norway
+                </div>
+                <div>
+                  <span class="label">LinkedIn</span><br />
+                  <!-- Replace with real link -->
+                  <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"
+                    >linkedin.com/in/philip-austbo</a
+                  >
+                </div>
+                <div>
+                  <span class="label">Social (optional)</span><br />
+                  <span>Instagram &amp; Facebook – available via LinkedIn or on request.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrapper">
+        <div class="footer-inner">
+          <span>© <span id="year"></span> Philip Tinius Riise Austbø</span>
+          <span>
+            Built in HTML/CSS/JS ·
+            <a href="#top">Back to top ↑</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Mobile nav toggle
+    (function () {
+      const burger = document.getElementById('burger');
+      const menu = document.getElementById('mobileMenu');
+
+      if (!burger || !menu) return;
+
+      burger.addEventListener('click', () => {
+        menu.classList.toggle('open');
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('open');
+        });
+      });
+    })();
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
