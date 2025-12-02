@@ -1,59 +1,721 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Min Kapitalforvaltning</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- Chart.js fra CDN for grafene -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Supabase client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Philip Austbø | Finance Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-alt: #ffffff;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: #e0ecff;
+      --text: #0f172a;
+      --text-muted: #6b7280;
+      --border-subtle: #e2e8f0;
+      --shadow-soft: 0 14px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card-bg: #0b1120;
+      --accent: #38bdf8;
+      --accent-soft: #082f49;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2937;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrapper {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Dark mode toggle & burger */
+
+    .dark-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 50;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .burger {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 50;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .burger .line {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--text);
+      display: block;
+      margin: 2px 0;
+    }
+
+    /* Header / Nav */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(245, 245, 247, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    [data-theme="dark"] header {
+      background: rgba(2, 6, 23, 0.95);
+    }
+
+    .nav-container {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .nav-container h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.4rem;
+      font-size: 0.9rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      transition: width 0.16s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile nav */
+
+    @media (max-width: 800px) {
+      nav ul {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+      }
+
+      .nav-container {
+        justify-content: center;
+      }
+
+      .nav-open nav ul {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 64px 0 0 0;
+        background: var(--bg-alt);
+        padding: 1.5rem;
+        gap: 1rem;
+        border-top: 1px solid var(--border-subtle);
+        z-index: 30;
+      }
+    }
+
+    main {
+      flex: 1;
+      padding-top: 1.5rem;
+      padding-bottom: 2.5rem;
+    }
+
+    /* Generic sections & cards */
+
+    section {
+      margin: 1.8rem 0;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 1.4rem 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+      .section-card {
+        padding: 1.8rem 2rem;
+      }
+    }
+
+    .section-header {
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .section-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 40rem;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    /* Hero */
+
+    #hero.section-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr);
+      gap: 1.8rem;
+      align-items: center;
+      margin-top: 2.4rem;
+    }
+
+    @media (max-width: 800px) {
+      #hero.section-card {
+        grid-template-columns: minmax(0,1fr);
+      }
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-image img {
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      object-fit: cover;
+      box-shadow: var(--shadow-soft);
+      border: 4px solid var(--bg);
+    }
+
+    .hero-text h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-text p.role {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-text p.location {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-alt);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .hero-intro {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+    }
+
+    .hero-intro strong {
+      color: var(--text);
+    }
+
+    /* About */
+
+    #about p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    /* Timelines */
+
+    .timeline {
+      display: grid;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .timeline-item {
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-alt);
+      padding: 0.9rem 1rem;
+    }
+
+    .timeline-item h3 {
+      font-size: 1rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .timeline-item span {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .timeline-item p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Contact & social */
+
+    #contact .section-card {
+      text-align: center;
+    }
+
+    #contact p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    #contact a {
+      color: var(--accent);
+    }
+
+    #contact a:hover {
+      text-decoration: underline;
+    }
+
+    .social-links {
+      margin-top: 0.8rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      filter: grayscale(10%);
+    }
+
+    footer {
+      padding: 1.4rem 0 2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+    }
+  </style>
 </head>
 <body>
-  <nav class="navbar">
-    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
-    <ul>
-      <li><a href="index.html" class="active">Portefølje</a></li>
-      <li><a href="historikk.html">Historikk</a></li>
-      <li><a href="blogg.html">Blogg</a></li>
-    </ul>
-  </nav>
-  <main class="container">
-    <section class="overview">
-      <h2>Porteføljeoversikt</h2>
-      <div class="stats">
-        <div class="card" id="total-value-card">
-          <h3>Total verdi</h3>
-          <p id="totalValue">–</p>
-        </div>
-        <div class="card">
-          <h3>Endring siste måned</h3>
-          <p id="monthlyChange" class="positive">–</p>
-        </div>
-        <div class="card">
-          <h3>Avkastning 12 mnd</h3>
-          <p id="yearReturn" class="positive">–</p>
-        </div>
+  <div class="page">
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="dark-toggle" aria-label="Toggle dark mode">🌙</button>
+
+    <!-- Burger Icon (mobile) -->
+    <button class="burger" id="burger" aria-label="Toggle navigation">
+      <span class="line"></span>
+      <span class="line"></span>
+      <span class="line"></span>
+    </button>
+
+    <!-- Header / Nav -->
+    <header>
+      <div class="nav-container">
+        <h1>Philip Austbø</h1>
+        <nav>
+          <ul id="navMenu">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="hours.html">Hours</a></li>
+            <li><a href="football.html">Football</a></li>
+            <li><a href="games.html">Games</a></li>
+            <li><a href="gemini.html">ChatBot</a></li>
+          </ul>
+        </nav>
       </div>
-      <!-- Graf for porteføljeutvikling -->
-      <div class="chart-container">
-        <canvas id="portfolioChart"></canvas>
-      </div>
-      <!-- Kakediagram for fordeling -->
-      <div class="chart-container">
-        <canvas id="portfolioPieChart"></canvas>
-      </div>
-    </section>
-  </main>
-  <div class="chart-container">
-  <canvas id="portfolioChart"></canvas>
-</div>
-<div class="chart-container">
-  <canvas id="portfolioPieChart"></canvas>
-</div>
-  <script src="js/main.js"></script>
-  
+    </header>
+
+    <main class="wrapper">
+      <!-- Hero -->
+      <section id="hero" class="section-card">
+        <div class="hero-image">
+          <img src="portrett.png" alt="Philip Austbø" />
+        </div>
+        <div class="hero-text">
+          <h2>Philip Tinius Riise Austbø</h2>
+          <p class="role">Finance student at NHH with a focus on audit, analytics & strategy</p>
+          <p class="location">Bergen, Norway · <a href="mailto:philip@austbo.no">philip@austbo.no</a></p>
+
+          <div class="hero-tags">
+            <span class="chip">NHH · MSc Finance</span>
+            <span class="chip">EY · Audit internship</span>
+            <span class="chip">DNV Dubai · Consulting intern</span>
+            <span class="chip">Tutoring · Student leadership</span>
+          </div>
+
+          <p class="hero-intro">
+            I enjoy <strong>breaking down complex problems</strong> – whether that’s a financial audit,
+            a case, or a tough math topic – and turning them into clear, structured decisions that people
+            can act on.
+          </p>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>About Me</h2>
+            <p>
+              Curious, structured and people-oriented – with a background from football and a strong
+              interest in where finance, strategy and technology meet.
+            </p>
+          </div>
+          <p>
+            I’m a finance student at NHH with a strong interest in strategy, analysis and problem-solving.
+            Whether I’m diving into financial audits at EY, tutoring math students, or building digital
+            tools from scratch, I’m motivated by learning and improving – both myself and the systems
+            around me.
+          </p>
+          <p>
+            I thrive in collaborative environments, value clear communication, and enjoy taking
+            initiative, especially when the task at hand requires both structure and creativity.
+            In the years ahead, I aim to work at the intersection of finance, strategy and technology –
+            contributing to meaningful decisions and long-term value creation in an international setting.
+          </p>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section id="experience">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Experience</h2>
+            <p>
+              A mix of audit, consulting, teaching and student roles – with a common thread of
+              responsibility and problem-solving.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <h3>DNV – Consulting Intern</h3>
+              <span>Sep 2025 – Oct 2025 · Dubai, UAE</span>
+              <p>
+                Upcoming full-time role with the Aquaculture department at DNV Dubai, supporting strategic
+                consulting and operational development projects in the blue economy.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>EY – Financial Audit &amp; Assurance</h3>
+              <span>Jan 2025 – Jun 2025 · Bergen, Norway</span>
+              <p>
+                Audited shipping and energy companies; built 50+ dynamic Excel models, conducted risk
+                assessments, collaborated with finance teams, and supported senior auditors with strategic
+                insights.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Superprof – Private Math Tutor</h3>
+              <span>Jun 2023 – Present</span>
+              <p>
+                Delivered customized math instruction for students from lower secondary to university
+                level, earning consistent 5/5 ratings and strong academic results across the board.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Storetveit High School – Educator</h3>
+              <span>Nov 2023 – Mar 2024 · Bergen</span>
+              <p>
+                Served as both a substitute teacher and full-time personal mentor, adapting lesson plans
+                and offering individual support that improved student engagement and performance.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Education -->
+      <section id="education">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Education</h2>
+            <p>
+              Finance foundations from NHH and international exposure from Michigan Ross.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <h3>NHH – MSc in Finance</h3>
+              <span>Aug 2024 – Jun 2026 · GPA: 4.3 / 5.0</span>
+              <p>
+                Core courses: Corporate finance, Investments, Sustainable finance, Financial Econometrics.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>NHH – BSc in Business Administration</h3>
+              <span>Aug 2021 – Jun 2024 · GPA: 4.0 / 5.0</span>
+              <p>
+                Elective courses: Algorithms and computer programming with Python, Project management,
+                Management Consulting.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>University of Michigan – Ross School of Business</h3>
+              <span>Jan 2023 – Jun 2023 · GPA: 3.9 / 4.0</span>
+              <p>Exchange semester.</p>
+              <p>
+                Elective courses: New product and innovation management, Negotiation strategy,
+                Entrepreneurial management.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Leadership & Activities -->
+      <section id="leadership">
+        <div class="section-card">
+          <div class="section-header">
+            <h2>Leadership &amp; Activities</h2>
+            <p>
+              Roles that have shaped how I think about responsibility, teamwork and performance.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <h3>SUN Student Council (NHH)</h3>
+              <span>Aug 2023 – Present</span>
+              <p>
+                Elected student representative; worked closely with faculty to improve academic quality
+                and represent student voices at the Institute of Strategy &amp; Management and Business
+                Economics.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Uken i Bergen – Ukesport Committee</h3>
+              <span>Aug 2021 – Mar 2022</span>
+              <p>
+                Led a 6-person team in planning and executing 5 large-scale sports events for 500+ 
+                participants; reduced costs by 15% and boosted satisfaction through clear roles and
+                smart logistics.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Football (3rd Division &amp; Youth Captaincy)</h3>
+              <span>2015 – Present</span>
+              <p>
+                Played at SK Brann U-16, Fana IL, Fyllingsdalen and Lyngbø IL; served as captain on
+                several teams, building leadership through communication, discipline and resilience.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>McKinsey Forward Program</h3>
+              <span>2023</span>
+              <p>
+                Completed a selective program focused on leadership, structured problem-solving and
+                strategic thinking in a global context.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Discover Deloitte Tech</h3>
+              <span>2024</span>
+              <p>
+                Explored emerging technologies, solved tech-driven business cases, and learned from industry
+                experts during a hands-on conference at Deloitte.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <div class="section-card center">
+          <div class="section-header">
+            <h2>Get in Touch</h2>
+            <p>
+              I’m happy to talk about internships, projects, case work or questions about studying
+              finance and careers.
+            </p>
+          </div>
+
+          <p>Email: <a href="mailto:philip@austbo.no">philip@austbo.no</a></p>
+          <p>
+            Resume:
+            <a href="Philip_Austbo_CV.pdf" download target="_blank" rel="noopener noreferrer">
+              Download / View CV
+            </a>
+          </p>
+
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/austbophilip" target="_blank" rel="noopener noreferrer">
+              <img class="social-icon" src="linkedin.png" alt="LinkedIn" />
+            </a>
+            <a href="https://www.instagram.com/philipaustbo/" target="_blank" rel="noopener noreferrer">
+              <img class="social-icon" src="insta.png" alt="Instagram" />
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=100011226432559" target="_blank" rel="noopener noreferrer">
+              <img class="social-icon" src="facebook.png" alt="Facebook" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      &copy; 2025 Philip Austbø. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    // Dark mode toggle using data-theme on <html>
+    const html = document.documentElement;
+    const darkToggle = document.getElementById('darkModeToggle');
+    const savedTheme = localStorage.getItem('philip-theme');
+
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.setAttribute('data-theme', 'dark');
+      darkToggle.textContent = '☀️';
+    }
+
+    darkToggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme') || 'light';
+      const next = current === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('philip-theme', next);
+      darkToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // Mobile burger menu
+    const burger = document.getElementById('burger');
+    const body = document.body;
+    const navMenu = document.getElementById('navMenu');
+
+    burger.addEventListener('click', () => {
+      body.classList.toggle('nav-open');
+    });
+
+    // Close mobile menu when clicking a nav link
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        body.classList.remove('nav-open');
+      });
+    });
+  </script>
 </body>
 </html>
