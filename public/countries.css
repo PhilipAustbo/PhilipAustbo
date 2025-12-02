@@ -134,6 +134,7 @@ overflow: hidden;
 
   header {
     z-index: 999;
+    background: none;
   }
 
   @media (max-width: 768px) {
