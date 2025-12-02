@@ -1,4 +1,4 @@
-const visitedMemories = {
+var visitedMemories = {
   "Norway": {
     title: "Norway 🇳🇴",
     description: "Growing up in Bergen, I was shaped by a culture that values resilience, community, and a close connection to nature. Between football fields, home-cooked meals, and time spent with friends, I developed a grounded mindset and an appreciation for both structure and spontaneity.",
@@ -362,7 +362,7 @@ const visitedMemories = {
   ]
 };
 
-const visitedMemories = (typeof window !== "undefined" && window.visitedMemories) || (typeof visitedMemories !== "undefined" && visitedMemories) || {};
+var visitedMemories = (typeof window !== "undefined" && window.visitedMemories) || (typeof visitedMemories !== "undefined" && visitedMemories) || {};
 
 // ---- Small helpers
 function isVideo(src = "") { return /\.mp4($|\?)/i.test(src); }

@@ -42,9 +42,10 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: var(--primary);
+    background-color: none;
     z-index: 100;
     transition: all 0.3s ease;
+    border-bottom: 1px var(--text-light);
   }
   
   /* === BURGER ICON === */
@@ -105,18 +106,18 @@
   }
   
   header h1 {
-    color: #fff;
+    color: var(--primary);
     font-size: 22px;
   }
   
   nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 40px;
   }
   
   nav ul li a {
-    color: #fff;
+    color: var(--primary);
     position: relative;
     text-decoration: none;
     font-weight: 500;

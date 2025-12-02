@@ -198,13 +198,17 @@
     }
 
     .burger span {
+      display: flex;
       width: 20px;
       height: 2px;
       border-radius: 999px;
       background: #111827;
-      transition: transform 0.18s ease, opacity 0.18s ease;
+      transition: transform 1s ease, opacity 1s ease;
     }
 
+    .mobile-menu {
+      display: none;
+    }
     /* MOBILE NAV */
 
     @media (max-width: 800px) {
@@ -225,10 +229,11 @@
         inset: var(--nav-height) 0 0 0;
         background: #ffffff;
         border-top: 1px solid #e5e7eb;
-        padding: 1.5rem;
+        padding: 15px;
         display: none;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 15px;
+        height: 350px;
       }
 
       .mobile-menu.open {
@@ -750,10 +755,11 @@
             <a href="#about">About</a>
             <a href="#experience">Experience</a>
             <a href="#education">Education</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#football">Football</a>
-            <a href="#contact">Contact</a>
+            <a href="hours.html">Hours</a>
+            <a href="football.html">Football</a>
+            <a href="games.html">Games</a>
+            <a href="gemini.html">ChatBot</a>
+
           </div>
 
           <div class="nav-cta">
@@ -776,8 +782,8 @@
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
-        <a href="#football">Football</a>
-        <a href="#contact">Contact</a>
+        <a href="football.html">Football</a>
+      
 
         <div class="mobile-actions">
           <a href="Philip_Austbo_CV.pdf" class="btn-nav">
