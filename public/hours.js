@@ -1,9 +1,9 @@
 const hoursData = {
-  labels: ["School (1-10)", "Studying", "Football", "Gaming", "Chess", "Traveling", "Sleeping", "Working"],
-  totals: [10140, 9200, 12410, 4000, 500, 4200, 75000, 2210]
+  labels: ["School (1-10)", "Studying", "Football", "Gaming", "Chess", "Traveling", "Sleeping", "Working", "Weight Lifting"],
+  totals: [10140, 11200, 13510, 4300, 500, 16400, 75000, 3510, 5800]
 };
 
-const timeLabels = ["2002", "2004", "2006", "2008", "2010", "2012", "2014", "2016", "2018", "2020", "2022", "2023"];
+const timeLabels = ["2002", "2004", "2006", "2008", "2010", "2012", "2014", "2016", "2018", "2020", "2022", "2023", "2024", "2025"];
 
 function getCumulativeData(total, years, label) {
   const result = [];
@@ -18,20 +18,22 @@ function getCumulativeData(total, years, label) {
     // Narrative rules per label
     switch (label) {
       case "School (1-10)":
-        if (year < 2008 || year > 2021) increment = 0;
-        else increment *= 1.5
+        if (year < 2008 || year > 2025) increment *= 0;
+        else increment *= 1.75
         break;
 
       case "Studying":
         if (year < 2021) increment = 0;
-        else if (year === 2022) increment *= 3;
+        else if (year === 2022) increment *= 2.7;
+        else if (year === 2023) increment *= 3;
+        else if (year === 2024) increment *= 3;
         break;
       case "Football":
         if (year < 2008) increment = 0;
-        else if (year === 2010) increment *= 2.7; // peak
-        else if (year === 20114) increment *= 2.3;
-        else if (year ===2016) increment *= 1.7;
-        else if (year ===2018) increment *= 1.5;
+        else if (year === 2010) increment *= 2.4; // peak
+        else if (year === 2014) increment *= 2.2;
+        else if (year ===2016) increment *= 1.6;
+        else if (year ===2018) increment *= 1.4;
         else if (year ===2020) increment *= 1.1;
         break;
       case "Gaming":
@@ -46,16 +48,22 @@ function getCumulativeData(total, years, label) {
         break;
       case "Traveling":
         if (year < 2016) increment *= 0.4;
-        if (year >= 2022) increment *= 2.5;
+        if (year >= 2022) increment *= 2.1;
         break;
       case "Sleeping":
         if (year < 2010) increment *= 1.2;
         else if (year > 2020) increment *= 0.5;
         else increment *= 0.9;
         break;
+
       case "Working":
         if (year < 2019) increment = 0;
         else if (year >2019) increment *= 2;
+        break;
+
+      case "Weight Lifting":
+        if (year < 2017) increment = 0;
+        else if (year >2017) increment *= 2.3;
         break;
     }
 

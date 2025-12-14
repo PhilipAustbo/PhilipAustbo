@@ -175,7 +175,7 @@ var visitedMemories = {
       "image/berlin6.jpg",
     ]
   },
-  "United States": [
+  "United States of America": [
     { name: "Chicago 🇺🇸", description: "Chicago welcomed us with wind, towering buildings, and the smell of pizza in the air. We tried deep dish (as thick and cheesy as promised), walked along the lakeshore, and explored the city's architecture. It had that big city energy but with a slower rhythm than New York—easier to breathe in..", 
     images: [
       "image/chicago8.jpg",
@@ -359,6 +359,11 @@ var visitedMemories = {
       "image/edinburgh3.jpg",
       "image/edinburgh4.jpg",
     ] }
+  ],
+  "Morocco": [
+    { name: "Marrakesh", description: "", 
+    images: [
+    ] },
   ]
 };
 
