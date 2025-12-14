@@ -364,6 +364,21 @@ var visitedMemories = {
     { name: "Marrakesh", description: "", 
     images: [
     ] },
+  ],
+  "Oman": [
+    { name: "Oman", description: "", 
+    images: [
+    ] },
+  ],
+  "Turkey": [
+    { name: "Instanbul", description: "", 
+    images: [
+    ] },
+  ],
+  "Italy": [
+    { name: "Rome", description: "", 
+    images: [
+    ] },
   ]
 };
 
