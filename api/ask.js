@@ -1,8 +1,106 @@
 // api/ask.js
 
-const GEMINI_MODEL = "gemini-3.5-flash";
-const GEMINI_API_URL =
-  `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+const PRIMARY_MODEL = "gemini-3.5-flash";
+const FALLBACK_MODEL = "gemini-2.5-flash";
+
+const RETRYABLE_STATUS_CODES = new Set([
+  408,
+  429,
+  500,
+  502,
+  503,
+  504,
+]);
+
+const sleep = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+async function callGemini({ model, apiKey, contents }) {
+  const url =
+    `https://generativelanguage.googleapis.com/v1beta/models/` +
+    `${model}:generateContent`;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey,
+    },
+    body: JSON.stringify({ contents }),
+  });
+
+  const responseText = await response.text();
+
+  let data;
+
+  try {
+    data = responseText ? JSON.parse(responseText) : {};
+  } catch {
+    data = {
+      error: {
+        message: "Gemini returned an invalid response.",
+      },
+    };
+  }
+
+  return {
+    response,
+    data,
+  };
+}
+
+async function callWithRetries({
+  model,
+  apiKey,
+  contents,
+  maximumAttempts = 3,
+}) {
+  let lastResult;
+
+  for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
+    lastResult = await callGemini({
+      model,
+      apiKey,
+      contents,
+    });
+
+    if (lastResult.response.ok) {
+      return lastResult;
+    }
+
+    const shouldRetry = RETRYABLE_STATUS_CODES.has(
+      lastResult.response.status
+    );
+
+    if (!shouldRetry || attempt === maximumAttempts) {
+      return lastResult;
+    }
+
+    // Approximately 1 second, 2 seconds, then 4 seconds,
+    // with a small amount of random jitter.
+    const baseDelay = 1000 * 2 ** (attempt - 1);
+    const jitter = Math.floor(Math.random() * 500);
+
+    await sleep(baseDelay + jitter);
+  }
+
+  return lastResult;
+}
+
+function extractReply(data) {
+  const candidate = data?.candidates?.[0];
+
+  return candidate?.content?.parts
+    ?.filter(
+      (part) =>
+        typeof part?.text === "string" &&
+        part.text.trim() &&
+        part.thought !== true
+    )
+    .map((part) => part.text)
+    .join("\n")
+    .trim();
+}
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
@@ -20,7 +118,7 @@ export default async function handler(req, res) {
     process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    console.error("Missing GOOGLE_API_KEY or GEMINI_API_KEY");
+    console.error("Missing Gemini API key");
 
     return res.status(500).json({
       error: "Server configuration error: Gemini API key is missing",
@@ -29,7 +127,6 @@ export default async function handler(req, res) {
 
   let requestBody = req.body;
 
-  // Handle cases where the request body has not already been parsed.
   if (typeof requestBody === "string") {
     try {
       requestBody = JSON.parse(requestBody);
@@ -49,67 +146,53 @@ export default async function handler(req, res) {
   }
 
   try {
-    const geminiResponse = await fetch(GEMINI_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify({
-        contents,
-      }),
+    let result = await callWithRetries({
+      model: PRIMARY_MODEL,
+      apiKey,
+      contents,
     });
 
-    const responseText = await geminiResponse.text();
+    // If Gemini 3.5 remains overloaded after retrying,
+    // try Gemini 2.5 Flash.
+    if (
+      !result.response.ok &&
+      RETRYABLE_STATUS_CODES.has(result.response.status)
+    ) {
+      console.warn(
+        `${PRIMARY_MODEL} unavailable. Trying ${FALLBACK_MODEL}.`
+      );
 
-    let data;
-
-    try {
-      data = responseText ? JSON.parse(responseText) : {};
-    } catch {
-      console.error("Gemini returned invalid JSON:", responseText);
-
-      return res.status(502).json({
-        error: "Gemini returned an invalid response",
+      result = await callWithRetries({
+        model: FALLBACK_MODEL,
+        apiKey,
+        contents,
+        maximumAttempts: 2,
       });
     }
 
-    if (!geminiResponse.ok) {
+    if (!result.response.ok) {
       const errorMessage =
-        data?.error?.message ||
-        `Gemini API request failed with status ${geminiResponse.status}`;
+        result.data?.error?.message ||
+        `Gemini API request failed with status ` +
+          `${result.response.status}`;
 
       console.error("Gemini API error:", {
-        status: geminiResponse.status,
+        status: result.response.status,
         message: errorMessage,
       });
 
-      return res.status(geminiResponse.status).json({
+      return res.status(result.response.status).json({
         error: errorMessage,
       });
     }
 
-    const candidate = data?.candidates?.[0];
-
-    const reply = candidate?.content?.parts
-      ?.filter(
-        (part) =>
-          typeof part?.text === "string" &&
-          part.text.trim() &&
-          part.thought !== true
-      )
-      .map((part) => part.text)
-      .join("\n")
-      .trim();
+    const reply = extractReply(result.data);
 
     if (!reply) {
-      const blockReason = data?.promptFeedback?.blockReason;
+      const candidate = result.data?.candidates?.[0];
+      const blockReason =
+        result.data?.promptFeedback?.blockReason;
       const finishReason = candidate?.finishReason;
-
-      console.error("Gemini returned no visible text:", {
-        blockReason,
-        finishReason,
-      });
 
       return res.status(502).json({
         error: blockReason
