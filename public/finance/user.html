@@ -1,0 +1,65 @@
+<html lang="en">
+<table id="holdingsTable" class="table">
+    
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Weight</th>
+<th>Qty</th>
+<th>Avg Cost</th>
+<th>Last</th>
+<th>P&L</th>
+<th>P&L %</th>
+</tr>
+</thead>
+<link rel="stylesheet" href="user.css" />
+<tbody>
+<!-- rows injected via JS -->
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Portfolio Stats</h2>
+<div class="stats-grid">
+<div class="stat"><div class="label">Sharpe (Sel.)</div><div class="value" id="s_sharpe">—</div></div>
+<div class="stat"><div class="label">Max Drawdown</div><div class="value" id="s_mdd">—</div></div>
+<div class="stat"><div class="label">Best Day</div><div class="value" id="s_best">—</div></div>
+<div class="stat"><div class="label">Worst Day</div><div class="value" id="s_worst">—</div></div>
+</div>
+<hr class="divider" />
+<h3>Allocation</h3>
+<div class="alloc">
+<div class="alloc-row"><span>Equities</span><div class="bar"><div class="fill" style="width:60%"></div></div><span class="pct">60%</span></div>
+<div class="alloc-row"><span>Cash</span><div class="bar"><div class="fill" style="width:40%"></div></div><span class="pct">40%</span></div>
+</div>
+</div>
+</section>
+
+<!-- History / Timeline -->
+<section class="card">
+<div class="row section-head">
+<h2 class="grow">Investment History</h2>
+<div class="row" style="gap:8px">
+<select id="historyFilter">
+<option value="ALL">All</option>
+<option value="BUY">Buys</option>
+<option value="SELL">Sells</option>
+</select>
+<input id="searchSymbol" placeholder="Search symbol…" />
+</div>
+</div>
+<div id="timeline" class="timeline">
+<!-- items injected via JS -->
+</div>
+</section>
+
+<footer class="site-footer">
+<p class="muted">© <span id="year"></span> Philip Austbø. Mock portfolio for educational purposes.</p>
+</footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="user.js"></script>
+</body>
+</html>
