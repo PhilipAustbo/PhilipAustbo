@@ -4,53 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Philip Austbø</title>
-  <link rel="icon" type="image/png" href="memoji.png">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="legacy-page.css" />
   <link rel="stylesheet" href="fotball.css" />
-  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="minimal-header.css" />
+  <script defer src="minimal-header.js"></script>
   <script defer src="fotball.js"></script>
-</head>
+<link rel="stylesheet" href="hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
 <body>
-  <button id="darkModeToggle" class="dark-toggle">🌙</button>
-  <button class="burger" id="burger" aria-label="Toggle navigation">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
-
-  <header>
-    <div class="nav-container">
-      <h1>Philip Austbø</h1>
-      <nav>
-        <ul id="navMenu">
-          <li><a href="index.html">About</a></li>
-          <li><a href="countries.html">Countries</a></li> 
-          <li><a href="hours.html">Hours</a></li>
-          <li><a href="football.html">Football</a></li>
-          <li><a href="games.html">Games</a></li>
-          <li><a href="gemini.html">ChatBot</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header class="sub-header"><a class="sub-brand" href="index.html">Philip Austbø</a><nav class="sub-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="hours.html">Hours</a><a href="countries.html">Countries</a><a href="games.html">Games</a><a href="gemini.html">Chatbot</a><a href="football.html" aria-current="page">Football</a></nav><a class="sub-back" href="index.html">Back home</a><button class="sub-menu" aria-expanded="false">Menu</button></header>
 
   <main class="football-page">
     <div class="content-column">
       <section class="post-header center">
         <h1>My Football Journey</h1>
-        <p class="subtitle">My football story began like many others — with a ball, a dream, and two shoes way too big for me. I was six years old when I joined my first team. Back then, I had no idea that football would shape my mindset, my friendships, and my leadership skills for the years to come.</p>
+        <p class="subtitle">My football story began like many others, with a ball, a dream and a pair of boots that were far too big for me. I was six years old when I joined my first team. At the time, I had no idea how deeply football would shape my mindset, friendships and leadership in the years ahead.</p>
         <img src="Fotballbilde/liten.jpeg" class="team-photo" />
       </section>
 
       <section id="bjarg" class="team-section">
         <h2>Bjarg</h2>
-        <p>Where it all started. I was just a kid learning how to kick a ball without falling over.</p>
-        <p>I did however not take long before things started to get serious. At age 7, my dad became the coach of my team. 
-          It did not take long before one session a week turned into four sessions with the team, in addition to individual work in my spare time.
+        <p>This is where it all began. I was a young boy learning how to kick a ball without falling over.</p>
+        <p>It did not take long for football to become more serious. When I was seven, my father became the coach of my team. One weekly session soon became four sessions with the team, alongside individual practice in my spare time.
         </p>
         <img src="Fotballbilde/bjarg-lag.JPG" class="team-photo" />
         <p>
-          One year later, I was good enough to train with older players. This was a large boost in confidence, and motivated me to work even harder.
+          A year later, I was invited to train with older players. The opportunity gave me confidence and motivated me to work even harder.
         </p>
         <img src="Fotballbilde/bjarg-turnering.JPG" class="team-photo" />
         <p>
@@ -62,14 +40,14 @@
       <section id="brann" class="team-section">
         <h2>Brann</h2>
         <img src="Fotballbilde/BRANN-KØBEN.JPG" class="team-photo" />
-        <p>At age 13 i was requested to join Brann's youth academy. To this day, recieving this message is one of the happiest days of my life.</p>
-        <p>Joining Brann’s youth academy was my first exposure to elite football. The bar was high—and I loved it.</p>
+        <p>At 13, I was invited to join Brann’s youth academy. Receiving that message remains one of the happiest moments of my life.</p>
+        <p>Joining Brann’s youth academy was my first experience of elite football. The standard was high, and I loved it.</p>
         <img src="Fotballbilde/brann-itec.JPG" class="team-photo" />
-        <p>At this point, there was no other thing then football on my mind. My life consisted of training before school, school, another session after school, homework and sleeping. There was no time to mess around.</p>
-        <p>Even though it was hard work, it was extremely rewarding. I got to experience my dream at a very young age. High stakes, big tournaments, beating large European Clubs, and traveling with the team. It was a blast.</p>
-        <p>At the span of my three years at Brann, I got to play alongside current national team players. We won tournaments, and was known to be the best team in Norway at our age.</p>
+        <p>At that point, football occupied nearly every part of my life. I trained before school, attended classes, trained again after school, completed my homework and went to sleep. There was little time for anything else.</p>
+        <p>The work was demanding, but it was also deeply rewarding. I was living my dream at a young age through major tournaments, high-pressure matches, victories over leading European clubs and travel with the team.</p>
+        <p>During my three years at Brann, I played alongside athletes who later represented the national team. We won tournaments and became known as one of the best teams in Norway for our age group.</p>
         <img src="Fotballbilde/kretsmerster.JPG" class="team-photo" />
-        <p>But, like all fairytales, it all comes to an end. When I was 16 I recieved the hardest message of my life. I was no longer guaranteed a spot in the team. </p>
+        <p>That chapter eventually came to an end. At 16, I received the hardest message of my life. I was no longer guaranteed a place in the team.</p>
 
 
 
@@ -80,14 +58,14 @@
 
       <section id="fana" class="team-section">
         <h2>Fana</h2>
-        <p>At Fana, I focused on development, learned patience, and pushed through injury setbacks. </p>
+        <p>At Fana, I focused on development, learned patience and worked through several injury setbacks.</p>
 
-        <p>After leaving Brann, I wanted to find a clud where I could develop. Here, it did not take lokg before I played for three different teams. Boys 19, the B-team and the A-team (mostly benchwarming unfortunately). </p>
-        <p>In one season, I played more than 70 full games. Here, I gained experience. My goal was still to become a professional, hence I trained like before. Strict diets, individual practice and high stakes - but ultimately very rewarding and fun. </p>
-        <p>At Fana, I got to experinece what it means to be a leader. Getting a lot of experience meant expectation of taking responsibility. While I was looking up to my teammates at the A-team, I was at the same time captain for both boys-19 and the B-team. I was learning from my peers, and preaching to others. </p>
-        <p>Looking back, I believe the time i had at Fana has been the time where I grew the most, both as a player, but also as a person, outside football </p>
+        <p>After leaving Brann, I wanted to find a club where I could continue developing. Before long, I was playing for three teams at Fana. These were the under-19 team, the B team and the A team, although I spent much of my time with the A team on the bench.</p>
+        <p>In one season, I completed more than 70 full matches and gained valuable experience. I still wanted to become a professional, so I maintained the same demanding routine through a strict diet, individual practice and high expectations. The effort was challenging, rewarding and enjoyable.</p>
+        <p>Fana also taught me what leadership requires. Greater experience brought greater responsibility. While I learned from my teammates in the A team, I also captained both the under-19 team and the B team. I absorbed lessons from my peers and passed them on to younger players.</p>
+        <p>Looking back, my time at Fana may have been the period when I grew most, both as a player and as a person beyond football.</p>
         <img src="Fotballbilde/Fana-voksen.JPG" class="team-photo" />
-        <p>At the end of my time at Fana, I decided i was going to apply to Ivy league schools in USA. In that setting, I had to make a highlight video. Here it is for the ones who are interested :)</p>
+        <p>Towards the end of my time at Fana, I decided to apply to Ivy League universities in the United States. The application process required a highlight video, which you can watch below.</p>
         <div class="video-container">
           <iframe 
             src="https://www.youtube.com/embed/_3FOvDzW_RY" 
@@ -103,19 +81,19 @@
       <section id="umich" class="team-section">
         <h2>University of Michigan</h2>
         <p>
-          During my exchange semester at University of Michigan, I got to experience why i really love football. During these six months, I played alongside some amazing people. This time however, the goal was to have fun, rather than to be the best. 
+          During my exchange semester at the University of Michigan, I rediscovered why I love football. Over six months, I played alongside remarkable people. This time, the goal was to enjoy the game rather than to be the best.
         </p>
         <img src="Fotballbilde/Umich-press.jpg" class="team-photo" />
-        <p>I played for two different teams at Umich. The club-team, and the MBA team. Here i got lifelong frinedships, a lot of fun experiences and played, just for fun!</p>
+        <p>I played for two teams at Michigan, the university club team and the MBA team. I formed lifelong friendships, enjoyed countless memorable experiences and played simply for the joy of the game.</p>
         <img src="Fotballbilde/UmichTeam.jpg" class="team-photo" />
       </section>
 
       <section id="fyllingsdalen" class="team-section">
         <h2>Fyllingsdalen</h2>
-        <p> After returning from exchange, I did not have a club where I could return and feel welcome. At this point, I was considering ending my career. </p>
-        <p>I had some friends at Fyllingsdalen who convinced me to try out there. I joined the B-team, playing in 5. division. After a short while, I was also welcome to train with the A-team. </p>
+        <p>After returning from exchange, I did not have a club to which I could comfortably return. At that point, I considered ending my football career.</p>
+        <p>Friends at Fyllingsdalen convinced me to attend a trial. I joined the B team in the fifth division and was soon invited to train with the A team as well.</p>
         <img src="Fotballbilde/fyllingsdalen-huse.JPG" class="team-photo" />
-        <p>My home at Fyllingsdalen did however become the B-team, where I was named team captain. This was a team consisting of up and coming players. I was surrounded by a lot of talent, but we lacked experience. </p>
+        <p>The B team ultimately became my home at Fyllingsdalen, and I was named captain. The squad contained many promising young players. We had considerable talent, but we lacked experience.</p>
         <img src="Fotballbilde/fyllingsdalen2.png" class="team-photo" />
 
       </section>
@@ -123,15 +101,15 @@
       <section id="lyngbo" class="team-section">
         <h2>Lyngbø</h2>
         <p>
-          On the verge of giving up on football, I got a call from Lyngbø. The message was clear, they wanted to win the league, and they wanted me to be a part of it.
+          Just as I was close to giving up football, I received a call from Lyngbø. Their ambition was clear. They wanted to win the league, and they wanted me to help them do it.
         </p>
         <p>
-          I gave football one last chance, and the rest was history. The season provided memories for a lifetime. Playing every game, becoming part of a family, and enjoying football again.
+          I gave football one final chance, and the decision created memories that will last a lifetime. I played every match, became part of a close-knit team and found joy in football again.
         </p>
-        <p>Now, I am at the peak of my career! Im playing at the highest level I have ever played, having out supporters, the Ultras, screaming our names, creating a fantastic ambiance for each game, and playing at high stakes. I could not ask for anything else, and the story keeps on going.</p>
+        <p>I am now playing at the highest level of my career. Our supporters, the Ultras, sing our names and create an exceptional atmosphere at every match. The stakes are high, the experience is unforgettable and the story continues.</p>
         <div class="toggle-buttons">
-          <button onclick="showGallery('wheel')">Scroll Wheel</button>
-          <button onclick="showGallery('collage')">Collage</button>
+          <button onclick="showGallery('wheel')">Scroll view</button>
+          <button onclick="showGallery('collage')">Collage view</button>
         </div>
       
         <div id="collage" class="gallery-container collage">
@@ -181,9 +159,7 @@
 
       <section class="post-content">
         <p>
-          From the youth system at <strong>SK Brann</strong> to winning the league at <strong>Lyngbø IL</strong>,
-          every chapter had its own lessons. Brann gave me a taste of elite youth football, while Lyngbø taught me how to work with a team through
-          both wins and losses.
+          From the youth system at <strong>SK Brann</strong> to winning the league with <strong>Lyngbø IL</strong>, every chapter offered a different lesson. Brann introduced me to elite youth football, while Lyngbø taught me how to support a team through victories and setbacks.
         </p>
 
         <blockquote>
@@ -191,13 +167,12 @@
         </blockquote>
 
         <p>
-          I still carry that team-first mentality with me, whether I'm working on a group project or helping lead a student organization.
-          Football was never just about goals — it was about grit, community, and growth.
+          I still carry that team-first mentality with me, whether I'm working on a group project or helping lead a student organisation.
+          Football was never only about goals. It was about resilience, community and growth.
         </p>
 
         <p>
-          These days, I don’t train five times a week anymore. But I do bring the same discipline and energy into everything I do —
-          from auditing oil companies at EY to chasing impact in student-led events.
+          These days, I no longer train five times a week. I still bring the same discipline and energy to everything I do, from auditing energy companies at EY to creating impact through student-led events.
         </p>
       </section>
     </div>
@@ -216,7 +191,7 @@
 
   <footer>
     <div class="container center">
-      <p>&copy; 2025 Philip Austbø. All rights reserved.</p>
+      <p>&copy; 2026 Philip Austbø. All rights reserved.</p>
     </div>
   </footer>
 </body>

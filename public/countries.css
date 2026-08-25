@@ -118,11 +118,23 @@
 
 
   #map {
-    height: 100vh;
-    top: 0vh;
-    width: 100%;
-    position: relative;
+    position: fixed;
+    top: 82px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: auto;
     z-index: 1;
+    background: #aad3df;
+}
+
+#map.leaflet-container {
+  cursor: default;
+}
+
+#map .leaflet-interactive {
+  cursor: pointer;
 }
 
 html, body {
@@ -137,11 +149,10 @@ overflow: hidden;
     background: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     #map {
-      height: 110vh;
-      top: -10vh;
-  }
+      top: 72px;
+    }
   }
 
   .modal-content {

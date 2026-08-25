@@ -79,6 +79,7 @@ async function render(){
     tbody.insertAdjacentHTML('beforeend',`<tr><td>${h.symbol}</td><td>${h.qty}</td><td>${f$(h.avgCost)}</td><td>${f$(p)}</td><td>${f$(worth)}</td><td>${f$(worth-h.qty*h.avgCost)}</td><td>${fPct((worth/h.avgCost/h.qty-1)*100)}</td><td><button class='ghost' onclick=\"sellAll('${h.symbol}')\">Sell</button></td></tr>`);
   }
   const total=cash+val; document.querySelector('#k_value').textContent=f$(total);
+  document.querySelector('#refreshLabel').textContent=s.apiKey?'market data enabled':'local mode';
   document.querySelector('#k_cash').textContent=f$(cash);
   document.querySelector('#k_pl').textContent=f$(val-cost);
   document.querySelector('#k_day').textContent=f$(day);
@@ -109,8 +110,8 @@ document.getElementById('addTx').onclick=async()=>{
   const qty=parseFloat(document.querySelector('#qty').value);
   let p=parseFloat(document.querySelector('#price').value);
   const side=document.querySelector('#side').value;
-  if(!p){const {apiKey}=Settings.get();if(!apiKey)return alert('No API key or price');const q=await fetchQuotes([s]);p=q[s]?.price;}
-  await addTx({symbol:s,side,qty,p,date:new Date().toISOString()});await render();
+  if(!p){const {apiKey}=Settings.get();if(!apiKey)return alert('Please enter a price or add an API key');const q=await fetchQuotes([s]);p=q[s]?.price;}
+  await addTx({symbol:s,side,qty,price:p,date:new Date().toISOString()});await render();
 };
 
 document.getElementById('exportCSV').onclick=async()=>{

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A fast mental-math game by Philip Austbø.">
+  <title>Math Trainer | Philip Austbø</title>
+  <link rel="stylesheet" href="lab.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header"><a href="../games.html">Games</a><strong>Math Trainer</strong><button id="new-game" type="button">New game</button></header>
+  <main>
+    <section class="lab-shell">
+      <aside class="lab-side">
+        <div><p class="eyebrow">Mental arithmetic</p><h1>Think<br>fast.</h1></div>
+        <p>Solve as many calculations as possible before time runs out. Consecutive correct answers earn bonus points.</p>
+        <div class="stats"><div class="stat"><span>Score</span><strong id="score">0</strong></div><div class="stat"><span>Streak</span><strong id="streak">0</strong></div></div>
+      </aside>
+      <div class="lab-main">
+        <div class="control-row"><label>Difficulty <select id="difficulty"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select></label><div class="progress" aria-label="Time remaining"><i id="timer-bar"></i></div><strong id="timer">45s</strong></div>
+        <div class="game-stage">
+          <p id="question" class="prompt">Ready?</p>
+          <p id="math-help" class="subprompt">Press Start, type your answer and press Enter.</p>
+          <form id="answer-form" class="answer-form"><input id="answer" inputmode="numeric" autocomplete="off" aria-label="Answer" disabled><button class="primary" type="submit" id="submit">Start</button></form>
+          <p id="feedback" class="feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="math.js"></script>
+</body>
+</html>

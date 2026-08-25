@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const mathBox = document.querySelector('.game-box.math-trainer');
+    const mathBox = document.querySelector('.game-card.math-trainer');
+    if (!mathBox) return;
     const problemEl = mathBox.querySelector('.math-problem');
     const spans = problemEl.querySelectorAll('span');
   

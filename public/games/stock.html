@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A market-direction prediction game by Philip Austbø.">
+  <title>Stock Predictor | Philip Austbø</title>
+  <link rel="stylesheet" href="lab.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header"><a href="../games.html">Games</a><strong>Stock Predictor</strong><button id="new-round" type="button">New round</button></header>
+  <main>
+    <section class="lab-shell">
+      <aside class="lab-side">
+        <div><p class="eyebrow">Signal or noise?</p><h1>Read<br>the market.</h1></div>
+        <p>Study the chart and its imperfect signals. Predict whether the hidden period will end above or below the latest price.</p>
+        <div class="stats"><div class="stat"><span>Score</span><strong id="score">0</strong></div><div class="stat"><span>Round</span><strong id="round">1</strong></div></div>
+      </aside>
+      <div class="lab-main">
+        <div class="signals"><div><span>Momentum</span><strong id="momentum">Not shown</strong></div><div><span>Volatility</span><strong id="volatility">Not shown</strong></div><div><span>Sentiment</span><strong id="sentiment">Not shown</strong></div></div>
+        <div class="game-stage">
+          <svg class="market-chart" viewBox="0 0 700 260" preserveAspectRatio="none" aria-label="Synthetic price chart"><path class="grid" d="M0 52H700M0 104H700M0 156H700M0 208H700"></path><polyline id="observed" class="price-line"></polyline><polyline id="future" class="price-line reveal" hidden></polyline></svg>
+          <p class="subprompt" id="stock-prompt">Will the hidden period end above or below the latest price?</p>
+          <div class="choices"><button class="choice" data-choice="up">Buy · Higher</button><button class="choice alt" data-choice="down">Sell · Lower</button></div>
+          <p id="feedback" class="feedback" aria-live="polite"></p>
+          <button id="next" class="primary next" hidden>Next round</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="stock.js"></script>
+</body>
+</html>

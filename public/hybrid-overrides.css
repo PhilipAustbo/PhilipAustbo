@@ -1,0 +1,31 @@
+.hero-portrait{width:100%;height:auto;aspect-ratio:1;border-radius:0}
+.hero-portrait img{object-position:center 35%}
+.portrait-break img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:center 62%;border-radius:0}
+@media(max-width:900px){.hero-portrait{height:auto;aspect-ratio:1}}
+@media(max-width:600px){.hero-portrait,.portrait-break img{height:auto;aspect-ratio:1;border-radius:0}}
+.project-row:hover{padding-left:0;padding-right:0}
+.project-row .project-icon{font-family:"Material Symbols Rounded"!important;font-size:clamp(1.45rem,2.2vw,2rem)!important;font-weight:400!important;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;white-space:nowrap;word-wrap:normal;color:var(--blue)}
+.school-record{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:1.5rem;align-items:center}
+.school-logo{justify-self:end;width:auto;object-fit:contain;object-position:center}
+.school-logo-nhh{height:68px}
+.school-logo-wu{height:52px;max-width:100px}
+.school-logo-michigan{height:28px;max-width:145px}
+.education-documents{display:grid;grid-template-columns:1fr;margin-top:4.5rem;background:var(--line);border:1px solid var(--line)}
+.education-document-card{min-height:300px;padding:1.6rem;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto 1fr auto;gap:1.4rem;background:var(--paper);transition:background .25s,color .25s}
+.education-document-card:hover{background:var(--blue-soft);color:var(--blue)}
+.document-card-label{font-size:.66rem;color:var(--muted);letter-spacing:.11em;text-transform:uppercase}
+.document-card-sheet{grid-column:2;grid-row:1 / span 2;width:116px;height:150px;padding:24px 18px;align-self:start;background:white;border:1px solid var(--line);box-shadow:9px 9px 0 rgba(54,91,125,.12);transform:rotate(2deg);transition:transform .25s,box-shadow .25s}
+.education-document-card:hover .document-card-sheet{transform:rotate(0) translateY(-4px);box-shadow:13px 13px 0 rgba(54,91,125,.16)}
+.document-card-sheet i{display:block;height:1px;margin:0 0 13px;background:rgba(23,32,42,.35)}
+.document-card-sheet i:nth-of-type(2){width:75%}
+.document-card-sheet b{display:block;margin-bottom:22px;font:400 1.45rem/1 Newsreader,serif;color:var(--blue)}
+.education-document-card>div{grid-column:1 / -1;align-self:end;max-width:520px}
+.education-document-card h3{font:400 clamp(2rem,3.4vw,3.5rem)/1 Newsreader,serif;margin:0 0 .65rem}
+.education-document-card p{margin:0;color:#56616a;max-width:460px}
+.footer-link-icon{display:inline-flex;align-items:center;gap:.5rem}
+.footer-icon{display:inline-flex;flex:0 0 auto;color:#fff}
+.footer-icon-linkedin{width:16px;height:16px;align-items:center;justify-content:center;border:1px solid currentColor;border-radius:2px;font:700 10px/1 Arial,sans-serif;letter-spacing:-.04em;text-transform:none}
+.footer-icon-document{position:relative;width:12px;height:15px;border:1px solid currentColor;border-radius:1px}
+.footer-icon-document:after{content:"";position:absolute;left:2px;top:5px;width:6px;height:1px;background:currentColor;box-shadow:0 3px 0 currentColor}
+@media(max-width:760px){.school-record{grid-template-columns:minmax(0,1fr) 100px}.school-logo-nhh{height:58px}.school-logo-wu{height:45px;max-width:86px}.school-logo-michigan{height:22px;max-width:105px}.education-documents{grid-template-columns:1fr}.education-document-card{min-height:255px}.document-card-sheet{width:92px;height:122px;padding:19px 14px}}
+@media(max-width:430px){.school-record{grid-template-columns:1fr}.school-logo{justify-self:start;margin-top:.8rem}.education-document-card{grid-template-columns:1fr 78px;padding:1.3rem}.document-card-sheet{width:76px;height:102px;padding:15px 11px}.document-card-sheet i{margin-bottom:10px}.document-card-sheet b{font-size:1.1rem;margin-bottom:14px}}

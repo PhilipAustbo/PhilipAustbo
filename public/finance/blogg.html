@@ -1,30 +1,23 @@
-<!DOCTYPE html>
-<html lang="no">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blogg & Analyser</title>
-  <link rel="stylesheet" href="css/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Market Notebook | Philip Austbø</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../secondary.css"><link rel="stylesheet" href="../hybrid-secondary.css">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar">
-    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
-    <ul>
-      <li><a href="index.html">Portefølje</a></li>
-      <li><a href="historikk.html">Historikk</a></li>
-      <li><a href="blogg.html" class="active">Blogg</a></li>
-    </ul>
-  </nav>
-
-  <main class="container">
-    <section class="overview">
-      <h2>Blogg & Analyser</h2>
-      <div id="blogPosts" class="blog-posts">
-        <!-- Innlegg settes inn av JavaScript -->
-      </div>
+  <header class="sub-header"><a class="sub-brand" href="../index.html">Philip Austbø</a><nav class="sub-nav"><a href="index.html">Finance lab</a><a href="portfolio.html">Portfolio</a><a href="blogg.html" aria-current="page">Notebook</a><a href="historikk.html">Journal</a></nav><a class="sub-back" href="index.html">Back to finance</a><button class="sub-menu" aria-expanded="false">Menu</button></header>
+  <main>
+    <section class="page-hero sub-shell"><span class="page-index">02 · Research notes</span><div><p class="page-kicker">Ideas in development</p><h1>Market<br>notebook.</h1></div><p class="page-intro">A collection of concise investment observations, sector research and questions worth exploring further.</p></section>
+    <section class="notes-list sub-shell">
+      <article><span>Theme 01</span><h2>AI infrastructure and the next investment cycle</h2><p>Examining where value may accrue across computing, connectivity, software and energy as AI adoption expands.</p><small>Research in progress</small></article>
+      <article><span>Theme 02</span><h2>Maritime technology in the GCC</h2><p>Exploring how regulation, capital availability and sustainability priorities may shape adoption across the regional maritime ecosystem.</p><small>Research in progress</small></article>
+      <article><span>Theme 03</span><h2>Commodities, inflation and portfolio construction</h2><p>Considering how real assets behave across inflation regimes and what that means for diversified investors.</p><small>Research in progress</small></article>
     </section>
   </main>
-  <script src="js/main.js"></script>
+  <footer class="page-footer"><span>© <span data-year></span> Philip Austbø</span><div><a href="index.html">Finance lab</a><a href="../index.html">Home</a></div></footer>
+  <script src="../secondary.js"></script>
 </body>
 </html>

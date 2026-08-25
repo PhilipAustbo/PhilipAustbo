@@ -1,181 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Philip Austbø</title>
-  <link rel="icon" type="image/png" href="memoji.png">
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="games.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Small games, finance tools and interactive experiments built by Philip Austbø.">
+  <title>Games and Tools | Philip Austbø</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="secondary.css">
+  <link rel="stylesheet" href="games-immersive.css">
+<link rel="stylesheet" href="hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
 <body>
-
-  <!-- Dark Mode Toggle -->
-  <button id="darkModeToggle" class="dark-toggle">🌙</button>
-
-  <!-- Burger Icon -->
-  <button class="burger" id="burger" aria-label="Toggle navigation">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
-
-  <div id="infoBanner" class="info-banner">
-    <p>This site is under construction. Only working game at this time is Pong.</p>
-    <span id="closeBanner">&times;</span>
-  </div>
-
-  <!-- Header Menu -->
-  <header>
-    <div class="nav-container">
-      <h1>Philip Austbø</h1>
-      <nav>
-        <ul id="navMenu">
-          <li><a href="index.html">About</a></li>
-          <li><a href="countries.html">Countries</a></li>
-          <li><a href="hours.html">Hours</a></li>
-          <li><a href="football.html">Football</a></li>
-          <li><a href="games.html">Games</a></li>
-          <li><a href="gemini.html">ChatBot</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header class="sub-header">
+    <a class="sub-brand" href="index.html">Philip Austbø</a>
+    <nav class="sub-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a><a href="hours.html">Hours</a><a href="countries.html">Countries</a><a href="games.html" aria-current="page">Games</a><a href="gemini.html">Chatbot</a><a href="football.html">Football</a>
+    </nav>
+    <a class="sub-back" href="index.html#projects">Back to projects</a>
+    <button class="sub-menu" aria-expanded="false">Menu</button>
   </header>
+  <main>
+    <section class="page-hero sub-shell">
+      <span class="page-index">03 · Web experiments</span>
+      <div><p class="page-kicker">Learning by building</p><h1>Games<br>& tools.</h1></div>
+      <p class="page-intro">A collection of small experiments in finance, logic and interaction. Choose a card to explore each idea.</p>
+    </section>
+    <section class="page-section sub-shell">
+      <div class="games-grid immersive-grid">
+        <a class="game-card immersive-card pong-card" href="games/pong.html">
+          <div class="game-top"><span>Playable</span><span class="game-status">Arcade</span></div>
+          <div class="game-copy"><h2>Pong</h2><p>A responsive browser version of the classic arcade game.</p></div>
+          <div class="pong-scene scene" aria-hidden="true"><i class="pong-net"></i><b class="pong-paddle pong-left"></b><b class="pong-paddle pong-right"></b><span class="pong-ball"></span></div>
+        </a>
 
-  <!-- Games Overview Section -->
-  <section class="games-overview">
-    <div class="game-box stock-ticker">
-        <a href="#">Stock Ticker Prediction</a>
-        <div class="ticker-strip">
-          <div class="ticker-content">
-            <span class="up">AAPL 189.42 ▲</span>
-            <span class="down">GOOG 142.55 ▼</span>
-            <span class="up">MSFT 318.29 ▲</span>
-            <span class="down">TSLA 278.66 ▼</span>
-            <span class="up">AMZN 122.19 ▲</span>
-            <span class="up">NVDA 695.03 ▲</span>
-            <span class="down">INTC 35.88 ▼</span>
+        <a class="game-card immersive-card chess-card" href="games/chess.html">
+          <div class="game-top"><span>Playable</span><span class="game-status">Strategy</span></div>
+          <div class="game-copy"><h2>Chess</h2><p>Watch the pieces assemble, then challenge someone to a match.</p></div>
+          <div class="chess-scene scene" aria-hidden="true">
+            <div class="mini-board">
+            <span class="chess-man" style="--col:1;--row:1;--dx:-520%;--dy:-420%;--d:.02s">♜</span><span class="chess-man" style="--col:2;--row:1;--dx:-390%;--dy:-560%;--d:.07s">♞</span><span class="chess-man" style="--col:3;--row:1;--dx:-250%;--dy:-630%;--d:.12s">♝</span><span class="chess-man" style="--col:4;--row:1;--dx:-100%;--dy:-700%;--d:.17s">♛</span><span class="chess-man" style="--col:5;--row:1;--dx:120%;--dy:-700%;--d:.22s">♚</span><span class="chess-man" style="--col:6;--row:1;--dx:260%;--dy:-630%;--d:.27s">♝</span><span class="chess-man" style="--col:7;--row:1;--dx:400%;--dy:-560%;--d:.32s">♞</span><span class="chess-man" style="--col:8;--row:1;--dx:530%;--dy:-420%;--d:.37s">♜</span>
+            <span class="chess-man pawn" style="--col:1;--row:2;--dx:-620%;--dy:210%;--d:.11s">♟</span><span class="chess-man pawn" style="--col:2;--row:2;--dx:-480%;--dy:290%;--d:.15s">♟</span><span class="chess-man pawn" style="--col:3;--row:2;--dx:-330%;--dy:370%;--d:.19s">♟</span><span class="chess-man pawn" style="--col:4;--row:2;--dx:-170%;--dy:450%;--d:.23s">♟</span><span class="chess-man pawn" style="--col:5;--row:2;--dx:180%;--dy:450%;--d:.27s">♟</span><span class="chess-man pawn" style="--col:6;--row:2;--dx:340%;--dy:370%;--d:.31s">♟</span><span class="chess-man pawn" style="--col:7;--row:2;--dx:490%;--dy:290%;--d:.35s">♟</span><span class="chess-man pawn" style="--col:8;--row:2;--dx:630%;--dy:210%;--d:.39s">♟</span>
+            </div>
           </div>
-        </div>
-      </div>
-      
-      
-      <div class="game-box portfolio-builder">
-        <a href="#">Portfolio Builder</a>
-        <div class="portfolio-chart">
-          <div class="bar" style="--h: 0.7"></div>
-          <div class="bar" style="--h: 1"></div>
-          <div class="bar" style="--h: 0.85"></div>
-          <div class="bar" style="--h: 0.95"></div>
-          <div class="bar" style="--h: 0.8"></div>
-        </div>
-      </div>
-      
-      
-      <div class="game-box option-pricing">
-        <a href="#">Option Pricing Quesser</a>
-        <svg class="payoff-curves" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <!-- Jagged call curve -->
-            <polyline class="curve call" points="
-              0,80 10,75 20,70 30,50 40,55 50,40 60,35 70,30 80,25 90,22 100,20
-            " />
-            
-            <!-- Jagged put curve -->
-            <polyline class="curve put" points="
-              0,20 10,25 20,30 30,50 40,45 50,60 60,65 70,70 80,75 90,78 100,80
-            " />
-          </svg>
-      </div>
-      
-    <div class="game-box sudoku-box">
-        <a href="#">Sudoku</a>
-        <div class="sudoku-board">
-            <div class="sudoku-cell" style="grid-column: 9; grid-row: 1;">5</div>
-            <div class="sudoku-cell" style="grid-column: 3; grid-row: 3;">6</div>
-            <div class="sudoku-cell" style="grid-column: 7; grid-row: 3;">7</div>
-            <div class="sudoku-cell" style="grid-column: 4; grid-row: 2;">3</div>
-            <div class="sudoku-cell" style="grid-column: 7; grid-row: 6;">6</div>
-            <div class="sudoku-cell" style="grid-column: 2; grid-row: 6;">1</div>
-            <div class="sudoku-cell" style="grid-column: 8; grid-row: 8;">4</div>
-            <div class="sudoku-cell" style="grid-column: 2; grid-row: 9;">4</div>
-            <div class="sudoku-cell" style="grid-column: 1; grid-row: 1;">1</div>
-        </div>
-        </div>
-    </div>
-      
-    <div class="game-box">
-        <a href="#">Chess</a>
-        <div class="chess-board">
-          <!-- White pieces (top) -->
-          <div class="chess-piece rook" style="top: 1%; left: 1%;"></div>
-          <div class="chess-piece knight" style="top: 1%; left: 13.5%;"></div>
-          <div class="chess-piece bishop" style="top: 1%; left: 26.5%;"></div>
-          <div class="chess-piece queen" style="top: 1%; left: 38.5%;"></div>
-          <div class="chess-piece king" style="top: 1%; left: 51.5%;"></div>
-          <div class="chess-piece bishop" style="top: 1%; left: 63.5%;"></div>
-          <div class="chess-piece knight" style="top: 1%; left: 76.5%;"></div>
-          <div class="chess-piece rook" style="top: 1%; left: 88.5%;"></div>
-      
-          <!-- Pawns (second row) -->
-          <div class="chess-piece pawn" style="top: 13.5%; left: 1%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 13.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 26.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 38.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 51.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 63.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 76.5%;"></div>
-          <div class="chess-piece pawn" style="top: 13.5%; left: 88.5%;"></div>
-      
-          <!-- Black pawns (seventh row) -->
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 1%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 13.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 26.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 38.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 51.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 63.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 76.5%;"></div>
-          <div class="chess-piece pawn black" style="top: 76.5%; left: 88.5%;"></div>
-      
-          <!-- Black major pieces (eighth row) -->
-          <div class="chess-piece rook black" style="top: 88.5%; left: 1%;"></div>
-          <div class="chess-piece knight black" style="top: 88.5%; left: 13.5%;"></div>
-          <div class="chess-piece bishop black" style="top: 88.5%; left: 26.5%;"></div>
-          <div class="chess-piece queen black" style="top: 88.5%; left: 38.5%;"></div>
-          <div class="chess-piece king black" style="top: 88.5%; left: 51.5%;"></div>
-          <div class="chess-piece bishop black" style="top: 88.5%; left: 63.5%;"></div>
-          <div class="chess-piece knight black" style="top: 88.5%; left: 76.5%;"></div>
-          <div class="chess-piece rook black" style="top: 88.5%; left: 88.5%;"></div>
-        </div>
-      </div>
-      
-    <div class="game-box"><a href="#">Tetris</a></div>
-    <div class="game-box">
-            <a href="games/pong.html">Pong</a>
-            <div class="pong-ball"></div>
-    </div>
-    <div class="game-box math-trainer">
-        <div class="math-problem">
-          <span class="num1"></span> 
-          <span class="operator"></span> 
-          <span class="num2"></span> 
-          <span class="equals">=</span> 
-          <span class="answer"></span>
-        </div>
-        <div class="game-title">Math Trainer</div>
-      </div>
-      
-      
-    <div class="game-box"><a href="#">Flappy Bird</a></div>
-  </section>  
+        </a>
 
-  <footer>
-    <div class="container center">
-      <p>&copy; 2025 Philip Austbø. All rights reserved.</p>
-    </div>
-  </footer>
+        <a class="game-card immersive-card portfolio-card" href="finance/portfolio.html">
+          <div class="game-top"><span>Interactive</span><span class="game-status">Finance</span></div>
+          <div class="game-copy"><h2>Portfolio builder</h2><p>Model transactions and see how a portfolio develops over time.</p></div>
+          <div class="portfolio-scene scene" aria-hidden="true"><div class="chart-grid"></div><div class="market-bars"><i style="--h:26%;--d:.02s"></i><i style="--h:48%;--d:.06s"></i><i style="--h:39%;--d:.1s"></i><i style="--h:67%;--d:.14s"></i><i style="--h:55%;--d:.18s"></i><i style="--h:82%;--d:.22s"></i><i style="--h:72%;--d:.26s"></i><i style="--h:94%;--d:.3s"></i></div><svg viewBox="0 0 100 60" preserveAspectRatio="none"><path d="M0 52 L13 45 L24 48 L37 32 L49 37 L62 19 L74 25 L87 8 L100 3"></path></svg><strong>+18.4%</strong></div>
+        </a>
 
-  <script src="script.js"></script>
-  <script src="games.js"></script>
+        <a class="game-card immersive-card math-card" href="games/math.html">
+          <div class="game-top"><span>Playable</span><span class="game-status">Mental math</span></div>
+          <div class="game-copy"><h2>Math trainer</h2><p>Test your mental arithmetic against the clock.</p></div>
+          <div class="math-scene scene" aria-hidden="true"><span style="--x:8%;--y:16%;--dx:-180%;--dy:-160%;--d:.02s">42 × 8 = 336</span><span style="--x:48%;--y:32%;--dx:190%;--dy:-220%;--d:.1s">144 ÷ 12 = 12</span><span style="--x:14%;--y:55%;--dx:-220%;--dy:180%;--d:.18s">87 + 46 = 133</span><span style="--x:55%;--y:72%;--dx:220%;--dy:220%;--d:.26s">91 − 38 = 53</span></div>
+        </a>
+
+        <a class="game-card immersive-card stock-card" href="games/stock.html">
+          <div class="game-top"><span>Playable</span><span class="game-status">Markets</span></div>
+          <div class="game-copy"><h2>Stock predictor</h2><p>Read noisy market signals and predict the next move.</p></div>
+          <div class="stock-scene scene" aria-hidden="true"><div class="ticker-row up"><span>AAPL +1.82% · NVDA +2.41% · MSFT +1.06% · AAPL +1.82% · NVDA +2.41% ·</span></div><div class="ticker-row down"><span>TSLA −0.94% · INTC −1.21% · META +0.76% · TSLA −0.94% · INTC −1.21% ·</span></div><div class="ticker-row up slow"><span>BRENT +0.63% · EURUSD −0.18% · GOLD +1.14% · BRENT +0.63% · EURUSD −0.18% ·</span></div><div class="stock-choice"><b>BUY</b><i></i><b>SELL</b></div></div>
+        </a>
+
+        <a class="game-card immersive-card option-card" href="games/options.html">
+          <div class="game-top"><span>Playable</span><span class="game-status">Derivatives</span></div>
+          <div class="game-copy"><h2>Option guesser</h2><p>Develop your intuition for option payoffs and pricing.</p></div>
+          <div class="option-scene scene" aria-hidden="true"><div class="option-grid"></div><svg viewBox="0 0 120 75" preserveAspectRatio="none"><path class="axis" d="M5 67 H116 M60 5 V70"></path><path class="call" d="M5 61 L60 61 L114 8"></path><path class="put" d="M6 7 L60 61 L115 61"></path></svg><span class="strike">K</span></div>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer"><span>© <span data-year></span> Philip Austbø</span><div><a href="football.html">Next · Football</a><a href="index.html">Home</a></div></footer>
+  <script src="secondary.js"></script>
 </body>
 </html>

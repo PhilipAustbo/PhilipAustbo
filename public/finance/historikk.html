@@ -1,43 +1,24 @@
-<!DOCTYPE html>
-<html lang="no">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Investeringshistorikk</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Investment Journal | Philip Austbø</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../secondary.css"><link rel="stylesheet" href="../hybrid-secondary.css">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar">
-    <h1 class="logo">💰 Min Kapitalforvaltning</h1>
-    <ul>
-      <li><a href="index.html">Portefølje</a></li>
-      <li><a href="historikk.html" class="active">Historikk</a></li>
-      <li><a href="blogg.html">Blogg</a></li>
-    </ul>
-  </nav>
-
-  <main class="container">
-    <section class="overview">
-      <h2>Investeringshistorikk</h2>
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>Dato</th>
-            <th>Verdipapir</th>
-            <th>Type</th>
-            <th>Beløp (NOK)</th>
-            <th>Avkastning</th>
-          </tr>
-        </thead>
-        <tbody id="historyBody">
-          <!-- Rader settes inn av JavaScript -->
-        </tbody>
-      </table>
-      <div id="transactionDetails" class="details"></div>
+  <header class="sub-header"><a class="sub-brand" href="../index.html">Philip Austbø</a><nav class="sub-nav"><a href="index.html">Finance lab</a><a href="portfolio.html">Portfolio</a><a href="blogg.html">Notebook</a><a href="historikk.html" aria-current="page">Journal</a></nav><a class="sub-back" href="index.html">Back to finance</a><button class="sub-menu" aria-expanded="false">Menu</button></header>
+  <main>
+    <section class="page-hero sub-shell"><span class="page-index">03 · Process</span><div><p class="page-kicker">Think · Decide · Review</p><h1>Investment<br>journal.</h1></div><p class="page-intro">Good decisions require more than strong outcomes. This framework records the thesis, evidence, risks and lessons behind each choice.</p></section>
+    <section class="journal-framework sub-shell">
+      <div><span>01</span><h2>Thesis</h2><p>What must be true for the opportunity to succeed?</p></div>
+      <div><span>02</span><h2>Evidence</h2><p>Which facts support or challenge the thesis?</p></div>
+      <div><span>03</span><h2>Risk</h2><p>What could permanently impair the investment?</p></div>
+      <div><span>04</span><h2>Review</h2><p>What does the outcome reveal about the process?</p></div>
     </section>
   </main>
-  <script src="js/main.js"></script>
+  <footer class="page-footer"><span>© <span data-year></span> Philip Austbø</span><div><a href="index.html">Finance lab</a><a href="../index.html">Home</a></div></footer>
+  <script src="../secondary.js"></script>
 </body>
 </html>

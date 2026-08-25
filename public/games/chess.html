@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="chess.css" />
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A playable two-player chess game by Philip Austbø.">
+  <title>Chess | Philip Austbø</title>
+  <link rel="stylesheet" href="chess.css">
+<link rel="stylesheet" href="../hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght;500;600&family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
 <body>
-    
-
-    <div id="chessboard"></div>
-
-
-    <script src="chess.js"></script>
+  <header class="game-header">
+    <a href="../games.html" aria-label="Back to games">Games</a>
+    <strong>Chess</strong>
+    <button id="reset-game" type="button">New game</button>
+  </header>
+  <main>
+    <p id="game-status" role="status" aria-live="polite">White to move</p>
+    <div id="chessboard" aria-label="Chess board"></div>
+    <p class="instructions">Select a piece, then choose a highlighted square. You can also drag each piece into position.</p>
+  </main>
+  <script src="chess.js"></script>
 </body>
 </html>

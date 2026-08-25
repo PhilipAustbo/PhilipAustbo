@@ -1,66 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pong Game</title>
-  <link rel="stylesheet" href="meny.css" /> <!-- Your global styles with nav, header, etc -->
-  <link rel="stylesheet" href="pong.css" />   <!-- Your game-specific styles -->
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="A responsive single-player Pong game by Philip Austbø.">
+  <title>Pong | Philip Austbø</title>
+  <link rel="stylesheet" href="pong.css">
+<link rel="stylesheet" href="../hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght;500;600&family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
 <body>
-  <!-- Dark Mode Toggle -->
-  <button id="darkModeToggle" class="dark-toggle">🌙</button>
-
-  <!-- Burger Menu -->
-  <button class="burger" id="burger" aria-label="Toggle navigation">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
-
-  <!-- Header Navigation -->
-  <header>
-    <div class="nav-container">
-      <nav>
-        <ul id="navMenu">
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../hours.html">Hours</a></li>
-          <li><a href="../football.html">Fotball</a></li>
-          <li><a href="../gemini.html">ChatBot</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header class="game-header">
+    <a href="../games.html">Games</a>
+    <strong>Pong</strong>
+    <button id="new-game" type="button">New game</button>
   </header>
-
-  <!-- Pong Game Wrapper -->
-  <div id="pong-wrapper">
-    <!-- Setup Overlay -->
-    <div id="setup-overlay">
-      <div class="setup-box">
-        <h2>Welcome to Pong</h2>
-        <input type="text" id="player-name" placeholder="Enter your name" />
-        <p>Choose control method:</p>
-        <div class="button-group">
-          <button onclick="startGame('mouse')">Mouse</button>
-          <button onclick="startGame('keyboard')">Keyboard</button>
-        </div>
+  <main>
+    <div class="scoreboard" aria-live="polite">
+      <span>You <b id="player-score">0</b></span>
+      <span id="game-message">First to 7</span>
+      <span><b id="computer-score">0</b> Computer</span>
+    </div>
+    <div id="game" tabindex="0" aria-label="Pong game. Use arrow keys, W and S, mouse, or touch to move your left paddle.">
+      <canvas id="pong-canvas"></canvas>
+      <div id="start-overlay">
+        <p>PONG</p>
+        <button id="start-game" type="button">Start game</button>
+        <small>Move with the arrow keys, W and S, a mouse or touch<br>Press Space to pause</small>
       </div>
+      <div id="pause-overlay" hidden>Paused</div>
     </div>
-
-    <!-- Game Area -->
-    <div id="game">
-      <div id="ball"></div>
-      <div class="paddle" id="paddle-left"></div>
-      <div class="paddle" id="paddle-right"></div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <p class="instructions">Keep the ball in play. Change its angle by striking it away from the centre of your paddle.</p>
+  </main>
   <script src="pong.js"></script>
-
-  <!-- Optional: Navigation Behavior Script -->
-  <script>
-  </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 const hoursData = {
-  labels: ["School (1-10)", "Studying", "Football", "Gaming", "Chess", "Traveling", "Sleeping", "Working", "Weight Lifting"],
+  labels: ["School years 1 to 10", "Studying", "Football", "Gaming", "Chess", "Travelling", "Sleeping", "Working", "Weight training"],
   totals: [10140, 11200, 13510, 4300, 500, 16400, 75000, 3510, 5800]
 };
 
@@ -17,7 +17,7 @@ function getCumulativeData(total, years, label) {
 
     // Narrative rules per label
     switch (label) {
-      case "School (1-10)":
+      case "School years 1 to 10":
         if (year < 2008 || year > 2025) increment *= 0;
         else increment *= 1.75
         break;
@@ -46,7 +46,7 @@ function getCumulativeData(total, years, label) {
       case "Chess":
         if (year < 2016) increment = 0;
         break;
-      case "Traveling":
+      case "Travelling":
         if (year < 2016) increment *= 0.4;
         if (year >= 2022) increment *= 2.1;
         break;
@@ -61,7 +61,7 @@ function getCumulativeData(total, years, label) {
         else if (year >2019) increment *= 2;
         break;
 
-      case "Weight Lifting":
+      case "Weight training":
         if (year < 2017) increment = 0;
         else if (year >2017) increment *= 2.3;
         break;
@@ -93,6 +93,7 @@ function renderTimeChart(filteredLabels = hoursData.labels) {
         label,
         data: getCumulativeData(hoursData.totals[i], timeLabels, label),
         fill: false,
+        hidden: label === "Sleeping",
         borderColor: `hsl(${i * 40}, 70%, 50%)`,
         tension: 0.3
       };
@@ -111,7 +112,7 @@ function renderTimeChart(filteredLabels = hoursData.labels) {
       scales: {
         y: {
           beginAtZero: true,
-          title: { display: true, text: 'Total Hours' }
+          title: { display: true, text: 'Total hours' }
         },
         x: {
           title: { display: true, text: 'Year' }
@@ -147,6 +148,12 @@ const pieChart = new Chart(pieCtx, {
   }
 });
 
+const sleepingIndex = hoursData.labels.indexOf("Sleeping");
+if (sleepingIndex !== -1) {
+  pieChart.toggleDataVisibility(sleepingIndex);
+  pieChart.update();
+}
+
 // Chart toggle
 const buttons = document.querySelectorAll('.chart-toggle');
 const pieCanvas = document.getElementById('pieChart');
@@ -156,12 +163,20 @@ const barChart = document.getElementById('barChart');
 buttons.forEach(button => {
   button.addEventListener('click', () => {
     const target = button.getAttribute('data-chart');
+    buttons.forEach(item => {
+      const active = item === button;
+      item.classList.toggle('active', active);
+      item.setAttribute('aria-pressed', String(active));
+    });
     pieCanvas.style.display = target === 'pie' ? 'block' : 'none';
     timeCanvas.style.display = target === 'time' ? 'block' : 'none';
-    barChart.style.display = target === 'bars' ? 'block' : 'none';
+    barChart.style.display = target === 'bars' ? 'grid' : 'none';
     if (target === 'time') renderTimeChart();
   });
 });
+
+buttons[0]?.classList.add('active');
+buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(index === 0)));
 
 // Clear existing filters and initialize
 const filterContainer = document.querySelector('.filter-container');
@@ -181,11 +196,11 @@ if (filterContainer) {
 }
 
 // Bar chart setup
-const maxHours = Math.max(...hoursData.totals);
-document.querySelectorAll('#barChart .bar').forEach((bar, i) => {
+const progressBars = Array.from(document.querySelectorAll('#barChart .bar'));
+const maxHours = Math.max(...progressBars.map(bar => Number(bar.getAttribute('data-hours'))));
+progressBars.forEach((bar) => {
   const label = bar.getAttribute('data-label');
   const hours = +bar.getAttribute('data-hours');
   const percent = (hours / maxHours) * 100;
-  bar.innerHTML = `<span>${label} (${hours} hrs)</span><div style="width: ${percent}%; background:#0a3d62; height: 24px; border-radius: 6px; margin-top: 5px;"></div>`;
+  bar.innerHTML = `<span>${label} (${hours} hours)</span><div style="width: ${percent}%; background:#0a3d62; height: 24px; border-radius: 6px; margin-top: 5px;"></div>`;
 });
-

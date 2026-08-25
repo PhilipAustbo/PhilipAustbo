@@ -1,186 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Philip Austbø</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="memoji.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Philip Austbø is an NHH finance and CEMS student with experience in strategy consulting, maritime advisory and audit.">
+  <meta name="theme-color" content="#fbfaf7">
+  <meta property="og:title" content="Philip Austbø | Finance, Strategy and Curiosity">
+  <meta property="og:description" content="Finance student, consultant and builder interested in better decisions, useful technology and international perspectives.">
+  <meta property="og:type" content="website">
+  <title>Philip Austbø | Finance, Strategy and Curiosity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <link rel="stylesheet" href="hybrid-home.css">
+  <link rel="stylesheet" href="hybrid-overrides.css">
 </head>
 <body>
-
-  <!-- Dark Mode Toggle -->
-  <button id="darkModeToggle" class="dark-toggle">🌙</button>
-
-  <!-- Burger Icon -->
-  <button class="burger" id="burger" aria-label="Toggle navigation">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
-
-  <!-- Header Menu (Initially Hidden) -->
-  <header>
-    <div class="nav-container">
-      <h1>Philip Austbø</h1>
-      <nav>
-        <ul id="navMenu">
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="countries.html">Countries</a></li> 
-          <li><a href="hours.html">Hours</a></li>
-          <li><a href="football.html">Football</a></li>
-          <li><a href="games.html">Games</a></li>
-          <li><a href="gemini.html">ChatBot</a></li>
-        </ul>
-      </nav>
-    </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="Philip Austbø, home">Philip Austbø</a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Curiosity</a><a href="gemini.html">Chatbot</a><a href="#education">Education</a>
+    </nav>
+    <a class="header-contact" href="mailto:philip@austbo.no">Get in touch</a>
+    <button class="menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation"><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Curiosity</a><a href="gemini.html">Chatbot</a><a href="#education">Education</a><a href="mailto:philip@austbo.no">Contact</a></nav>
   </header>
 
-  <!-- Hero Section -->
-  <section id="hero" class="container hero-flex fade-in">
-    <div class="hero-image">
-      <img src="portrett.png" alt="Philip Austbø" />
-    </div>
-    <div class="hero-text">
-      <h2>Philip Tinius Riise Austbø</h2>
-      <p>Aspiring Finance Professional</p>
-      <p>Bergen, Norway · <a href="mailto:philip@austbo.no">philip@austbo.no</a></p>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="container fade-in">
-    <h2>About Me</h2>
-    <p>
-      I’m a curious and driven finance student at NHH with a strong interest in strategy, analysis, and problem-solving. Whether I’m diving into financial audits at EY, tutoring math students, or building digital tools from scratch, I’m motivated by learning and improving — both myself and the systems around me.
-      </p>
-      <p>
-      I thrive in collaborative environments, value clear communication, and enjoy taking initiative, especially when the task at hand requires both structure and creativity. In the years ahead, I aim to work at the intersection of finance, strategy, and technology — contributing to meaningful decisions and long-term value creation in an international setting.
-    </p>
-  </section>
-
-  <!-- Experience -->
-  <section id="experience" class="container fade-in">
-    <h2>Experience</h2>
-<div class="timeline">
-<div class="timeline-item fade-in">
-  <h3>DNV – Consulting Intern</h3>
-  <span>Sep 2025 – Oct 2025 | Dubai, UAE</span>
-  <p>Upcoming full-time role with the Aquaculture department at DNV Dubai, supporting strategic consulting and operational development projects in the blue economy.</p>
-</div>
-<div class="timeline-item fade-in">
-  <h3>EY – Financial Audit & Assurance</h3>
-  <span>Jan 2025 – Jun 2025 | Bergen, Norway</span>
-  <p>Audited shipping and energy companies; built 50+ dynamic Excel models, conducted risk assessments, collaborated with finance teams, and supported senior auditors with strategic insights.</p>
-</div>
-<div class="timeline-item fade-in">
-  <h3>Superprof – Private Math Tutor</h3>
-  <span>Jun 2023 – Present</span>
-  <p>Delivered customized math instruction for students from lower secondary to university level, earning consistent 5/5 ratings and strong academic results across the board.</p>
-</div>
-<div class="timeline-item fade-in">
-  <h3>Storetveit High School – Educator</h3>
-  <span>Nov 2023 – Mar 2024 | Bergen</span>
-  <p>Served as both a substitute teacher and full-time personal mentor, adapting lesson plans and offering individual support that improved student engagement and performance.</p>
-</div>
-</div>
-
-  </section>
-
-  <!-- Education -->
-  <section id="education" class="container fade-in">
-    <h2>Education</h2>
-    <div class="timeline">
-      <div class="timeline-item fade-in">
-        <h3>NHH – MSc in Finance</h3>
-        <span>Aug 2024 – Jun 2026 | GPA: 4.3 / 5.0</span>
-        <p>
-          Core courses: Corporate finance, Investments, Sustainable finance, Financial Econometrics.
-        </p>
+  <main id="main">
+    <section class="hero page-shell">
+      <div class="hero-copy reveal">
+        <p class="location"><span></span>Bergen · Oslo · Vienna</p>
+        <h1>Curious mind.<br><em>Commercial</em> perspective.</h1>
+        <p class="hero-lead">I’m Philip, an NHH finance and CEMS student who enjoys turning complex questions into clear analysis, useful tools and better decisions.</p>
+        <div class="hero-links"><a class="primary-link" href="#experience">See what I’ve worked on</a><a href="./Philip_Austbo_CV.pdf" type="application/pdf" target="_blank" rel="noopener">View my CV</a></div>
       </div>
-      <div class="timeline-item fade-in">
-        <h3>NHH – BSc in Business Administration</h3>
-        <span>Aug 2021 – Jun 2024 | GPA: 4.0 / 5.0</span>
-        <p>Elective courses: Algorithms and computer programming with Python, Project management, and Management Consulting
-        </p>
-      </div>
-      <div class="timeline-item fade-in">
-        <h3>University of Michigan – Ross School of Business</h3>
-        <span>Jan 2023 – Jun 2023 | GPA: 3.9 / 4.0</span>
-        <p>Exchange semester 
-        </p>
-        <p>
-           Elective courses: New product and innovation management, negotiation strategy, and entrepreneurial management.
-          </p>
-      </div>
-    </div>
-  </section>
+      <figure class="hero-portrait reveal">
+        <img src="portrait.jpg" alt="Portrait of Philip Austbø" width="756" height="1008">
+        <figcaption><span>Philip Tinius Riise Austbø</span><small>Finance · Strategy · Technology</small></figcaption>
+      </figure>
+    </section>
 
-  <!-- Leadership -->
-  <section id="leadership" class="container fade-in">
-    <h2>Leadership & Activities</h2>
-    <div class="timeline">
-      <div class="timeline-item fade-in">
-        <h3>SUN Student Council (NHH)</h3>
-        <span>Aug 2023 – Present</span>
-        <p>Elected student representative; worked closely with faculty to improve academic quality and represent student voices at the Institute of Strategy & Management and Business Economics.</p>
+    <section class="intro page-shell reveal" id="about">
+      <p class="section-label">A little about me</p>
+      <div class="intro-grid">
+        <h2>I like learning how things work and finding ways to make them work better.</h2>
+        <div class="intro-copy">
+          <p>My experience spans strategy consulting, maritime advisory and financial audit. Across each role, I have been drawn to the same challenge. I want to understand what matters, structure the problem and turn the answer into something practical.</p>
+          <p>Outside work, I build small digital projects, play competitive football and travel whenever I can. Those interests keep me curious, disciplined and open to perspectives beyond finance.</p>
+          <a class="underlined" href="mailto:philip@austbo.no">Start a conversation</a>
+        </div>
       </div>
-      <div class="timeline-item fade-in">
-        <h3>Uken i Bergen – Ukesport Committee</h3>
-        <span>Aug 2021 – Mar 2022</span>
-        <p>Led a 6-person team in planning and executing 5 large-scale sports events for 500+ participants; reduced costs by 15% and boosted satisfaction through clear roles and smart logistics.</p>
+      <div class="facts" aria-label="Profile highlights">
+        <p><strong>4.9<small>/5.0</small></strong><span>Master’s GPA</span></p>
+        <p><strong>25+</strong><span>Countries visited</span></p>
+        <p><strong>3</strong><span>Professional fields</span></p>
+        <p><strong>2027</strong><span>CEMS graduation</span></p>
       </div>
-      <div class="timeline-item fade-in">
-        <h3>Football (3rd Division & Youth Captaincy)</h3>
-        <span>2015 – Present</span>
-        <p>Played at SK Brann U-16, Fana IL, Fyllingsdalen, and Lyngbø IL; served as captain on several teams, fostering leadership through communication, discipline, and resilience.</p>
-      </div>
-      <div class="timeline-item fade-in">
-        <h3>McKinsey Forward Program</h3>
-        <span>2023</span>
-        <p>Completed a selective program focused on leadership, structured problem-solving, and strategic thinking in a global context.</p>
-      </div>
-      <div class="timeline-item fade-in">
-        <h3>Discover Deloitte Tech</h3>
-        <span>2024</span>
-        <p>Explored emerging technologies, solved tech-driven business cases, and learned from industry experts during a hands-on conference at Deloitte.</p>
-      </div>
-    </div>
-  </section>
-  
+    </section>
 
-  <!-- Contact -->
-  <section id="contact" class="container center fade-in">
-    <h2>Get in Touch</h2>
-    <p>Email: <a href="mailto:philip@austbo.no">philip@austbo.no</a></p>
-    <p>
-      Resume: 
-      <a href="Philip_Austbo_CV.pdf" download target="_blank" rel="noopener noreferrer">
-        Download / View CV
-      </a>
-    </p>
-  
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/austbophilip" target="_blank" rel="noopener noreferrer">
-        <img class="social-icon" src="linkedin.png" alt="LinkedIn" />
-      </a>
-      <a href="https://www.instagram.com/philipaustbo/" target="_blank" rel="noopener noreferrer">
-        <img class="social-icon linkedin" src="insta.png" alt="Instagram" />
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=100011226432559" target="_blank" rel="noopener noreferrer">
-        <img class="social-icon" src="facebook.png" alt="Facebook" />
-      </a>
-    </div>
-  </section>
+    <section class="experience page-shell" id="experience">
+      <div class="section-title reveal"><p class="section-label">Experience</p><h2>Where I’ve learned<br>by doing.</h2></div>
+      <div class="timeline">
+        <article class="timeline-row reveal">
+          <div class="timeline-meta"><span>2026</span><img src="company-logos/capgemini-invent.png" alt="Capgemini Invent" loading="lazy"></div>
+          <div class="timeline-content"><p class="role">Strategy consulting · Oslo</p><h3>Capgemini Invent</h3><p>Analysed AI-driven disruption in technology, media and telecom. Developed venture business cases and built an AI-powered tool for financial and strategic evaluation.</p></div>
+          <span class="period">Jun to Aug</span>
+        </article>
+        <article class="timeline-row reveal">
+          <div class="timeline-meta"><span>2025</span><img class="dnv-logo" src="company-logos/dnv.png" alt="DNV" loading="lazy"></div>
+          <div class="timeline-content"><p class="role">Maritime advisory · Dubai</p><h3>DNV</h3><p>Built strategic and financial analyses of maritime technologies in the GCC and contributed to corporate HSE and ESG frameworks.</p></div>
+          <span class="period">Sep to Dec</span>
+        </article>
+        <article class="timeline-row reveal">
+          <div class="timeline-meta"><span>2025</span><img class="ey-logo" src="company-logos/ey.png" alt="EY" loading="lazy"></div>
+          <div class="timeline-content"><p class="role">Audit & assurance · Bergen</p><h3>EY</h3><p>Supported audits of public and private companies, developed dynamic control-testing models and surfaced financial risks for senior teams.</p></div>
+          <span class="period">Jan to Dec</span>
+        </article>
+      </div>
+      <a class="underlined experience-cv" href="./Philip_Austbo_CV.pdf" type="application/pdf" target="_blank" rel="noopener">Read the full CV</a>
+    </section>
 
-  <footer>
-    <div class="container center">
-      <p>&copy; 2025 Philip Austbø. All rights reserved.</p>
-    </div>
-  </footer>
+    <section class="portrait-break page-shell reveal">
+      <figure><img src="profile-editorial.jpg" alt="Philip Austbø in a professional setting" width="1350" height="1800" loading="lazy"><figcaption>International outlook, grounded in Bergen.</figcaption></figure>
+      <blockquote>“The best work usually starts with a good question.”</blockquote>
+    </section>
 
+    <section class="projects page-shell" id="projects">
+      <div class="section-title reveal"><p class="section-label">Built from curiosity</p><h2>Things I explore<br>outside the syllabus.</h2></div>
+      <div class="project-list">
+        <a class="project-row reveal" href="hours.html"><span class="project-icon material-symbols-rounded" aria-hidden="true">hourglass_empty</span><div><small>Personal data</small><h3>Hours of my life</h3><p>A visual attempt to understand where a lifetime actually goes.</p></div></a>
+        <a class="project-row reveal" href="countries.html"><span class="project-icon material-symbols-rounded" aria-hidden="true">map</span><div><small>Travel journal</small><h3>25+ countries</h3><p>Places, photographs and memories collected on an interactive map.</p></div></a>
+        <a class="project-row reveal" href="games.html"><span class="project-icon material-symbols-rounded" aria-hidden="true">extension</span><div><small>Web experiments</small><h3>Games & tools</h3><p>Small interactive projects built to learn by making.</p></div></a>
+        <a class="project-row reveal" href="gemini.html"><span class="project-icon material-symbols-rounded" aria-hidden="true">smart_toy</span><div><small>AI experiment</small><h3>Ask my assistant</h3><p>A conversational way to explore my background and interests.</p></div></a>
+      </div>
+    </section>
+
+    <section class="education page-shell" id="education">
+      <p class="section-label reveal">Education</p>
+      <div class="education-layout">
+        <h2 class="reveal">A Nordic foundation.<br><em>An international outlook.</em></h2>
+        <div class="education-list">
+          <article class="reveal"><div class="school-record"><div><span>2024 to 2027</span><h3>NHH</h3><p>MSc in Finance and CEMS Master in International Management · GPA 4.9/5.0</p></div><img class="school-logo school-logo-nhh" src="school-logos/nhh.png" alt="NHH" width="696" height="1388" loading="lazy"></div></article>
+          <article class="reveal"><div class="school-record"><div><span>Spring 2027</span><h3>WU Vienna</h3><p>CEMS term abroad with an international management focus.</p></div><img class="school-logo school-logo-wu" src="school-logos/wu-vienna.png" alt="WU Vienna" width="227" height="131" loading="lazy"></div></article>
+          <article class="reveal"><div class="school-record"><div><span>2023</span><h3>Michigan Ross</h3><p>Exchange semester focused on innovation, negotiation and entrepreneurship · GPA 3.9/4.0</p></div><img class="school-logo school-logo-michigan" src="school-logos/michigan-ross.png" alt="Michigan Ross" width="705" height="67" loading="lazy"></div></article>
+        </div>
+      </div>
+      <div class="education-documents reveal" aria-label="Academic documents">
+        <a class="education-document-card" href="thesis.html">
+          <span class="document-card-label">Research</span>
+          <span class="document-card-sheet document-card-thesis" aria-hidden="true"><b>NOK</b><i></i><i></i></span>
+          <div><h3>Master thesis</h3><p>Research on oil, fundamentals, financial conditions and the Norwegian krone.</p></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="personal page-shell reveal">
+      <p class="section-label">Away from the desk</p>
+      <div><h2>Football keeps me competitive.<br>Travel keeps me curious.</h2><p>I’ve played football across several clubs and levels, including SK Brann’s youth setup and the University of Michigan. I’m equally happy planning the next trip, documenting places I’ve visited or building something simply because I want to know if I can.</p><a class="underlined" href="football.html">My football journey</a></div>
+    </section>
+
+    <section class="contact page-shell" id="contact">
+      <p class="section-label">Say hello</p>
+      <h2>Have an idea, opportunity<br>or interesting question?</h2>
+      <a class="contact-email" href="mailto:philip@austbo.no">philip@austbo.no</a>
+      <footer><span>© <span id="year">2026</span> Philip Austbø</span><div><a class="footer-link-icon" href="https://www.linkedin.com/in/austbophilip" target="_blank" rel="noopener"><span class="footer-icon footer-icon-linkedin" aria-hidden="true">in</span>LinkedIn</a><a class="footer-link-icon" href="./Philip_Austbo_CV.pdf" type="application/pdf" target="_blank" rel="noopener"><span class="footer-icon footer-icon-document" aria-hidden="true"></span>CV</a><a href="#top">Back to top</a></div></footer>
+    </section>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>

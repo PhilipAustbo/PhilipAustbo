@@ -13,7 +13,7 @@ let controller, typingInterval;
 const chatHistory = [];
 const userData = { message: "", file: {} };
 
-const isLightTheme = localStorage.getItem("themeColor") === "light_mode";
+const isLightTheme = true;
 document.body.classList.toggle("light-theme", isLightTheme);
 themeToggleBtn.textContent = isLightTheme ? "dark_mode" : "light_mode";
 
@@ -22,6 +22,13 @@ const createMessageElement = (content, ...classes) => {
   div.classList.add("message", ...classes);
   div.innerHTML = content;
   return div;
+};
+
+const showFinishedAvatar = (botMsgDiv) => {
+  const avatarIcon = botMsgDiv.querySelector(".avatar-icon");
+  if (avatarIcon) avatarIcon.textContent = "smart_toy";
+  const avatar = botMsgDiv.querySelector(".avatar");
+  if (avatar) avatar.setAttribute("aria-label", "Assistant response");
 };
 
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
@@ -45,6 +52,7 @@ const typingEffect = (text, textElement, botMsgDiv) => {
       clearInterval(typingInterval);
       textElement.innerHTML = html; // Replace with full parsed HTML after typing
       botMsgDiv.classList.remove("loading");
+      showFinishedAvatar(botMsgDiv);
       document.body.classList.remove("bot-responding");
     }
   }, 40);
@@ -85,9 +93,10 @@ const generateResponse = async (botMsgDiv) => {
     chatHistory.push({ role: "user", parts: [{ text: userData.message }] });
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
   } catch (error) {
-    textElement.textContent = `Error: ${error.message}`;
+    textElement.textContent = "Something went wrong. Please try again.";
     textElement.style.color = "#d62939";
     botMsgDiv.classList.remove("loading");
+    showFinishedAvatar(botMsgDiv);
     document.body.classList.remove("bot-responding");
     scrollToBottom();
   } finally {
@@ -118,7 +127,7 @@ const handleFormSubmit = (e) => {
   scrollToBottom();
 
   setTimeout(() => {
-    const botMsgHTML = `<img class="avatar" src="gemini.svg" /> <div class="message-text">Loading...</div>`;
+    const botMsgHTML = `<div class="avatar" aria-label="Assistant is thinking"><span class="avatar-icon material-symbols-rounded" aria-hidden="true">progress_activity</span></div><div class="message-text">Loading...</div>`;
     const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
     chatsContainer.appendChild(botMsgDiv);
     scrollToBottom();
@@ -135,7 +144,7 @@ fileInput.addEventListener("change", () => {
   const fileSizeMB = file.size / (1024 * 1024);
 
   if (fileSizeMB > MAX_FILE_SIZE_MB) {
-    alert(`File too large! Max file size is ${MAX_FILE_SIZE_MB} MB. Your file is ${fileSizeMB.toFixed(2)} MB.`);
+    alert(`The file is too large. The maximum size is ${MAX_FILE_SIZE_MB} MB. Your file is ${fileSizeMB.toFixed(2)} MB.`);
     fileInput.value = ""; // reset input
     return;
   }
@@ -168,7 +177,10 @@ document.querySelector("#stop-response-btn").addEventListener("click", () => {
   userData.file = {};
   clearInterval(typingInterval);
   const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
-  if (loadingBotMsg) loadingBotMsg.classList.remove("loading");
+  if (loadingBotMsg) {
+    loadingBotMsg.classList.remove("loading");
+    showFinishedAvatar(loadingBotMsg);
+  }
   document.body.classList.remove("bot-responding");
 });
 
@@ -188,6 +200,12 @@ document.querySelectorAll(".suggestions-item").forEach((suggestion) => {
   suggestion.addEventListener("click", () => {
     promptInput.value = suggestion.querySelector(".text").textContent;
     promptForm.dispatchEvent(new Event("submit"));
+  });
+  suggestion.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      suggestion.click();
+    }
   });
 });
 
@@ -212,23 +230,18 @@ const preloadCV = async () => {
         inline_data: { mime_type: "application/pdf", data: base64data },
       };
       chatHistory.push({ role: "user", parts: [{ text: 
-      `You are an assistant for Philip Austbø.
-      Philip is a master's student in Finance at NHH (Norwegian School of Economics) with experience at Ernst & Young and DNV, and a background in financial audit, consulting, and technology projects.
-      He is passionate about finance, strategy, and data analysis, and plays football competitively.
-      **Behavior Instructions:**
-      1. When greeted (e.g., "hello", "hi", "hey"), respond warmly with:
-      - “Hello! How can I help you today? Are you interested in learning more about Philip, or would you like to ask something else?” However, only when greeted with these words.
-      - if the greeting is not a typical thing to say, e.g hello, then respond how you normally would.
-      2. If someone asks about **Philip's background, experience, education, leadership, hobbies, or career goals**, use the provided context and CV information to answer personally.
-      3. If someone asks **general finance, strategy, or technology questions**:
-      - Answer knowledgeably.
-      - If relevant, relate it back to Philip’s interests or experience (e.g., “Philip has worked in audit and consulting, so he’s familiar with this topic...”).
-      - If not related to Philip, answer normally, do not talk about Philip when not relevant.
-      4. If unsure whether the question is about Philip or a general topic, ask for clarification:
-      - “Would you like me to relate this to Philip’s background or provide a general answer?”
-      5. When asked "Tell me about Philip Austbø" you should give a short overview of his personal and professional life. Then and ask if the user wants to learn more.
-      6. Be friendly, professional, and speak warmly of Philip.
-      7. Ensure you use enough paragraphs when talking about Philip. Especially before asking a question in the end.`
+      `You are an assistant representing Philip Austbø.
+      Philip is a master's student in finance at NHH, the Norwegian School of Economics. He has experience at Ernst & Young and DNV, with a background in financial audit, consulting and technology projects. He is interested in finance, strategy and data analysis, and he plays football competitively.
+
+      Follow these guidelines.
+
+      1. Respond warmly to a standard greeting such as hello, hi or hey. You can say “Hello! How can I help you today? Would you like to learn more about Philip or ask about something else?”
+      2. Use the supplied context and CV when answering questions about Philip's background, experience, education, leadership, hobbies or career goals.
+      3. Answer general questions about finance, strategy or technology clearly and accurately. Relate the answer to Philip only when it is genuinely relevant.
+      4. Ask whether the user wants a general answer or one connected to Philip when their intent is unclear.
+      5. When asked to introduce Philip, give a concise overview of his personal and professional background, then invite the user to choose an area to explore further.
+      6. Keep the tone friendly, professional and warm.
+      7. Use clear paragraphs and avoid em dashes, colons and semicolons.`
      }, pdfPart] });
     };
   } catch (err) {

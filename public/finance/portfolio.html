@@ -4,18 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mock Portfolio</title>
+  <link rel="stylesheet" href="../secondary.css" />
   <link rel="stylesheet" href="portfolio.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
 <body>
-  <header>
+  <header class="sub-header"><a class="sub-brand" href="../index.html">Philip Austbø</a><nav class="sub-nav"><a href="index.html">Finance lab</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="blogg.html">Notebook</a><a href="historikk.html">Journal</a></nav><a class="sub-back" href="index.html">Back to finance</a><button class="sub-menu" aria-expanded="false">Menu</button></header>
+  <header class="portfolio-head">
     <div class="wrap">
       <div class="row">
         <div>
           <h1>Mock Portfolio</h1>
-          <div class="sub">Live portfolio value, add/remove companies, and track performance over time.</div>
+          <div class="sub">Build a mock portfolio, add or remove companies and track performance over time.</div>
         </div>
         <div class="grow"></div>
         <button id="openSettings">Settings</button>
@@ -32,19 +34,19 @@
         </div>
 
         <div class="kpi">
-          <div class="kcard"><div class="label">Portfolio Value</div><div class="value" id="k_value">—</div></div>
-          <div class="kcard"><div class="label">Unrealized P&L</div><div class="value" id="k_pl">—</div></div>
-          <div class="kcard"><div class="label">Cash</div><div class="value" id="k_cash">—</div></div>
-          <div class="kcard"><div class="label">Day Change</div><div class="value" id="k_day">—</div></div>
+          <div class="kcard"><div class="label">Portfolio value</div><div class="value" id="k_value">Not available</div></div>
+          <div class="kcard"><div class="label">Unrealised P&L</div><div class="value" id="k_pl">Not available</div></div>
+          <div class="kcard"><div class="label">Cash</div><div class="value" id="k_cash">Not available</div></div>
+          <div class="kcard"><div class="label">Daily change</div><div class="value" id="k_day">Not available</div></div>
         </div>
 
         <table id="holdingsTable">
           <thead>
             <tr>
               <th>Symbol</th>
-              <th>Qty</th>
-              <th>Avg Cost</th>
-              <th>Last</th>
+              <th>Quantity</th>
+              <th>Average cost</th>
+              <th>Latest price</th>
               <th>Value</th>
               <th>P&L</th>
               <th>P&L %</th>
@@ -56,26 +58,26 @@
 
         <div class="footer-actions">
           <button class="ghost" id="exportCSV">Export CSV</button>
-          <button class="ghost" id="snapshotNow">Snapshot Now</button>
-          <span class="hint">Sell all at market using the row menu.</span>
+          <button class="ghost" id="snapshotNow">Save snapshot</button>
+          <span class="hint">Use the row button to sell an entire holding at market.</span>
         </div>
       </div>
 
       <div class="card">
-        <h2>Add Transaction</h2>
+        <h2>Record a transaction</h2>
         <form id="txForm" class="row" onsubmit="return false;">
           <select id="side">
-            <option value="BUY">BUY</option>
-            <option value="SELL">SELL</option>
+            <option value="BUY">Buy</option>
+            <option value="SELL">Sell</option>
           </select>
-          <input id="symbol" placeholder="Symbol (e.g., AAPL)" required style="text-transform:uppercase" />
-          <input id="qty" placeholder="Qty" type="number" min="0" step="any" required />
-          <input id="price" placeholder="Price (blank = Market)" type="number" min="0" step="any" />
+          <input id="symbol" placeholder="Ticker symbol such as AAPL" required style="text-transform:uppercase" />
+          <input id="qty" placeholder="Quantity" type="number" min="0" step="any" required />
+          <input id="price" placeholder="Price or leave blank for market" type="number" min="0" step="any" />
           <input id="date" type="datetime-local" />
           <button id="addTx">Add</button>
         </form>
 
-        <h2 style="margin-top:1em;">Portfolio Value Over Time</h2>
+        <h2 style="margin-top:1em;">Portfolio value over time</h2>
         <div class="rangebar" id="rangeBar">
           <button data-range="1D">1D</button>
           <button data-range="1W">1W</button>
@@ -92,7 +94,7 @@
 
     <section class="card" style="margin-top:16px">
       <div class="row">
-        <h2 class="grow">Investment Timeline</h2>
+        <h2 class="grow">Investment timeline</h2>
         <span class="tag" id="txCount">0 transactions</span>
       </div>
       <div id="timeline" class="timeline"></div>
@@ -106,28 +108,29 @@
         <h2 class="grow">Settings</h2>
         <button class="ghost" id="closeSettings">Close</button>
       </div>
-      <p class="hint">Enter your Alpha Vantage API key and refresh interval.</p>
+      <p class="hint">Enter an Alpha Vantage API key and choose how often market data should refresh.</p>
       <div class="row">
         <label class="tag">Provider</label>
         <select id="provider">
           <option value="alphavantage">Alpha Vantage</option>
         </select>
-        <input id="apiKey" placeholder="API Key" class="grow" />
+        <input id="apiKey" placeholder="API key" class="grow" />
       </div>
       <div class="row">
-        <label class="tag">Refresh (sec)</label>
+        <label class="tag">Refresh interval in seconds</label>
         <input id="refreshInt" type="number" min="15" value="60" />
-        <label class="tag">Starting Cash</label>
+        <label class="tag">Starting cash</label>
         <input id="startingCash" type="number" min="0" step="any" placeholder="100000" />
       </div>
       <div class="row">
         <button id="saveSettings">Save</button>
-        <button class="ghost" id="resetAll">Reset All</button>
+        <button class="ghost" id="resetAll">Reset all</button>
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="../secondary.js"></script>
   <script src="portfolio.js"></script>
 </body>
 </html>

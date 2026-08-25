@@ -1,78 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Philip Austbø</title>
-  <link rel="icon" type="image/png" href="memoji.png">
-  <!-- Google Fonts for Icons -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@32,400,0,0" />
-  <link rel="stylesheet" href="gemini.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Poppins:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@32,400,0,0">
+  <link rel="stylesheet" href="minimal-header.css">
+  <link rel="stylesheet" href="hybrid-secondary.css">
+  <link rel="stylesheet" href="gemini-live.css">
+  <script defer src="minimal-header.js"></script>
 </head>
-<body>
-  <a class="homebutton" href="index.html">Home</a>
-  <a class="newchat" href="gemini.html">New Chat</a>
+<body class="chat-page light-theme">
+  <header class="sub-header"><a class="sub-brand" href="index.html">Philip Austbø</a><nav class="sub-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="hours.html">Hours</a><a href="countries.html">Countries</a><a href="games.html">Games</a><a href="gemini.html" aria-current="page">Chatbot</a><a href="football.html">Football</a></nav><a class="sub-back" href="gemini.html">New chat</a><button class="sub-menu" type="button" aria-label="Open menu" aria-expanded="false">Menu</button></header>
 
-  <div class="container">
-    <!-- App Header -->
+  <main class="container">
     <header class="app-header">
-      <h1 class="heading">Hello, there</h1>
-      <h4 class="sub-heading">This is an AI model made by Philip Austbø</h4>
+      <h1 class="heading">Hello there</h1>
+      <h4 class="sub-heading">This AI assistant was created by Philip Austbø</h4>
       <h4 class="sub-heading">How can I help you today?</h4>
     </header>
 
-    <!-- Suggestions List -->
     <ul class="suggestions">
-      <li class="suggestions-item">
-        <p class="text">Tell me about Philip Austbø.</p>
-        <span class="icon material-symbols-rounded">draw</span>
-      </li>
-      <li class="suggestions-item">
-        <p class="text">How can I level up my web development expertise in 2025?</p>
-        <span class="icon material-symbols-rounded">lightbulb</span>
-      </li>
-      <li class="suggestions-item">
-        <p class="text">Suggest some useful tools for debugging JavaScript code.</p>
-        <span class="icon material-symbols-rounded">explore</span>
-      </li>
-      <li class="suggestions-item">
-        <p class="text">Who won the world cup in football 2010</p>
-        <span class="icon material-symbols-rounded">code_blocks</span>
-      </li>
+      <li class="suggestions-item" tabindex="0"><p class="text">Tell me about Philip Austbø.</p><span class="icon material-symbols-rounded">draw</span></li>
+      <li class="suggestions-item" tabindex="0"><p class="text">How can I improve my web development skills?</p><span class="icon material-symbols-rounded">lightbulb</span></li>
+      <li class="suggestions-item" tabindex="0"><p class="text">Which tools are useful for debugging JavaScript?</p><span class="icon material-symbols-rounded">explore</span></li>
+      <li class="suggestions-item" tabindex="0"><p class="text">Who won the 2010 FIFA World Cup?</p><span class="icon material-symbols-rounded">code_blocks</span></li>
     </ul>
 
-    <!-- Chats Container -->
-    <div class="chats-container"></div>
+    <div class="chats-container" aria-live="polite"></div>
 
-    <!-- Prompt Input -->
     <div class="prompt-container">
       <div class="prompt-wrapper">
         <form action="#" class="prompt-form">
-          <input type="text" placeholder="Write prompt" class="prompt-input" required />
+          <input type="text" placeholder="Write prompt" class="prompt-input" aria-label="Your question" required>
           <div class="prompt-actions">
-            <!-- File Upload -->
             <div class="file-upload-wrapper">
-              <img src="#" class="file-preview" />
-              <input id="file-input" type="file" accept="image/*, .pdf, .txt, .csv" hidden />
-              <button type="button" class="file-icon material-symbols-rounded">description</button>
-              <button id="cancel-file-btn" type="button" class="material-symbols-rounded">close</button>
-              <button id="add-file-btn" type="button" class="material-symbols-rounded">attach_file</button>
+              <img class="file-preview" alt="Attached file preview">
+              <input id="file-input" type="file" accept="image/*,.pdf,.txt,.csv" hidden>
+              <button type="button" class="file-icon material-symbols-rounded" aria-label="Attached file">description</button>
+              <button id="cancel-file-btn" type="button" class="material-symbols-rounded" aria-label="Remove attachment">close</button>
+              <button id="add-file-btn" type="button" class="material-symbols-rounded" aria-label="Attach file">attach_file</button>
             </div>
-
-            <!-- Send + Stop Buttons -->
-            <button id="stop-response-btn" type="button" class="material-symbols-rounded">stop_circle</button>
-            <button id="send-prompt-btn" class="material-symbols-rounded">arrow_upward</button>
+            <button id="stop-response-btn" type="button" class="material-symbols-rounded" aria-label="Stop response">stop_circle</button>
+            <button id="send-prompt-btn" class="material-symbols-rounded" aria-label="Send question">arrow_upward</button>
           </div>
         </form>
-
-        <!-- Theme + Delete -->
-        <button id="theme-toggle-btn" class="material-symbols-rounded">light_mode</button>
-        <button id="delete-chats-btn" class="material-symbols-rounded">delete</button>
+        <button id="theme-toggle-btn" class="material-symbols-rounded" aria-label="Toggle theme">dark_mode</button>
+        <button id="delete-chats-btn" class="material-symbols-rounded" aria-label="Clear conversation">delete</button>
       </div>
-
-      <p class="disclaimer-text">AI can make mistakes, so double-check it.</p>
+      <p class="disclaimer-text">AI can make mistakes. Please verify important information.</p>
     </div>
-  </div>
+  </main>
+
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="gemini.js"></script>
 </body>

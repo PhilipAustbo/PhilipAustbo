@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="An options payoff intuition game by Philip Austbø.">
+  <title>Option Guesser | Philip Austbø</title>
+  <link rel="stylesheet" href="lab.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header"><a href="../games.html">Games</a><strong>Option Guesser</strong><button id="new-round" type="button">New round</button></header>
+  <main>
+    <section class="lab-shell">
+      <aside class="lab-side">
+        <div><p class="eyebrow">Payoff intuition</p><h1>Profit<br>or loss?</h1></div>
+        <p>Use the option type, strike, premium and expiry price to decide whether the buyer earns a profit after paying the premium.</p>
+        <div class="stats"><div class="stat"><span>Score</span><strong id="score">0</strong></div><div class="stat"><span>Streak</span><strong id="streak">0</strong></div></div>
+      </aside>
+      <div class="lab-main">
+        <div class="scenario"><div><span>Contract</span><strong id="type">Call</strong></div><div><span>Strike and premium</span><strong id="terms">$100 / $5</strong></div><div><span>Price at expiry</span><strong id="spot">$110</strong></div></div>
+        <div class="game-stage">
+          <p class="prompt small" id="option-prompt">Does the buyer earn a profit?</p>
+          <div class="payoff" aria-label="Option payoff diagram"><svg class="payoff-line" viewBox="0 0 600 90" preserveAspectRatio="none"><polyline id="payoff-line"></polyline></svg><i id="spot-marker" class="spot-marker"></i></div>
+          <div class="choices"><button class="choice" data-choice="profit">Profit</button><button class="choice alt" data-choice="loss">Loss</button></div>
+          <p id="feedback" class="feedback" aria-live="polite"></p>
+          <div id="result" class="result-card" hidden></div>
+          <button id="next" class="primary next" hidden>Next contract</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

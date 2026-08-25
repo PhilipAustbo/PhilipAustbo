@@ -4,41 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Philip Austbø</title>
-  <link rel="icon" type="image/png" href="memoji.png">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="legacy-page.css" />
   <link rel="stylesheet" href="countries.css" />
-  <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="minimal-header.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-</head>
-<body>
+<link rel="stylesheet" href="hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
+<body class="countries-page">
 
-  <!-- Dark Mode Toggle -->
-  <button id="darkModeToggle" class="dark-toggle">🌙</button>
-
-  <!-- Burger Icon -->
-  <button class="burger" id="burger" aria-label="Toggle navigation">
-    <span class="line"></span>
-    <span class="line"></span>
-    <span class="line"></span>
-  </button>
-
-  <!-- Header Navigation -->
-  <header>
-    <div class="nav-container">
-      <h1>Philip Austbø</h1>
-      <nav>
-        <ul id="navMenu">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="hours.html">Hours</a></li>
-          <li><a href="football.html">Fotball</a></li>
-          <li><a href="gemini.html">ChatBot</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <header class="sub-header"><a class="sub-brand" href="index.html">Philip Austbø</a><nav class="sub-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="hours.html">Hours</a><a href="countries.html" aria-current="page">Countries</a><a href="games.html">Games</a><a href="gemini.html">Chatbot</a><a href="football.html">Football</a></nav><a class="sub-back" href="index.html#projects">Back to projects</a><button class="sub-menu" aria-expanded="false">Menu</button></header>
 
   <div id="infoBanner" class="info-banner">
-    <p>This map shows every country I've visited. Click a highlighted country to view memories and photos from that trip.</p>
+    <p>This map shows every country I have visited. Select a highlighted country to explore memories and photographs from the trip.</p>
     <span id="closeBanner">&times;</span>
   </div>
 
@@ -57,8 +34,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="libs/leaflet/leaflet.js"></script>
-  <script src="script.js"></script> <!-- Your global site script -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="minimal-header.js"></script>
   <script src="countries.js"></script> <!-- Country map logic -->
 </body>
 </html>
