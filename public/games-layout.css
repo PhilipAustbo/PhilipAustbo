@@ -54,6 +54,13 @@
 .games-stage .immersive-card {
   min-height: 0;
   padding: clamp(.85rem, 1.4vw, 1.2rem);
+  contain: paint;
+  overflow: hidden;
+}
+
+.games-stage .immersive-card:hover,
+.games-stage .immersive-card:focus-visible {
+  transform: none;
 }
 
 .games-stage .game-card h2 {
@@ -71,11 +78,81 @@
 }
 
 .games-stage .scene {
-  inset: .8rem;
+  inset: 14% 12%;
+  border-width: 1px;
 }
 
 .games-stage .stock-scene {
-  inset: .8rem 0;
+  inset: 18% 7%;
+  gap: clamp(.4rem, 1.1vh, .7rem);
+}
+
+.games-stage .mini-board {
+  width: min(82%, 180px);
+}
+
+.games-stage .chess-man {
+  font-size: clamp(.72rem, 1.7vw, 1.25rem);
+}
+
+.games-stage .pong-paddle {
+  width: 5px;
+  height: 28%;
+}
+
+.games-stage .pong-ball {
+  width: 10px;
+  height: 10px;
+}
+
+.games-stage .portfolio-scene,
+.games-stage .option-scene {
+  inset: 13% 10%;
+}
+
+.games-stage .market-bars {
+  inset: 16% 9% 8%;
+}
+
+.games-stage .portfolio-scene svg {
+  inset: 12% 8% 8%;
+  width: 84%;
+  height: 80%;
+}
+
+.games-stage .portfolio-scene strong {
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+}
+
+.games-stage .math-scene {
+  inset: 13% 10%;
+}
+
+.games-stage .math-scene span {
+  font-size: clamp(.62rem, 1.15vw, .95rem);
+}
+
+.games-stage .math-scene span:nth-child(2),
+.games-stage .math-scene span:nth-child(4) {
+  left: 40%;
+}
+
+.games-stage .ticker-row {
+  padding: .35rem 0;
+  font-size: clamp(.56rem, .85vw, .72rem);
+}
+
+.games-stage .stock-choice {
+  gap: .6rem;
+}
+
+.games-stage .stock-choice b {
+  padding: .35rem .55rem;
+  font-size: .58rem;
+}
+
+.games-stage .stock-choice i {
+  width: 36px;
 }
 
 @media (max-width: 900px) {
@@ -105,7 +182,19 @@
   }
 
   .games-stage .scene {
-    inset: .65rem;
+    inset: 15% 12%;
+  }
+
+  .games-stage .stock-scene {
+    inset: 18% 7%;
+  }
+
+  .games-stage .mini-board {
+    width: min(78%, 145px);
+  }
+
+  .games-stage .math-scene span {
+    font-size: .6rem;
   }
 }
 
