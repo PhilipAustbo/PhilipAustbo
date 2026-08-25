@@ -83,16 +83,20 @@
 }
 
 .games-stage .stock-scene {
-  inset: 18% 7%;
-  gap: clamp(.4rem, 1.1vh, .7rem);
+  inset: 14% 5%;
+  gap: clamp(.45rem, 1.2vh, .8rem);
+}
+
+.games-stage .chess-scene {
+  inset: 10%;
 }
 
 .games-stage .mini-board {
-  width: min(82%, 180px);
+  width: min(88%, 200px);
 }
 
 .games-stage .chess-man {
-  font-size: clamp(.72rem, 1.7vw, 1.25rem);
+  font-size: clamp(.78rem, 1.85vw, 1.35rem);
 }
 
 .games-stage .pong-paddle {
@@ -139,7 +143,7 @@
 
 .games-stage .ticker-row {
   padding: .35rem 0;
-  font-size: clamp(.56rem, .85vw, .72rem);
+  font-size: clamp(.58rem, .92vw, .78rem);
 }
 
 .games-stage .stock-choice {
@@ -186,11 +190,15 @@
   }
 
   .games-stage .stock-scene {
-    inset: 18% 7%;
+    inset: 15% 6%;
+  }
+
+  .games-stage .chess-scene {
+    inset: 12% 10%;
   }
 
   .games-stage .mini-board {
-    width: min(78%, 145px);
+    width: min(84%, 160px);
   }
 
   .games-stage .math-scene span {
