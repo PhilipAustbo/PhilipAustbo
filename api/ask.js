@@ -156,193 +156,232 @@ function getSseData(eventText) {
     .trim();
 }
 
-function sendEvent(res, event) {
-  res.write(`data: ${JSON.stringify(event)}\n\n`);
+function createSseEvent(event) {
+  return `data: ${JSON.stringify(event)}\n\n`;
 }
 
-export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "no-store");
-
-  if (req.method !== "POST") {
-    res.setHeader("Allow", ["POST"]);
-
-    return res.status(405).json({
-      error: "Method not allowed",
-    });
-  }
-
-  const apiKey =
-    process.env.GOOGLE_API_KEY ||
-    process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    console.error("Missing Gemini API key");
-
-    return res.status(500).json({
-      error: "Server configuration error. Gemini API key is missing.",
-    });
-  }
-
-  let requestBody = req.body;
-
-  if (typeof requestBody === "string") {
-    try {
-      requestBody = JSON.parse(requestBody);
-    } catch {
-      return res.status(400).json({
-        error: "Invalid JSON request body",
-      });
-    }
-  }
-
-  const contents = requestBody?.contents;
-
-  if (!Array.isArray(contents) || contents.length === 0) {
-    return res.status(400).json({
-      error: "Invalid request. Contents must be a non-empty array.",
-    });
-  }
-
-  const upstreamController = new AbortController();
-  let streamFinished = false;
-
-  res.on?.("close", () => {
-    if (!streamFinished) upstreamController.abort();
+function jsonResponse(data, status, extraHeaders = {}) {
+  return Response.json(data, {
+    status,
+    headers: {
+      "Cache-Control": "no-store",
+      ...extraHeaders,
+    },
   });
+}
 
-  try {
-    let result = await callWithRetries({
-      model: PRIMARY_MODEL,
-      apiKey,
-      contents,
-      signal: upstreamController.signal,
-    });
-
-    if (
-      !result.response.ok &&
-      RETRYABLE_STATUS_CODES.has(result.response.status)
-    ) {
-      console.warn(
-        `${PRIMARY_MODEL} unavailable. Trying ${FALLBACK_MODEL}.`
+export default {
+  async fetch(request) {
+    if (request.method !== "POST") {
+      return jsonResponse(
+        { error: "Method not allowed" },
+        405,
+        { Allow: "POST" }
       );
+    }
 
-      result = await callWithRetries({
-        model: FALLBACK_MODEL,
+    const apiKey =
+      process.env.GOOGLE_API_KEY ||
+      process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      console.error("Missing Gemini API key");
+
+      return jsonResponse(
+        {
+          error: "Server configuration error. Gemini API key is missing.",
+        },
+        500
+      );
+    }
+
+    let requestBody;
+
+    try {
+      requestBody = await request.json();
+    } catch {
+      return jsonResponse(
+        { error: "Invalid JSON request body" },
+        400
+      );
+    }
+
+    const contents = requestBody?.contents;
+
+    if (!Array.isArray(contents) || contents.length === 0) {
+      return jsonResponse(
+        {
+          error: "Invalid request. Contents must be a non-empty array.",
+        },
+        400
+      );
+    }
+
+    const upstreamController = new AbortController();
+    request.signal.addEventListener(
+      "abort",
+      () => upstreamController.abort(),
+      { once: true }
+    );
+
+    try {
+      let result = await callWithRetries({
+        model: PRIMARY_MODEL,
         apiKey,
         contents,
         signal: upstreamController.signal,
-        maximumAttempts: 2,
-      });
-    }
-
-    if (!result.response.ok) {
-      const errorMessage =
-        result.data?.error?.message ||
-        `Gemini API request failed with status ` +
-          `${result.response.status}`;
-
-      console.error("Gemini API error", {
-        status: result.response.status,
-        message: errorMessage,
       });
 
-      return res.status(result.response.status).json({
-        error: errorMessage,
-      });
-    }
+      if (
+        !result.response.ok &&
+        RETRYABLE_STATUS_CODES.has(result.response.status)
+      ) {
+        console.warn(
+          `${PRIMARY_MODEL} unavailable. Trying ${FALLBACK_MODEL}.`
+        );
 
-    if (!result.response.body) {
-      return res.status(502).json({
-        error: "Gemini returned no response stream.",
-      });
-    }
-
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
-    res.setHeader("Cache-Control", "no-cache, no-store, no-transform");
-    res.setHeader("Connection", "keep-alive");
-    res.setHeader("X-Accel-Buffering", "no");
-    res.flushHeaders?.();
-
-    const reader = result.response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-    let receivedText = false;
-    let lastData = null;
-
-    const processUpstreamEvent = (eventText) => {
-      const payload = getSseData(eventText);
-
-      if (!payload || payload === "[DONE]") return;
-
-      const data = parseJson(payload);
-      lastData = data;
-
-      if (data?.error?.message) {
-        throw new Error(data.error.message);
+        result = await callWithRetries({
+          model: FALLBACK_MODEL,
+          apiKey,
+          contents,
+          signal: upstreamController.signal,
+          maximumAttempts: 2,
+        });
       }
 
-      const text = extractReplyChunk(data);
+      if (!result.response.ok) {
+        const errorMessage =
+          result.data?.error?.message ||
+          `Gemini API request failed with status ` +
+            `${result.response.status}`;
 
-      if (text) {
-        receivedText = true;
-        sendEvent(res, { type: "chunk", text });
+        console.error("Gemini API error", {
+          status: result.response.status,
+          message: errorMessage,
+        });
+
+        return jsonResponse(
+          { error: errorMessage },
+          result.response.status
+        );
       }
-    };
 
-    while (true) {
-      const { value, done } = await reader.read();
+      if (!result.response.body) {
+        return jsonResponse(
+          { error: "Gemini returned no response stream." },
+          502
+        );
+      }
 
-      if (done) break;
+      const reader = result.response.body.getReader();
+      const decoder = new TextDecoder();
+      const encoder = new TextEncoder();
 
-      buffer += decoder.decode(value, { stream: true });
-      const events = buffer.split(/\r?\n\r?\n/);
-      buffer = events.pop() || "";
-      events.forEach(processUpstreamEvent);
-    }
+      const responseStream = new ReadableStream({
+        async start(controller) {
+          let buffer = "";
+          let receivedText = false;
+          let lastData = null;
 
-    buffer += decoder.decode();
+          const sendEvent = (event) => {
+            controller.enqueue(
+              encoder.encode(createSseEvent(event))
+            );
+          };
 
-    if (buffer.trim()) {
-      processUpstreamEvent(buffer);
-    }
+          const processUpstreamEvent = (eventText) => {
+            const payload = getSseData(eventText);
 
-    if (!receivedText) {
-      const candidate = lastData?.candidates?.[0];
-      const blockReason = lastData?.promptFeedback?.blockReason;
-      const finishReason = candidate?.finishReason;
-      const errorMessage = blockReason
-        ? `The request was blocked. ${blockReason}`
-        : finishReason
-          ? `Gemini returned no text. ${finishReason}`
-          : "Gemini returned no text response.";
+            if (!payload || payload === "[DONE]") return;
 
-      sendEvent(res, { type: "error", error: errorMessage });
-    } else {
-      sendEvent(res, { type: "done" });
-    }
+            const data = parseJson(payload);
+            lastData = data;
 
-    streamFinished = true;
-    return res.end();
-  } catch (error) {
-    if (upstreamController.signal.aborted) {
-      streamFinished = true;
-      return res.end();
-    }
+            if (data?.error?.message) {
+              throw new Error(data.error.message);
+            }
 
-    console.error("Internal server error", error);
+            const text = extractReplyChunk(data);
 
-    if (res.headersSent) {
-      sendEvent(res, {
-        type: "error",
-        error: "The response was interrupted. Please try again.",
+            if (text) {
+              receivedText = true;
+              sendEvent({ type: "chunk", text });
+            }
+          };
+
+          try {
+            while (true) {
+              const { value, done } = await reader.read();
+
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+              const events = buffer.split(/\r?\n\r?\n/);
+              buffer = events.pop() || "";
+              events.forEach(processUpstreamEvent);
+            }
+
+            buffer += decoder.decode();
+
+            if (buffer.trim()) {
+              processUpstreamEvent(buffer);
+            }
+
+            if (!receivedText) {
+              const candidate = lastData?.candidates?.[0];
+              const blockReason = lastData?.promptFeedback?.blockReason;
+              const finishReason = candidate?.finishReason;
+              const errorMessage = blockReason
+                ? `The request was blocked. ${blockReason}`
+                : finishReason
+                  ? `Gemini returned no text. ${finishReason}`
+                  : "Gemini returned no text response.";
+
+              sendEvent({ type: "error", error: errorMessage });
+            } else {
+              sendEvent({ type: "done" });
+            }
+          } catch (error) {
+            if (!upstreamController.signal.aborted) {
+              console.error("Streaming error", error);
+              sendEvent({
+                type: "error",
+                error: "The response was interrupted. Please try again.",
+              });
+            }
+          } finally {
+            try {
+              controller.close();
+            } catch {
+              // The browser may already have cancelled the stream.
+            }
+          }
+        },
+        cancel(reason) {
+          upstreamController.abort();
+          return reader.cancel(reason);
+        },
       });
-      streamFinished = true;
-      return res.end();
-    }
 
-    return res.status(500).json({
-      error: "Internal server error",
-    });
-  }
-}
+      return new Response(responseStream, {
+        status: 200,
+        headers: {
+          "Content-Type": "text/event-stream; charset=utf-8",
+          "Cache-Control": "no-cache, no-store, no-transform",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    } catch (error) {
+      if (upstreamController.signal.aborted) {
+        return new Response(null, { status: 499 });
+      }
+
+      console.error("Internal server error", error);
+
+      return jsonResponse(
+        { error: "Internal server error" },
+        500
+      );
+    }
+  },
+};
