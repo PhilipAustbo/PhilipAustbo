@@ -142,7 +142,8 @@ body.chats-active :where(.app-header, .suggestions) { display: none; }
 .message.loading .avatar-icon { animation: rotate 1.2s linear infinite; }
 @keyframes rotate { to { transform: rotate(360deg); } }
 .message .message-text { padding: 3px 16px; word-wrap: break-word; white-space: pre-line; }
-.bot-message .message-text { padding-top: 9px; }
+.bot-message .message-text { padding-top: 9px; white-space: normal; }
+.bot-message .message-text p { margin: 0 0 .55rem; }
 .bot-message .message-text > :first-child { margin-top: 0; }
 .bot-message .message-text > :last-child { margin-bottom: 0; }
 .message-text ul { padding-left: 1.5rem; }
