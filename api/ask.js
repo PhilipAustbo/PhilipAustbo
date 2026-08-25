@@ -1,7 +1,43 @@
-// api/ask.js
-
 const PRIMARY_MODEL = "gemini-3.5-flash";
 const FALLBACK_MODEL = "gemini-2.5-flash";
+
+const SYSTEM_INSTRUCTION = `You are an assistant representing Philip Tinius Riise Austbø.
+
+Use the profile below when answering questions about Philip. Keep answers accurate and do not invent details.
+
+Education
+- Norwegian School of Economics, NHH. Master of Science in Finance and CEMS Master in International Management. GPA 4.9 out of 5.0. August 2024 to expected graduation in June 2027.
+- Vienna University of Economics and Business. Selected for the CEMS dual-degree program for spring 2027.
+- Norwegian School of Economics, NHH. Bachelor of Science in Business Administration. August 2021 to June 2024.
+- University of Michigan, Stephen M. Ross School of Business. Exchange semester from January to June 2023. GPA 3.9 out of 4.0.
+- Relevant coursework includes Investments, Corporate Finance, Microeconomics, Macroeconomics, Negotiation Strategy, Product Innovation Management, Entrepreneurial Management, Decision Modelling and Analysis, Business Data Processing, and Strategy.
+
+Professional experience
+- Capgemini Invent in Oslo. Strategy Consulting Intern from June to August 2026. Conducted strategic and market analysis of AI-driven disruption in the TMT sector. Evaluated future business models, customer care transformation, operating models, and growth opportunities. Developed venture business cases covering revenue, costs, profitability, feasibility, and risk. Built an AI-powered business case generator for financial and strategic analysis.
+- DNV in Dubai. Maritime Advisory Intern from September to December 2025. Helped develop corporate HSE and ESG frameworks. Reviewed more than 100 policies and training materials. Conducted strategic and financial analyses of maritime technologies and trends in the GCC, including investment potential and ESG impact.
+- Ernst & Young in Bergen. Financial Audit and Assurance Services Intern from January to December 2025. Participated in public and private company audits under IFRS and GAAP. Designed and maintained more than 20 Excel models for control testing. Identified financial risks and presented findings to senior auditors.
+- Face2Face Creatives in Bergen. Fundraising and Sales Associate from June to August 2025. Represented Plan International in public outreach, engaged with more than 200 people weekly, and was recognized as Rookie of the Month.
+- Additional experience includes analyst and assistant work at Austbø AS, a family-owned seafood wholesaler, freelance mathematics tutoring, healthcare assistance at Rådalslien Shared Accommodation, substitute teaching at Storetveit High School, and certified football coaching at Fana IL.
+
+Leadership and extracurricular experience
+- Competitive football player and team captain across several levels, including Brann U16 and multiple Norwegian third-division clubs. Provided leadership on and off the field.
+- Active member of the NHH Commodities Group since December 2025. Participates in case work, investment pitches, and technical learning about commodity markets.
+- Leader and co-founder of Buketten Asset Management since August 2025. Co-founded a student-run investment group managing a diversified portfolio. Creates investment strategies, leads discussions, makes allocation decisions, and manages risk.
+
+Skills and interests
+- Certificates include Bocconi's Private Equity and Venture Capital course, Discover Deloitte Tech, and the McKinsey Forward Program.
+- Technical skills include Microsoft Office, Python, JavaScript, R, SQL, and CSS.
+- Interests include chess, coding, gaming, skiing, weightlifting, football, and travelling. Philip has visited more than 25 countries.
+- Website is https://philip-austbo.vercel.app and email is Philip@austbo.no.
+
+Response guidelines
+1. Respond warmly to greetings and offer to help with questions about Philip or another topic.
+2. Use the supplied profile for questions about Philip's background, experience, education, leadership, hobbies, or career goals.
+3. Answer general questions about finance, strategy, technology, and other topics clearly and accurately. Relate answers to Philip only when genuinely relevant.
+4. Ask whether the user wants a general answer or one connected to Philip when the intent is unclear.
+5. When introducing Philip, give a concise overview and invite the user to choose an area to explore further.
+6. Keep the tone friendly, professional, and warm.
+7. Use clear paragraphs and avoid em dashes, colons, and semicolons in visible answers.`;
 
 const RETRYABLE_STATUS_CODES = new Set([
   408,
@@ -15,10 +51,22 @@ const RETRYABLE_STATUS_CODES = new Set([
 const sleep = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-async function callGemini({ model, apiKey, contents }) {
+function parseJson(text) {
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return {
+      error: {
+        message: "Gemini returned an invalid response.",
+      },
+    };
+  }
+}
+
+async function callGeminiStream({ model, apiKey, contents, signal }) {
   const url =
     `https://generativelanguage.googleapis.com/v1beta/models/` +
-    `${model}:generateContent`;
+    `${model}:streamGenerateContent?alt=sse`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -26,26 +74,24 @@ async function callGemini({ model, apiKey, contents }) {
       "Content-Type": "application/json",
       "x-goog-api-key": apiKey,
     },
-    body: JSON.stringify({ contents }),
+    body: JSON.stringify({
+      systemInstruction: {
+        parts: [{ text: SYSTEM_INSTRUCTION }],
+      },
+      contents,
+    }),
+    signal,
   });
+
+  if (response.ok) {
+    return { response, data: null };
+  }
 
   const responseText = await response.text();
 
-  let data;
-
-  try {
-    data = responseText ? JSON.parse(responseText) : {};
-  } catch {
-    data = {
-      error: {
-        message: "Gemini returned an invalid response.",
-      },
-    };
-  }
-
   return {
     response,
-    data,
+    data: parseJson(responseText),
   };
 }
 
@@ -53,15 +99,17 @@ async function callWithRetries({
   model,
   apiKey,
   contents,
+  signal,
   maximumAttempts = 3,
 }) {
   let lastResult;
 
   for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
-    lastResult = await callGemini({
+    lastResult = await callGeminiStream({
       model,
       apiKey,
       contents,
+      signal,
     });
 
     if (lastResult.response.ok) {
@@ -76,8 +124,6 @@ async function callWithRetries({
       return lastResult;
     }
 
-    // Approximately 1 second, 2 seconds, then 4 seconds,
-    // with a small amount of random jitter.
     const baseDelay = 1000 * 2 ** (attempt - 1);
     const jitter = Math.floor(Math.random() * 500);
 
@@ -87,19 +133,31 @@ async function callWithRetries({
   return lastResult;
 }
 
-function extractReply(data) {
+function extractReplyChunk(data) {
   const candidate = data?.candidates?.[0];
 
   return candidate?.content?.parts
     ?.filter(
       (part) =>
         typeof part?.text === "string" &&
-        part.text.trim() &&
+        part.text &&
         part.thought !== true
     )
     .map((part) => part.text)
+    .join("") || "";
+}
+
+function getSseData(eventText) {
+  return eventText
+    .split(/\r?\n/)
+    .filter((line) => line.startsWith("data:"))
+    .map((line) => line.slice(5).trimStart())
     .join("\n")
     .trim();
+}
+
+function sendEvent(res, event) {
+  res.write(`data: ${JSON.stringify(event)}\n\n`);
 }
 
 export default async function handler(req, res) {
@@ -121,7 +179,7 @@ export default async function handler(req, res) {
     console.error("Missing Gemini API key");
 
     return res.status(500).json({
-      error: "Server configuration error: Gemini API key is missing",
+      error: "Server configuration error. Gemini API key is missing.",
     });
   }
 
@@ -141,19 +199,25 @@ export default async function handler(req, res) {
 
   if (!Array.isArray(contents) || contents.length === 0) {
     return res.status(400).json({
-      error: "Invalid request: contents must be a non-empty array",
+      error: "Invalid request. Contents must be a non-empty array.",
     });
   }
+
+  const upstreamController = new AbortController();
+  let streamFinished = false;
+
+  res.on?.("close", () => {
+    if (!streamFinished) upstreamController.abort();
+  });
 
   try {
     let result = await callWithRetries({
       model: PRIMARY_MODEL,
       apiKey,
       contents,
+      signal: upstreamController.signal,
     });
 
-    // If Gemini 3.5 remains overloaded after retrying,
-    // try Gemini 2.5 Flash.
     if (
       !result.response.ok &&
       RETRYABLE_STATUS_CODES.has(result.response.status)
@@ -166,6 +230,7 @@ export default async function handler(req, res) {
         model: FALLBACK_MODEL,
         apiKey,
         contents,
+        signal: upstreamController.signal,
         maximumAttempts: 2,
       });
     }
@@ -176,7 +241,7 @@ export default async function handler(req, res) {
         `Gemini API request failed with status ` +
           `${result.response.status}`;
 
-      console.error("Gemini API error:", {
+      console.error("Gemini API error", {
         status: result.response.status,
         message: errorMessage,
       });
@@ -186,35 +251,98 @@ export default async function handler(req, res) {
       });
     }
 
-    const reply = extractReply(result.data);
-
-    if (!reply) {
-      const candidate = result.data?.candidates?.[0];
-      const blockReason =
-        result.data?.promptFeedback?.blockReason;
-      const finishReason = candidate?.finishReason;
-
+    if (!result.response.body) {
       return res.status(502).json({
-        error: blockReason
-          ? `The request was blocked: ${blockReason}`
-          : finishReason
-            ? `Gemini returned no text. Finish reason: ${finishReason}`
-            : "Gemini returned no text response",
+        error: "Gemini returned no response stream.",
       });
     }
 
-    return res.status(200).json({
-      reply,
-    });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, no-transform");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    res.flushHeaders?.();
+
+    const reader = result.response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let receivedText = false;
+    let lastData = null;
+
+    const processUpstreamEvent = (eventText) => {
+      const payload = getSseData(eventText);
+
+      if (!payload || payload === "[DONE]") return;
+
+      const data = parseJson(payload);
+      lastData = data;
+
+      if (data?.error?.message) {
+        throw new Error(data.error.message);
+      }
+
+      const text = extractReplyChunk(data);
+
+      if (text) {
+        receivedText = true;
+        sendEvent(res, { type: "chunk", text });
+      }
+    };
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split(/\r?\n\r?\n/);
+      buffer = events.pop() || "";
+      events.forEach(processUpstreamEvent);
+    }
+
+    buffer += decoder.decode();
+
+    if (buffer.trim()) {
+      processUpstreamEvent(buffer);
+    }
+
+    if (!receivedText) {
+      const candidate = lastData?.candidates?.[0];
+      const blockReason = lastData?.promptFeedback?.blockReason;
+      const finishReason = candidate?.finishReason;
+      const errorMessage = blockReason
+        ? `The request was blocked. ${blockReason}`
+        : finishReason
+          ? `Gemini returned no text. ${finishReason}`
+          : "Gemini returned no text response.";
+
+      sendEvent(res, { type: "error", error: errorMessage });
+    } else {
+      sendEvent(res, { type: "done" });
+    }
+
+    streamFinished = true;
+    return res.end();
   } catch (error) {
-    console.error("Internal server error:", error);
+    if (upstreamController.signal.aborted) {
+      streamFinished = true;
+      return res.end();
+    }
+
+    console.error("Internal server error", error);
+
+    if (res.headersSent) {
+      sendEvent(res, {
+        type: "error",
+        error: "The response was interrupted. Please try again.",
+      });
+      streamFinished = true;
+      return res.end();
+    }
 
     return res.status(500).json({
       error: "Internal server error",
-      details:
-        error instanceof Error
-          ? error.message
-          : String(error),
     });
   }
 }

@@ -9,7 +9,7 @@ const sendPromptBtn = document.querySelector("#send-prompt-btn");
 
 const API_URL = "/api/ask"; // updated endpoint
 
-let controller, typingInterval;
+let controller;
 const chatHistory = [];
 const userData = { message: "", file: {} };
 
@@ -33,40 +33,10 @@ const showFinishedAvatar = (botMsgDiv) => {
 
 const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
 
-const typingEffect = (text, textElement, botMsgDiv) => {
-  textElement.innerHTML = "";
-  const tokens = text.match(/\s+|[^\s]+/g) || [text];
-  const chunks = [];
-
-  tokens.forEach((token) => {
-    if (/^\s+$/.test(token) && chunks.length) {
-      chunks[chunks.length - 1] += token;
-    } else {
-      chunks.push(token);
-    }
-  });
-
-  let chunkIndex = 0;
-  let visibleMarkdown = "";
-
-  typingInterval = setInterval(() => {
-    if (chunkIndex < chunks.length) {
-      visibleMarkdown += chunks[chunkIndex++];
-      textElement.innerHTML = marked.parse(visibleMarkdown);
-      scrollToBottom();
-    } else {
-      clearInterval(typingInterval);
-      textElement.innerHTML = marked.parse(text);
-      botMsgDiv.classList.remove("loading");
-      showFinishedAvatar(botMsgDiv);
-      document.body.classList.remove("bot-responding");
-    }
-  }, 40);
-};
-
 const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
+  let responseText = "";
 
   const fullHistory = [
     ...chatHistory,
@@ -91,16 +61,71 @@ const generateResponse = async (botMsgDiv) => {
       signal: controller.signal,
     });
 
-    const data = await response.json();
-    if (!response.ok || !data.reply) throw new Error(data.error || "No response from API");
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.error || "No response from API");
+    }
 
-    const responseText = data.reply.trim();
-    typingEffect(responseText, textElement, botMsgDiv);
+    if (!response.body) throw new Error("No response stream from API");
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    const processEvent = (eventText) => {
+      const payload = eventText
+        .split(/\r?\n/)
+        .filter((line) => line.startsWith("data:"))
+        .map((line) => line.slice(5).trimStart())
+        .join("\n")
+        .trim();
+
+      if (!payload) return;
+
+      const event = JSON.parse(payload);
+
+      if (event.type === "error") {
+        throw new Error(event.error || "The response was interrupted");
+      }
+
+      if (event.type === "chunk" && event.text) {
+        responseText += event.text;
+        textElement.innerHTML = marked.parse(responseText);
+        scrollToBottom();
+      }
+    };
+
+    while (true) {
+      const { value, done } = await reader.read();
+
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split(/\r?\n\r?\n/);
+      buffer = events.pop() || "";
+      events.forEach(processEvent);
+    }
+
+    buffer += decoder.decode();
+
+    if (buffer.trim()) processEvent(buffer);
+
+    responseText = responseText.trim();
+    if (!responseText) throw new Error("No response from API");
+
+    textElement.innerHTML = marked.parse(responseText);
     chatHistory.push({ role: "user", parts: [{ text: userData.message }] });
     chatHistory.push({ role: "model", parts: [{ text: responseText }] });
+    botMsgDiv.classList.remove("loading");
+    showFinishedAvatar(botMsgDiv);
+    document.body.classList.remove("bot-responding");
   } catch (error) {
-    textElement.textContent = "Something went wrong. Please try again.";
-    textElement.style.color = "#d62939";
+    if (error.name === "AbortError") {
+      if (!responseText.trim()) textElement.textContent = "Response stopped.";
+    } else {
+      textElement.textContent = "Something went wrong. Please try again.";
+      textElement.style.color = "#d62939";
+    }
     botMsgDiv.classList.remove("loading");
     showFinishedAvatar(botMsgDiv);
     document.body.classList.remove("bot-responding");
@@ -132,13 +157,11 @@ const handleFormSubmit = (e) => {
   chatsContainer.appendChild(userMsgDiv);
   scrollToBottom();
 
-  setTimeout(() => {
-    const botMsgHTML = `<div class="avatar" aria-label="Assistant is thinking"><span class="avatar-icon material-symbols-rounded" aria-hidden="true">progress_activity</span></div><div class="message-text">Loading...</div>`;
-    const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
-    chatsContainer.appendChild(botMsgDiv);
-    scrollToBottom();
-    generateResponse(botMsgDiv);
-  }, 600);
+  const botMsgHTML = `<div class="avatar" aria-label="Assistant is thinking"><span class="avatar-icon material-symbols-rounded" aria-hidden="true">progress_activity</span></div><div class="message-text">Loading...</div>`;
+  const botMsgDiv = createMessageElement(botMsgHTML, "bot-message", "loading");
+  chatsContainer.appendChild(botMsgDiv);
+  scrollToBottom();
+  generateResponse(botMsgDiv);
 };
 
 promptForm.addEventListener("submit", handleFormSubmit);
@@ -181,7 +204,6 @@ document.querySelector("#cancel-file-btn").addEventListener("click", () => {
 document.querySelector("#stop-response-btn").addEventListener("click", () => {
   controller?.abort();
   userData.file = {};
-  clearInterval(typingInterval);
   const loadingBotMsg = chatsContainer.querySelector(".bot-message.loading");
   if (loadingBotMsg) {
     loadingBotMsg.classList.remove("loading");
@@ -223,36 +245,3 @@ document.addEventListener("click", ({ target }) => {
 });
 
 promptForm.querySelector("#add-file-btn").addEventListener("click", () => fileInput.click());
-
-const preloadCV = async () => {
-  try {
-    const response = await fetch("Philip_Austbo_CV.pdf");
-    const blob = await response.blob();
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onloadend = () => {
-      const base64data = reader.result.split(",")[1];
-      const pdfPart = {
-        inline_data: { mime_type: "application/pdf", data: base64data },
-      };
-      chatHistory.push({ role: "user", parts: [{ text: 
-      `You are an assistant representing Philip Austbø.
-      Philip is a master's student in finance at NHH, the Norwegian School of Economics. He has experience at Ernst & Young and DNV, with a background in financial audit, consulting and technology projects. He is interested in finance, strategy and data analysis, and he plays football competitively.
-
-      Follow these guidelines.
-
-      1. Respond warmly to a standard greeting such as hello, hi or hey. You can say “Hello! How can I help you today? Would you like to learn more about Philip or ask about something else?”
-      2. Use the supplied context and CV when answering questions about Philip's background, experience, education, leadership, hobbies or career goals.
-      3. Answer general questions about finance, strategy or technology clearly and accurately. Relate the answer to Philip only when it is genuinely relevant.
-      4. Ask whether the user wants a general answer or one connected to Philip when their intent is unclear.
-      5. When asked to introduce Philip, give a concise overview of his personal and professional background, then invite the user to choose an area to explore further.
-      6. Keep the tone friendly, professional and warm.
-      7. Use clear paragraphs and avoid em dashes, colons and semicolons.`
-     }, pdfPart] });
-    };
-  } catch (err) {
-    console.error("CV preload failed:", err);
-  }
-};
-
-preloadCV();
