@@ -35,22 +35,28 @@ const scrollToBottom = () => container.scrollTo({ top: container.scrollHeight, b
 
 const typingEffect = (text, textElement, botMsgDiv) => {
   textElement.innerHTML = "";
-  const html = marked.parse(text); // Convert markdown to HTML
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = html;
-  const words = tempDiv.textContent.split(" "); // Just the plain words
+  const tokens = text.match(/\s+|[^\s]+/g) || [text];
+  const chunks = [];
 
-  let wordIndex = 0;
-  let displayText = "";
+  tokens.forEach((token) => {
+    if (/^\s+$/.test(token) && chunks.length) {
+      chunks[chunks.length - 1] += token;
+    } else {
+      chunks.push(token);
+    }
+  });
+
+  let chunkIndex = 0;
+  let visibleMarkdown = "";
 
   typingInterval = setInterval(() => {
-    if (wordIndex < words.length) {
-      displayText += (wordIndex === 0 ? "" : " ") + words[wordIndex++];
-      textElement.textContent = displayText;
+    if (chunkIndex < chunks.length) {
+      visibleMarkdown += chunks[chunkIndex++];
+      textElement.innerHTML = marked.parse(visibleMarkdown);
       scrollToBottom();
     } else {
       clearInterval(typingInterval);
-      textElement.innerHTML = html; // Replace with full parsed HTML after typing
+      textElement.innerHTML = marked.parse(text);
       botMsgDiv.classList.remove("loading");
       showFinishedAvatar(botMsgDiv);
       document.body.classList.remove("bot-responding");

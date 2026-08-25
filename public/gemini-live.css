@@ -120,6 +120,8 @@ body.chats-active :where(.app-header, .suggestions) { display: none; }
 
 .chats-container { display: flex; flex-direction: column; gap: 20px; }
 .chats-container .message { display: flex; gap: 11px; align-items: center; }
+.chats-container .bot-message { align-items: flex-start; }
+.chats-container .user-message { align-items: flex-end; }
 
 .chats-container .avatar {
   width: 43px;
@@ -140,6 +142,9 @@ body.chats-active :where(.app-header, .suggestions) { display: none; }
 .message.loading .avatar-icon { animation: rotate 1.2s linear infinite; }
 @keyframes rotate { to { transform: rotate(360deg); } }
 .message .message-text { padding: 3px 16px; word-wrap: break-word; white-space: pre-line; }
+.bot-message .message-text { padding-top: 9px; }
+.bot-message .message-text > :first-child { margin-top: 0; }
+.bot-message .message-text > :last-child { margin-bottom: 0; }
 .message-text ul { padding-left: 1.5rem; }
 .bot-message { margin: 9px auto; background: transparent !important; }
 .user-message { flex-direction: column; align-items: flex-end; background: transparent !important; }
