@@ -108,7 +108,7 @@
 .games-stage .white-piece {
   color: #fff;
   -webkit-text-stroke: .55px var(--ink);
-  text-shadow: 0 1px 1px rgba(29, 27, 25, .65);
+  text-shadow: -.6px -.6px 0 var(--ink), .6px -.6px 0 var(--ink), -.6px .6px 0 var(--ink), .6px .6px 0 var(--ink);
 }
 
 .games-stage .pong-paddle {
