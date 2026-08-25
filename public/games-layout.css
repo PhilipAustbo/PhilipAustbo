@@ -1,0 +1,195 @@
+.games-page {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.games-page main {
+  height: calc(100dvh - 82px);
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.games-intro {
+  min-height: 86px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.games-intro .page-kicker {
+  margin: 0 0 .2rem;
+  font-size: .62rem;
+}
+
+.games-intro h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 2.7vw, 2.65rem);
+  line-height: 1;
+}
+
+.games-intro-copy {
+  margin: 0 0 .15rem;
+  color: var(--site-muted, var(--muted));
+  font-size: .78rem;
+}
+
+.games-stage {
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: clamp(.75rem, 2vh, 1.35rem);
+}
+
+.games-stage .immersive-grid {
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.games-stage .immersive-card {
+  min-height: 0;
+  padding: clamp(.85rem, 1.4vw, 1.2rem);
+}
+
+.games-stage .game-card h2 {
+  font-size: clamp(1.55rem, 2.35vw, 2.35rem);
+}
+
+.games-stage .game-card p {
+  margin: .45rem 0 0;
+  font-size: clamp(.7rem, .82vw, .82rem);
+  line-height: 1.35;
+}
+
+.games-stage .game-top {
+  font-size: .6rem;
+}
+
+.games-stage .scene {
+  inset: .8rem;
+}
+
+.games-stage .stock-scene {
+  inset: .8rem 0;
+}
+
+@media (max-width: 900px) {
+  .games-intro {
+    min-height: 74px;
+  }
+
+  .games-intro h1 {
+    font-size: 1.8rem;
+  }
+
+  .games-stage .immersive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+
+  .games-stage .immersive-card {
+    padding: .8rem;
+  }
+
+  .games-stage .game-card h2 {
+    font-size: clamp(1.35rem, 4vw, 1.8rem);
+  }
+
+  .games-stage .game-card p {
+    font-size: .68rem;
+  }
+
+  .games-stage .scene {
+    inset: .65rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .games-page main {
+    height: calc(100dvh - 72px);
+  }
+
+  .games-intro {
+    min-height: 62px;
+    padding-top: .7rem;
+    padding-bottom: .7rem;
+  }
+
+  .games-intro .page-kicker,
+  .games-intro-copy {
+    display: none;
+  }
+
+  .games-intro h1 {
+    font-size: 1.55rem;
+  }
+
+  .games-stage {
+    padding-bottom: .5rem;
+  }
+
+  .games-stage .immersive-card {
+    padding: .68rem;
+  }
+
+  .games-stage .game-card p {
+    display: none;
+  }
+
+  .games-stage .game-card h2 {
+    font-size: clamp(1.2rem, 6vw, 1.6rem);
+  }
+
+  .games-stage .game-top > span:first-child {
+    display: none;
+  }
+
+  .games-stage .game-status {
+    margin-left: auto;
+  }
+}
+
+@media (max-height: 650px) {
+  .games-intro {
+    min-height: 54px;
+    padding-top: .55rem;
+    padding-bottom: .55rem;
+  }
+
+  .games-intro-copy,
+  .games-stage .game-card p {
+    display: none;
+  }
+
+  .games-stage .immersive-card {
+    padding: .65rem;
+  }
+}
+
+@media (max-height: 600px) and (min-width: 700px) {
+  .games-stage .immersive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (hover: none) {
+  .games-stage .immersive-card:hover .game-top,
+  .games-stage .immersive-card:hover .game-copy {
+    opacity: 1;
+    color: inherit;
+  }
+
+  .games-stage .immersive-card:hover .scene {
+    opacity: 0;
+  }
+
+  .games-stage .immersive-card:hover {
+    transform: none;
+  }
+}

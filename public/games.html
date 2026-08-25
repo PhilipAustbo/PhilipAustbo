@@ -10,8 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="secondary.css">
   <link rel="stylesheet" href="games-immersive.css">
-<link rel="stylesheet" href="hybrid-secondary.css"><link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght..72,400;6..72,500&display=swap" rel="stylesheet"></head>
-<body>
+  <link rel="stylesheet" href="hybrid-secondary.css">
+  <link rel="stylesheet" href="games-layout.css">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+</head>
+<body class="games-page">
   <header class="sub-header">
     <a class="sub-brand" href="index.html">Philip Austbø</a>
     <nav class="sub-nav" aria-label="Main navigation">
@@ -21,12 +24,11 @@
     <button class="sub-menu" aria-expanded="false">Menu</button>
   </header>
   <main>
-    <section class="page-hero sub-shell">
-      <span class="page-index">03 · Web experiments</span>
-      <div><p class="page-kicker">Learning by building</p><h1>Games<br>& tools.</h1></div>
-      <p class="page-intro">A collection of small experiments in finance, logic and interaction. Choose a card to explore each idea.</p>
+    <section class="games-intro sub-shell">
+      <div><p class="page-kicker">Learning by building</p><h1>Games and tools</h1></div>
+      <p class="games-intro-copy">Choose something to play or explore.</p>
     </section>
-    <section class="page-section sub-shell">
+    <section class="games-stage sub-shell">
       <div class="games-grid immersive-grid">
         <a class="game-card immersive-card pong-card" href="games/pong.html">
           <div class="game-top"><span>Playable</span><span class="game-status">Arcade</span></div>
@@ -71,7 +73,6 @@
       </div>
     </section>
   </main>
-  <footer class="page-footer"><span>© <span data-year></span> Philip Austbø</span><div><a href="football.html">Next · Football</a><a href="index.html">Home</a></div></footer>
   <script src="secondary.js"></script>
 </body>
 </html>
