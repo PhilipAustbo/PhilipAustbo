@@ -99,6 +99,18 @@
   font-size: clamp(.78rem, 1.85vw, 1.35rem);
 }
 
+.games-stage .black-piece {
+  color: var(--ink);
+  -webkit-text-stroke: .35px rgba(255, 255, 255, .88);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .5);
+}
+
+.games-stage .white-piece {
+  color: #fff;
+  -webkit-text-stroke: .55px var(--ink);
+  text-shadow: 0 1px 1px rgba(29, 27, 25, .65);
+}
+
 .games-stage .pong-paddle {
   width: 5px;
   height: 28%;
